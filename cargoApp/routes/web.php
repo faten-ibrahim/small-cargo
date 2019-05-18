@@ -1,4 +1,7 @@
 <?php
+use Carbon\Traits\Rounding;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,8 +19,10 @@ Route::get('/', function () {
 });
 
 Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
-Route::get('lock',function () {
-    return view('lockscreen');
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/home', 'HomeController@index')->name('home');
+    Route::get('locked', function () {
+        Auth::logout();
+        return view('lockscreen');
+    });
 });
