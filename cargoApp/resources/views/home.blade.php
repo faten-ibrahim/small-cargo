@@ -13,7 +13,12 @@
                         </div>
                     @endif
 
-                    You are logged in!
+                    <br>
+
+                    <h5> You are logged in to control panel !</h5>
+
+
+                    <br>
                 </div>
             </div>
         </div>

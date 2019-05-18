@@ -46,9 +46,9 @@
             <!-- Logo -->
             <a href="/" class="logo">
                 <!-- mini logo for sidebar mini 50x50 pixels -->
-                <span class="logo-mini">Cargo</span>
+                <span class="logo-mini">CarGo</span>
                 <!-- logo for regular state and mobile devices -->
-                <span class="logo-lg">Cargo</span>
+                <span class="logo-lg">CarGo</span>
             </a>
 
             <!-- Header Navbar -->
@@ -106,15 +106,7 @@
                     </div>
                     <div class="pull-left info">
 
-                        <!-- @role('admin') -->
-                        <!-- <p>Admin</p> -->
-                        <!-- @endrole -->
-                        <!-- @role('city_manager') -->
-                        <!-- <p>City Manager</p> -->
-                        <!-- @endrole -->
-                        <!-- @role('gym_manager') -->
-                        <!-- <p>Gym Manager</p> -->
-                        <!-- @endrole -->
+
                         <!-- Status -->
                         <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
                     </div>
@@ -134,23 +126,10 @@
 
                 <!-- Sidebar Menu -->
                 <ul class="sidebar-menu" data-widget="tree">
-                    <!-- @role('admin') -->
-                    <li class="active"><a href="#"><i class="fa fa-users"></i> <span>Supervisors</span></a></li>
-                    <li><a href="#"><i class="fa fa-users"></i> <span>Drivers</span></a></li>
-                    <li><a href="#"><i class="fa fa-globe "></i> <span>Companies</span></a></li>
 
+                    <li class="active"><a href=""><i class="fa fa-users"></i> <span>Supervisors</span></a></li>
+                    <li><a href=""><i class="fa fa-users"></i> <span>Drivers</span></a></li>
 
-                    <!-- <li class="treeview">
-                        <a href="#"><i class="fa fa-link"></i> <span>Multilevel</span>
-                            <span class="pull-right-container">
-                                <i class="fa fa-angle-left pull-right"></i>
-                            </span>
-                        </a>
-                        <ul class="treeview-menu">
-                            <li><a href="#">Link in level 2</a></li>
-                            <li><a href="#">Link in level 2</a></li>
-                        </ul>
-                    </li> -->
                 </ul>
                 <!-- /.sidebar-menu -->
             </section>
@@ -290,4 +269,3 @@
 </body>
 
 </html>
-@endif
