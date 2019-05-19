@@ -24,7 +24,7 @@
 
     </div>
     <div class="lockscreen-footer text-center">
-        Copyright &copy; 2014-2016 <b><a href="https://adminlte.io" class="text-black"></a></b><br>
+        Copyright &copy; 2018-2019 <b><a href="https://adminlte.io" class="text-black"></a></b><br>
         All rights reserved
     </div>
 </div>

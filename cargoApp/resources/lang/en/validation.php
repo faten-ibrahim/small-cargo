@@ -95,6 +95,14 @@ return [
     'numeric' => 'The :attribute must be a number.',
     'present' => 'The :attribute field must be present.',
     'regex' => 'The :attribute format is invalid.',
+    // 'custom' => [
+    //     'name' => [
+    //         'required' => 'Please enter your name custom',
+    //     ],
+    //     'email' => [
+    //         'required' => 'Please enter your email custom',
+    //     ],
+    // ],
     'required' => 'Please enter your :attribute',
     'required_if' => 'The :attribute field is required when :other is :value.',
     'required_unless' => 'The :attribute field is required unless :other is in :values.',
