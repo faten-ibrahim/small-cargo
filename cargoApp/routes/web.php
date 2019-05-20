@@ -26,3 +26,5 @@ Route::group(['middleware' => 'auth'], function () {
         return view('lockscreen');
     });
 });
+
+Route::resource('companies','Companies\CompaniesController');
