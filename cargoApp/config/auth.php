@@ -41,10 +41,14 @@ return [
             'provider' => 'users',
         ],
 
-        'api' => [
-            'driver' => 'token',
-            'provider' => 'users',
-            'hash' => false,
+        'company-api' => [
+            'driver' => 'jwt',
+            'provider' => 'companies',
+        ],
+
+        'driver-api' => [
+            'driver' => 'jwt',
+            'provider' => 'drivers',
         ],
     ],
 
@@ -69,6 +73,16 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => App\User::class,
+        ],
+
+        'companies' => [
+            'driver' => 'eloquent',
+            'model' => App\Company::class,
+        ],
+
+        'drivers' => [
+            'driver' => 'eloquent',
+            'model' => App\Driver::class,
         ],
 
         // 'users' => [
