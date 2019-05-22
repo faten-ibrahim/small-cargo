@@ -19,6 +19,7 @@ class CreateCompaniesTable extends Migration
             $table->string('email')->unique();
             $table->string('address');
             $table->string('phone');
+            $table->string('status')->enum('status', ['active', 'inactive','new'])->default('new');
             $table->timestamps();
         });
     }

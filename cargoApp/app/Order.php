@@ -6,9 +6,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
 {
-    public function companies()
+    public function  companies()
     {
-        return $this->hasMany('App\Company');
+        return $this->belongsToMany('App\Company')
+                    ->using('App\CompanyOrder')
+                    ->withPivot([
+                        'receiver_name',
+                        'saved',
+                        'created_by',
+                        'updated_by',
+                    ]);
     }
 
     public function package()

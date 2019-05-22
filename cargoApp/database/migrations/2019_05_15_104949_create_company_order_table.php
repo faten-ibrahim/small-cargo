@@ -17,11 +17,11 @@ class CreateCompanyOrderTable extends Migration
 
             $table->unsignedBigInteger('sender_id');
             $table->foreign('sender_id')
-            ->references('id')->on('users');
+            ->references('id')->on('companies');
 
             $table->unsignedBigInteger('receiver_id');
             $table->foreign('receiver_id')
-            ->references('id')->on('users');
+            ->references('id')->on('companies');
 
             $table->unsignedBigInteger('order_id');
             $table->foreign('order_id')

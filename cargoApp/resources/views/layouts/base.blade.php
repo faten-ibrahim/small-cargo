@@ -36,7 +36,6 @@
     {{-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.18/b-1.5.6/r-2.2.2/datatables.min.css"/> --}}
 </head>
 
-
 <body class="hold-transition skin-blue sidebar-mini">
     <div class="wrapper">
 
@@ -127,7 +126,7 @@
                 <!-- Sidebar Menu -->
                 <ul class="sidebar-menu" data-widget="tree">
 
-                    <li class="active"><a href=""><i class="fa fa-users"></i> <span>Supervisors</span></a></li>
+                    <li class="active"><a href="{{route('companies.index')}}"><i class="fa fa-list-alt"></i> <span>Manage companies</span></a></li>
                     <li><a href=""><i class="fa fa-users"></i> <span>Drivers</span></a></li>
 
                 </ul>
@@ -249,7 +248,7 @@
         <!-- /.control-sidebar -->
         <!-- Add the sidebar's background. This div must be placed
   immediately after the control sidebar -->
-        <div class="control-sidebar-bg"></div>
+  <div class="control-sidebar-bg"></div>
     </div>
     <!-- ./wrapper -->
     <!-- REQUIRED JS SCRIPTS -->
