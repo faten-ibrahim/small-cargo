@@ -26,3 +26,6 @@ Route::group(['middleware' => 'auth'], function () {
         return view('lockscreen');
     });
 });
+
+Route::get('/admin/edit','Users\AdminController@edit')->name('admin.edit');
+Route::patch('admin/{admin}','Users\AdminController@update')->name('admin.update');
