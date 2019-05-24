@@ -1,8 +1,8 @@
+
 <?php
 use Carbon\Traits\Rounding;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,11 +13,9 @@ use Illuminate\Support\Facades\Auth;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
 Route::get('/', function () {
     return view('welcome');
 });
-
 Auth::routes();
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/home', 'HomeController@index')->name('home');
@@ -26,8 +24,12 @@ Route::group(['middleware' => 'auth'], function () {
         return view('lockscreen');
     });
 });
-
-Route::get('/admin/edit','Users\AdminController@edit')->name('admin.edit');
-Route::patch('admin/{admin}','Users\AdminController@update')->name('admin.update');
 Route::resource('companies','Companies\CompaniesController');
+Route::resource('users','Users\UsersController');
+#---------- for datatable ----------------------
+Route::get('supervisors_list', 'Users\UsersController@supervisors_List');
 ?>
+
+
+
+

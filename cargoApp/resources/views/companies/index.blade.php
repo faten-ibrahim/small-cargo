@@ -25,7 +25,11 @@
                     <td>{{$company->phone}}</td>
                     <td>{{$company->address}}</td>
                     <td>{{$company->status}}</td>
+                    @if($company->orders_count!=0)
                     <td>{{$company->orders_count}}</td>
+                    @else
+                    <td> _ </td>
+                    @endif
                 </tr>
             @endforeach
 
