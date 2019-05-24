@@ -27,9 +27,9 @@ Route::group(['middleware' => 'auth'], function () {
     });
 });
 
-// Route::get('/admin/edit','Users\AdminController@edit')->name('admin.edit');
-// Route::patch('admin/{admin}','Users\AdminController@update')->name('admin.update');
 Route::resource('companies','Companies\CompaniesController');
 Route::resource('users','Users\UsersController');
 
+#---------- for datatable ----------------------
+Route::get('supervisors_list', 'Users\UsersController@supervisors_List'); 
 ?>

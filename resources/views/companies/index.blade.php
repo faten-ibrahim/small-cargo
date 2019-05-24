@@ -32,50 +32,5 @@
         </tbody>
     </table>
 
-    <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-    <script>
-        $('#example').DataTable({
-            serverSide: true,
-            ajax: {
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                url: '/data_companies',
-                dataType: 'json',
-                type: 'get',
-            },
-            columns: [{
-                    data: 'id'
-                },
-                {
-                    data: 'name'
-                },
-                {
-                    data: 'email'
-                },
-                {
-                    data: 'phone'
-                },
-                {
-                    data: 'address'
-                },
-                {
-                    data: 'status'
-                },
-
-
-            ],
-            'paging': true,
-            'lengthChange': true,
-            'searching': true,
-            'ordering': true,
-            'info': true,
-            'autoWidth': true,
-        });
-        /*------------------------------------------------------*/
-    </script>
-
-
-</div>
 
 @endsection

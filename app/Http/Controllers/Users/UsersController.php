@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\User;
 use Hash;
+use Yajra\Datatables\Datatables;
 
 class UsersController extends Controller
 {
@@ -15,19 +16,35 @@ class UsersController extends Controller
     {
         $this->middleware('auth');
     }
+/* ****************************************** */
+    public function index()
+    {
+         return view('users.index');
 
+    }
+
+    public function supervisors_list()
+    {
+        return datatables()->of(User::all())->toJson();
+    }
+
+/* ****************************************** */
+    public function create()
+    {
+
+    }
+/* ****************************************** */
     public function show($id)
     {
 
     }
-    
-
+/* ****************************************** */    
     public function edit(User $user)
     {   
         $user = Auth::user(); 
-         return view('users.edit',compact('user'));
+        return view('users.edit',compact('user'));
     }
-
+/* ****************************************** */
     public function update(User $user)
     { 
 

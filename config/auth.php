@@ -36,20 +36,25 @@ return [
     */
 
     'guards' => [
+        'company' => [
+            'driver' => 'jwt',
+            'provider' => 'companies',
+        ],
         'web' => [
             'driver' => 'session',
             'provider' => 'users',
         ],
 
-        'company-api' => [
-            'driver' => 'jwt',
-            'provider' => 'companies',
-        ],
+        // 'company-api' => [
+        //     'driver' => 'jwt',
+        //     'provider' => 'companies',
+        // ],
 
-        'driver-api' => [
-            'driver' => 'jwt',
-            'provider' => 'drivers',
-        ],
+        // 'driver-api' => [
+        //     'driver' => 'jwt',
+        //     'provider' => 'drivers',
+        // ],
+
     ],
 
     /*
