@@ -1,5 +1,7 @@
+
 @extends('layouts.base')
 @section('content')
+
 
 <div class="container con">
     <h2>Add Supervisor</h2>
