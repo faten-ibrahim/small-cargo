@@ -7,9 +7,14 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
+
 class Company extends Authenticatable implements JWTSubject
 {
     use Notifiable;
+    public function companycontactlists()
+    {
+        return $this->hasMany('App\CompanyContactList');
+    }
     public function orders()
     {
         return $this->hasMany('App\Order');

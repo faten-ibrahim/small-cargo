@@ -28,3 +28,9 @@ Route::group(['middleware' => 'auth'], function () {
 });
 
 Route::resource('companies','Companies\CompaniesController');
+Route::resource('users','Users\UsersController');
+
+#---------- for datatable ----------------------
+Route::get('supervisors_list', 'Users\UsersController@supervisors_List');
+Route::get('get_companies','Companies\CompaniesController@get_companies')->name('get.companies');
+?>

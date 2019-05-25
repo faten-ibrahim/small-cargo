@@ -79,6 +79,9 @@
                                 <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                     {{ __('Logout') }}
+                                </a><br>
+                                <a class="dropdown-item" href="/users/{{ Auth::user()->id }}/edit" >
+                                    {{ __('Edit Profile') }}
                                 </a>
 
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
@@ -127,6 +130,7 @@
                 <ul class="sidebar-menu" data-widget="tree">
 
                     <li class="active"><a href="{{route('companies.index')}}"><i class="fa fa-list-alt"></i> <span>Manage companies</span></a></li>
+                    <li><a href="{{route('users.index')}}"><i class="fa fa-users"></i> <span>Manage Supervisors</span></a></li>
                     <li><a href=""><i class="fa fa-users"></i> <span>Drivers</span></a></li>
 
                 </ul>
