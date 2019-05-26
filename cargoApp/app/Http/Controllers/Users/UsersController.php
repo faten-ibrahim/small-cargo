@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Http\Controllers\Users;
 
 use Illuminate\Http\Request;
@@ -20,9 +19,8 @@ class UsersController extends Controller
     public function index()
     {
          return view('users.index');
-
     }
-
+/* ****************************************** */
     public function supervisors_list()
     {
         return datatables()->of(User::all())->toJson();

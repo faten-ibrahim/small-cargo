@@ -130,8 +130,8 @@
                 <ul class="sidebar-menu" data-widget="tree">
 
                     <li class="active"><a href="{{route('companies.index')}}"><i class="fa fa-list-alt"></i> <span>Manage companies</span></a></li>
+                    <li class="active"><a href="{{route('users.index')}}"><i class="fa fa-users"></i> <span> Manage supervisors</span></a></li>
                     <li><a href=""><i class="fa fa-users"></i> <span>Drivers</span></a></li>
-
                 </ul>
                 <!-- /.sidebar-menu -->
             </section>

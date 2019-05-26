@@ -3,10 +3,13 @@
 <div class="container" style="width:100%;">
     <table id="example" class="table table-striped" >
         <thead >
-            <tr>
-                <th>Id</th>
-                <th>name</th>
-                <th>Email</th>
+                <th>Supervisor name</th>
+                <th>Phone number</th>
+                <th>Email address</th>
+                <th>Address</th>
+                <th>Creation date</th>
+                <th>Status</th>
+                <th>Number of drivers</th>
             </tr>
         </thead>
     </table>
@@ -25,9 +28,13 @@
                 type: 'get',
             },
             columns: [
-                { data: 'id' },
                 { data: 'name' },
+                { data: 'phone' },
                 { data: 'email' },
+                { data: 'address' },
+                { data: 'created_at' },
+                { data: 'status' },
+
             ],
             
             'lengthChange': true,
