@@ -20,11 +20,13 @@ Route::get('/', function () {
 
 Auth::routes();
 Route::group(['middleware' => 'auth'], function () {
-    Route::get('/home', 'HomeController@index')->name('home');
-    Route::get('locked', function () {
-        Auth::logout();
-        return view('lockscreen');
-    });
+    Route::group(['middleware' => 'active'], function () {
+        Route::get('/home', 'HomeController@index')->name('home');
+    // Route::get('locked', function () {
+    //     Auth::logout();
+    //     return view('lockscreen');
+    // });
+});
 });
 
 Route::resource('companies','Companies\CompaniesController');
