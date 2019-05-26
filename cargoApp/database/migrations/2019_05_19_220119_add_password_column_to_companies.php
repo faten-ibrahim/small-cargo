@@ -14,7 +14,7 @@ class AddPasswordColumnToCompanies extends Migration
     public function up()
     {
         Schema::table('companies', function (Blueprint $table) {
-            $table->string('password');
+            $table->string('password')->nullable();
         });
     }
 

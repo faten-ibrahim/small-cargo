@@ -80,6 +80,10 @@
                                                      document.getElementById('logout-form').submit();">
                                     <?php echo e(__('Logout')); ?>
 
+                                </a><br>
+                                <a class="dropdown-item" href="/users/<?php echo e(Auth::user()->id); ?>/edit" >
+                                    <?php echo e(__('Edit Profile')); ?>
+
                                 </a>
 
                                 <form id="logout-form" action="<?php echo e(route('logout')); ?>" method="POST" style="display: none;">
@@ -128,6 +132,7 @@
                 <ul class="sidebar-menu" data-widget="tree">
 
                     <li class="active"><a href="<?php echo e(route('companies.index')); ?>"><i class="fa fa-list-alt"></i> <span>Manage companies</span></a></li>
+                    <li><a href="<?php echo e(route('users.index')); ?>"><i class="fa fa-users"></i> <span>Manage Supervisors</span></a></li>
                     <li><a href=""><i class="fa fa-users"></i> <span>Drivers</span></a></li>
 
                 </ul>

@@ -5,6 +5,9 @@
         <div class="login-logo">
             <a href=""><b>Car</b>GO</a>
         </div>
+        <?php if(session('message')): ?>
+        <div class="alert alert-danger"><?php echo e(session('message')); ?></div>
+        <?php endif; ?>
         <div class="card">
             <div class="card-header"><?php echo e(__('Login')); ?></div>
 
@@ -55,7 +58,7 @@ endif; ?>
                         </div>
                         <div class="row">
                             <div class="col-xs-8">
-                                <div class="checkbox icheck" style="margin-left: 10px;" >
+                                <div class="checkbox icheck" style="margin-left: 10px;">
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" name="remember" id="remember" <?php echo e(old('remember') ? 'checked' : ''); ?>>
 

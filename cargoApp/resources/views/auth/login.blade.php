@@ -7,6 +7,9 @@
         <div class="login-logo">
             <a href=""><b>Car</b>GO</a>
         </div>
+        @if (session('message'))
+        <div class="alert alert-danger">{{ session('message') }}</div>
+        @endif
         <div class="card">
             <div class="card-header">{{ __('Login') }}</div>
 
@@ -41,7 +44,7 @@
                         </div>
                         <div class="row">
                             <div class="col-xs-8">
-                                <div class="checkbox icheck" style="margin-left: 10px;" >
+                                <div class="checkbox icheck" style="margin-left: 10px;">
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
 

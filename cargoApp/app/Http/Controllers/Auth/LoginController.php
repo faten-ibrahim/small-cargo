@@ -40,20 +40,20 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
-    public function redirectTo()
-    {
+    // public function redirectTo()
+    // {
 
-        // User role
-        $active = Request::user()->status;
+    //     // User role
+    //     $active = Request::user()->status;
 
-        // Check user role
-        switch ($active) {
-            case 'active':
-                return '/home';
-                break;
-            case 'inactive':
-                return '/locked';
-                break;
-        }
-    }
+    //     // Check user role
+    //     switch ($active) {
+    //         case 'active':
+    //             return '/home';
+    //             break;
+    //         case 'inactive':
+    //             return '/locked';
+    //             break;
+    //     }
+    // }
 }

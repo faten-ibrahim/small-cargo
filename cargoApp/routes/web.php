@@ -20,16 +20,19 @@ Route::get('/', function () {
 
 Auth::routes();
 Route::group(['middleware' => 'auth'], function () {
-    Route::get('/home', 'HomeController@index')->name('home');
-    Route::get('locked', function () {
-        Auth::logout();
-        return view('lockscreen');
-    });
+    Route::group(['middleware' => 'active'], function () {
+        Route::get('/home', 'HomeController@index')->name('home');
+    // Route::get('locked', function () {
+    //     Auth::logout();
+    //     return view('lockscreen');
+    // });
+});
 });
 
 Route::resource('companies','Companies\CompaniesController');
 Route::resource('users','Users\UsersController');
 
 #---------- for datatable ----------------------
-Route::get('supervisors_list', 'Users\UsersController@supervisors_List'); 
+Route::get('supervisors_list', 'Users\UsersController@supervisors_List');
+Route::get('get_companies','Companies\CompaniesController@get_companies')->name('get.companies');
 ?>

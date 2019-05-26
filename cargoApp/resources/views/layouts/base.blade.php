@@ -130,7 +130,11 @@
                 <ul class="sidebar-menu" data-widget="tree">
 
                     <li class="active"><a href="{{route('companies.index')}}"><i class="fa fa-list-alt"></i> <span>Manage companies</span></a></li>
+<<<<<<< HEAD
                     <li class="active"><a href="{{route('users.index')}}"><i class="fa fa-users"></i> <span> Manage supervisors</span></a></li>
+=======
+                    <li><a href="{{route('users.index')}}"><i class="fa fa-users"></i> <span>Manage Supervisors</span></a></li>
+>>>>>>> c8630c0cb13e3187ec59a77c5fdee60666091014
                     <li><a href=""><i class="fa fa-users"></i> <span>Drivers</span></a></li>
                 </ul>
                 <!-- /.sidebar-menu -->

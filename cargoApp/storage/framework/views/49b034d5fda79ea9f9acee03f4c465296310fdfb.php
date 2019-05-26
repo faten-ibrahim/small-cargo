@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+
 <html lang="<?php echo e(str_replace('_', '-', app()->getLocale())); ?>">
 <head>
     <meta charset="utf-8">
