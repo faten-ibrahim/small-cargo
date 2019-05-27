@@ -158,7 +158,6 @@ class UsersController extends Controller
                 'name.required' => 'Please enter the name',
                 'email.required' => 'Please enter the email',
                 'email.email' => 'Please enter an valid email',
-                'email.unique' => 'This email is already exists',
                 'address' => 'Please enter the address',
                 'phone.required' => 'Please enter the phone',
                 'status.required' => 'Please select the status'
@@ -171,7 +170,7 @@ class UsersController extends Controller
 
 
         $user->save();
-        return redirect()->route('users.index');
+        return redirect()->route('users.index')->with('success', 'Supervisor account has been updated ');
       }   
     }
 

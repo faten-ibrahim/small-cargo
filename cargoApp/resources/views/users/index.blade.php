@@ -1,6 +1,7 @@
 @extends('layouts.base')
 @section('content')
 <div class="container" style="width:100%;">
+@include('flash-message')
 <h2>Manage Supervisors</h2>
 <a class="btn btn-info" href="{{route('users.create')}}"><i class="fa fa-plus"></i><span>Add New Supervisor</span></a><br><br>
     <table id="example" class="table table-striped" >

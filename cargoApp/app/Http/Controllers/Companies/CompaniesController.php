@@ -13,16 +13,12 @@ use App\CompanyContactList;
 
 class CompaniesController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+/* *************************************************** */
     public function index()
     {
         return view('companies.index');
     }
-
+/* *************************************************** */
     public function get_companies()
     {
         $companies = DB::table('companies')
@@ -41,11 +37,7 @@ class CompaniesController extends Controller
         return datatables()->of($companies)->make(true);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+   /* *************************************************** */
     public function create()
     {
         $companies = Company::all();
@@ -54,12 +46,7 @@ class CompaniesController extends Controller
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+   /* *************************************************** */
     public function store(Request $request)
     {
         $request->validate(
@@ -101,12 +88,7 @@ class CompaniesController extends Controller
         return redirect()->route('companies.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+/* *************************************************** */
     public function show($id)
     {
         $company = Company::find($id);
@@ -115,43 +97,68 @@ class CompaniesController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+/* *************************************************** */
     public function edit(Company $company)
     {
-        return view('companies.edit', [
-            'companies' => $company,
-        ]);
+        $contact_list=CompanyContactList::where('company_id',$company->id)->first();
+        return view ('companies.edit',[
+            'company'=>$company,
+            'contact_list' => $contact_list
+          ]);
     }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+  /* *************************************************** */
     public function update(Request $request, Company $company)
     {
-        $company->update($request->all());
-        return redirect()->route('companies.index');
+        if (request('email') != $company->email) {
+            $this->validate(request(), [
+                'email' => 'email|unique:users',
+            ]);
+            $company->email = request('email');
+        } else {
+            $company->email = request('email');
+        }
+
+        $request->validate(
+            [
+                'name' => 'required',
+                'email' => 'required|email',
+                'address' => 'required',
+                'phone' => 'required',
+            ],
+            [
+                'name.required' => 'Please enter the company name',
+                'email.required' => 'Please enter the company email',
+                'email.email' => 'Please enter an valid email',
+                'address.required' => 'Please enter the company address',
+                'phone.required' => 'Please enter the company phone',
+            ]
+        );
+        //update company
+        $company->name = request('name');
+        $company->address = request('address');
+        $company->phone = request('phone');
+
+        $company->save();
+        //update contact list
+        $contact_list=CompanyContactList::where('company_id',$company->id)->first();
+        $contact_list->receiver_name = request('receiver_name');
+        $contact_list->conatct_name = request('conatct_name');
+        $contact_list->contact_phone = request('contact_phone');
+        $contact_list->address_address = request('address_address');
+        $contact_list->address_latitude= request('address_latitude');
+        $contact_list->address_longitude= request('address_longitude');
+        $contact_list->save();
+
+        return redirect()->route('companies.index')->with('success', 'Company account has been updated ');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+   /* *************************************************** */
     public function destroy(Company $company)
     {
         $company->delete();
         return redirect()->route('companies.index');
     }
+    /* *************************************************** */
 
     // public function get_table()
     // {
