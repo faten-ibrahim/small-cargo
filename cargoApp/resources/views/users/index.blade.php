@@ -41,13 +41,13 @@
                 { data: 'drivers_count' },
                 {
                     mRender: function(data, type, row) {
-                            return '<a href="/companies/' + row.id + '/edit" class=" btn btn-success btn-sm" data-id="' + row.id + '" style="margin-left:10px;"><i class="fa fa-edit"></i><span>Edit</span></a>' +
-                            '<a href="/companies/' + row.id + '/edit" class=" btn btn-success btn-sm" data-id="' + row.id + '" style="margin-left:10px;"><i class="fa fa-delete"></i><span>Delete</span></a>' 
+                         return '<a  style="margin-left:15px;" href="/users/' + row.id + '/edit" class="btn btn-xs btn-primary"><i class="fa fa-pencil" data-toggle="tooltip" data-placement="top" title="Edit"></i><span>Edit</span></a>'+ 
+                            '&ensp;<form method="POST" action="users/'+row.id+'">@csrf {{ method_field('DELETE')}}<button  type="submit" onclick="return myFunction();" class="btn btn-xs btn-danger"><i class="fa fa-trash" data-toggle="tooltip" data-placement="top" title="Delete"></i><span>Delete</span></button></form>'
                             }
                 },
                 {
                     mRender: function(data, type, row) {
-                            return '<a href="/companies/' + row.id + '/unban" class=" btn btn-warning btn-sm" data-id="' + row.id + '" style="margin-left:10px;"><i class="fa fa-close"></i><span>Inactive</span></a>'
+                            return '<a href="/users/' + row.id + '/unban" class=" btn btn-warning btn-sm" data-id="' + row.id + '" style="margin-left:10px;"><i class="fa fa-close"></i><span>Inactive</span></a>'
                             }
                 },
 
@@ -60,6 +60,17 @@
             'autoWidth'   : true,
             'paging'      : true,
         } );
+
+                //confirm deleting 
+                function myFunction(){
+                     var agree = confirm("Are you sure you want to delete this Supervisdor?");
+                        if(agree == true){
+                           return true
+                           }
+                           else{
+                           return false;
+                           }
+                     }
 
     </script>
 
