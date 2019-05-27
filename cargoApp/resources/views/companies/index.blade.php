@@ -77,6 +77,18 @@
             'autoWidth': true,
             'paging': true,
         });
+
+          //confirm deleting 
+          function myFunction(){
+                     var agree = confirm("Are you sure you want to delete this Company ?");
+                        if(agree == true){
+                           return true
+                           }
+                           else{
+                           return false;
+                           }
+                     }
+
     </script>
 
 
