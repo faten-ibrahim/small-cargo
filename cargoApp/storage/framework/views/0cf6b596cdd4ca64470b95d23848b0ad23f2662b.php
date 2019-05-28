@@ -13,8 +13,8 @@
     <link rel="stylesheet" href="/bower_components/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="/bower_components/Ionicons/css/ionicons.min.css">
     <link rel="stylesheet" href="/bower_components/admin-lte/dist/css/AdminLTE.min.css">
-
     <link rel="stylesheet" href="/bower_components/admin-lte/dist/css/skins/skin-blue.min.css">
+    <link rel="stylesheet" href="/bower_components/admin-lte/dist/css/style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     
     <link rel="stylesheet" href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">

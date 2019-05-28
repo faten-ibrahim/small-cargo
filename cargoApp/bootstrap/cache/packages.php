@@ -6,6 +6,13 @@
       0 => 'BeyondCode\\DumpServer\\DumpServerServiceProvider',
     ),
   ),
+  'cybercog/laravel-ban' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Cog\\Laravel\\Ban\\Providers\\BanServiceProvider',
+    ),
+  ),
   'fideloper/proxy' => 
   array (
     'providers' => 

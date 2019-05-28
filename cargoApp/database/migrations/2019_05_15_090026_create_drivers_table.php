@@ -20,9 +20,9 @@ class CreateDriversTable extends Migration
             $table->string('car_type',100);
             $table->string('car_number',100);
             $table->integer('car_no_of_trips')->default(0);
-            $table->integer('rating');
-            $table->string('status')->enum('status', ['inactive', 'active','new']);
-            $table->string('availability')->enum('availability', ['online', 'offline','busy']);
+            $table->integer('rating')->default(0);
+            $table->string('status')->enum('status', ['inactive', 'active','new'])->default('new');
+            $table->string('availability')->enum('availability', ['online', 'offline','busy'])->default('online');
             // $table->unsignedInteger('user_id')->nullable();
             // $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();

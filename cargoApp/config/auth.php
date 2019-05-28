@@ -50,10 +50,10 @@ return [
         //     'provider' => 'companies',
         // ],
 
-        // 'driver-api' => [
-        //     'driver' => 'jwt',
-        //     'provider' => 'drivers',
-        // ],
+        'driver-api' => [
+            'driver' => 'jwt',
+            'provider' => 'drivers',
+        ],
 
     ],
 

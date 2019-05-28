@@ -89,14 +89,14 @@ class CompaniesController extends Controller
         $company->save();
 
         // dd($company->id);
-        $contact_list=new CompanyContactList();
-        $contact_list['company_id']=$company->id;
-        $contact_list['receiver_name']=$request['receiver_name'];
-        $contact_list['conatct_name']=$request['conatct_name'];
-        $contact_list['contact_phone']=$request['contact_phone'];
-        $contact_list['address_address']=$request['address_address'];
-        $contact_list['address_latitude']=$request['address_latitude'];
-        $contact_list['address_longitude']=$request['address_longitude'];
+        $contact_list = new CompanyContactList();
+        $contact_list['company_id'] = $company->id;
+        $contact_list['receiver_name'] = $request['receiver_name'];
+        $contact_list['conatct_name'] = $request['conatct_name'];
+        $contact_list['contact_phone'] = $request['contact_phone'];
+        $contact_list['address_address'] = $request['address_address'];
+        $contact_list['address_latitude'] = $request['address_latitude'];
+        $contact_list['address_longitude'] = $request['address_longitude'];
         $contact_list->save();
         return redirect()->route('companies.index');
     }
@@ -172,6 +172,18 @@ class CompaniesController extends Controller
     //     return response()->json($companies);
     // }
 
-
-
+    public function ban(Company $company)
+    {
+        $company->ban();
+        $company->status='inactive';
+        $company->save();
+        return redirect()->route('companies.index');
+    }
+    public function unban(Company $company)
+    {
+        $company->unban();
+        $company->status='active';
+        $company->save();
+        return redirect()->route('companies.index');
+    }
 }

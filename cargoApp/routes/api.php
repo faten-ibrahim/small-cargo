@@ -21,6 +21,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::post('company/login', 'Api\Company\AuthController@login');
 Route::post('company/register', 'Api\Company\AuthController@register');
 
+Route::post('driver/login', 'Api\Driver\AuthController@login');
+Route::post('driver/register', 'Api\Driver\AuthController@register');
+
 // Route::group(['middleware' => ['jwt.verify']], function() {
 Route::post('company/logout', 'Api\Company\AuthController@logout');
 Route::get('company/getAuthUser', 'Api\Company\AuthController@getAuthUser');
