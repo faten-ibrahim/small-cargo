@@ -15,6 +15,7 @@
                 <th>Orders Number</th>
                 <th>Options</th>
                 <th>Actions</th>
+                <th>Active/InActive</th>
             </tr>
         </thead>
     </table>
@@ -75,10 +76,13 @@
                                 // '<a href="#" class="bttn btn btn-danger" row_id="' + row.id + '" data-toggle="modal" data-target="#DeleteModal" id="delete_toggle"><i class="fa fa-times"></i><span>Delete</span></a>'
 
 
-                    }
+
+                {
+                    mRender: function(data, type, row) {
+                         return '<a href="/companies/' + row.id + '/unban" class=" btn btn-warning" data-id="' + row.id + '" style="margin-left:10px;"><i class="fa fa-close"></i><span>Inactive</span></a>'
+                            }
                 },
             ],
-
             'lengthChange': true,
             'searching': false,
             'ordering': true,
