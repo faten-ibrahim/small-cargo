@@ -181,4 +181,19 @@ class UsersController extends Controller
          $user->delete();
          return redirect()->route('users.index');
     }
+
+    public function ban(User $user)
+    {
+        $user->ban();
+        $user->status='inactive';
+        $user->save();
+        return redirect()->route('users.index');
+    }
+    public function unban(User $user)
+    {
+        $user->unban();
+        $user->status='active';
+        $user->save();
+        return redirect()->route('users.index');
+    }
 }

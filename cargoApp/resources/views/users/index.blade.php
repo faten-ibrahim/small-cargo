@@ -48,7 +48,11 @@
                 },
                 {
                     mRender: function(data, type, row) {
-                            return '<a href="/users/' + row.id + '/unban" class=" btn btn-warning btn-sm" data-id="' + row.id + '" style="margin-left:10px;"><i class="fa fa-close"></i><span>Inactive</span></a>'
+                            if (!row.banned_at)
+                                return '<a href="/users/' + row.id + '/ban" class=" btn btn-warning btn-sm" data-id="' + row.id + '" style="margin-left:10px;"><i class="fa fa-close"></i><span>Deactive</span></a>'
+                            else
+                                return  '<a href="/users/' + row.id + '/unban" class="bttn btn btn-success" data-id="' + row.id + '" ><i class="fa fa-right"></i><span>Active</span></a>'
+
                             }
                 },
 

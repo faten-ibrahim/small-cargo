@@ -64,7 +64,7 @@
                     mRender: function(data, type, row) {
 
                         if (!row.banned_at && row.status=='active')
-                            return '<a href="/companies/' + row.id + '/edit" class="bttn btn btn-success" data-id="' + row.id + '"><i class="fa fa-edit"></i><span>Edit</span></a><br>' +
+                            return '<a  href="/companies/' + row.id + '/edit" class="bttn btn btn-success" data-id="' + row.id + '"><i class="fa fa-edit"></i><span>Edit</span></a><br>' +
                                 '<a href="/companies/' + row.id + '/ban" class="bttn btn btn-warning" data-id="' + row.id + '"><i class="fa fa-close"></i><span>Deactive</span></a>'
                                 // '<a href="#" class="bttn btn btn-danger" row_id="' + row.id + '" data-toggle="modal" data-target="#DeleteModal" id="delete_toggle"><i class="fa fa-times"></i><span>Delete</span></a>'
 
@@ -94,3 +94,4 @@
 <?php $__env->stopSection(); ?>
 
 <?php echo $__env->make('layouts.base', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /var/www/html/Cargo Project/cargoApp/resources/views/companies/index.blade.php ENDPATH**/ ?>
+<?php /**PATH /var/www/html/Cargo Project/cargoApp/resources/views/companies/index.blade.php ENDPATH**/ ?>

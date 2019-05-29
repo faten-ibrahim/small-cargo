@@ -1,8 +1,7 @@
-@extends('layouts.base')
-@section('content')
+<?php $__env->startSection('content'); ?>
 <div class="container" style="width:100%;">
     <h2>Manage Companies</h2>
-    <a class="btn btn-info" href="{{route('companies.create')}}"><i class="fa fa-plus"></i><span>Add New Company</span></a><br><br>
+    <a class="btn btn-info" href="<?php echo e(route('companies.create')); ?>"><i class="fa fa-plus"></i><span>Add New Company</span></a><br><br>
     <table id="example" class="table table-striped">
         <thead>
             <tr>
@@ -15,7 +14,6 @@
                 <th>Orders Number</th>
                 <th>Options</th>
                 <th>Actions</th>
-                <th>Active/InActive</th>
             </tr>
         </thead>
     </table>
@@ -29,7 +27,7 @@
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
-                url: '{{route('get.companies')}}',
+                url: '<?php echo e(route('get.companies')); ?>',
                 dataType: 'json',
                 type: 'get',
             },
@@ -66,7 +64,7 @@
                     mRender: function(data, type, row) {
 
                         if (!row.banned_at && row.status=='active')
-                            return '<a href="/companies/' + row.id + '/edit" class="bttn btn btn-success" data-id="' + row.id + '"><i class="fa fa-edit"></i><span>Edit</span></a><br>' +
+                            return '<a  href="/companies/' + row.id + '/edit" class="bttn btn btn-success" data-id="' + row.id + '"><i class="fa fa-edit"></i><span>Edit</span></a><br>' +
                                 '<a href="/companies/' + row.id + '/ban" class="bttn btn btn-warning" data-id="' + row.id + '"><i class="fa fa-close"></i><span>Deactive</span></a>'
                                 // '<a href="#" class="bttn btn btn-danger" row_id="' + row.id + '" data-toggle="modal" data-target="#DeleteModal" id="delete_toggle"><i class="fa fa-times"></i><span>Delete</span></a>'
 
@@ -76,13 +74,10 @@
                                 // '<a href="#" class="bttn btn btn-danger" row_id="' + row.id + '" data-toggle="modal" data-target="#DeleteModal" id="delete_toggle"><i class="fa fa-times"></i><span>Delete</span></a>'
 
 
-
-                {
-                    mRender: function(data, type, row) {
-                         return '<a href="/companies/' + row.id + '/unban" class=" btn btn-warning" data-id="' + row.id + '" style="margin-left:10px;"><i class="fa fa-close"></i><span>Inactive</span></a>'
-                            }
+                    }
                 },
             ],
+
             'lengthChange': true,
             'searching': false,
             'ordering': true,
@@ -96,4 +91,6 @@
 
 </div>
 
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.base', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /var/www/html/Cargo Project/cargoApp/resources/views/companies/index.blade.php ENDPATH**/ ?>

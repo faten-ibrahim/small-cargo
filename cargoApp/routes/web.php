@@ -22,20 +22,25 @@ Auth::routes();
 Route::group(['middleware' => 'auth'], function () {
     Route::group(['middleware' => 'active'], function () {
         Route::get('/home', 'HomeController@index')->name('home');
-    // Route::get('locked', function () {
-    //     Auth::logout();
-    //     return view('lockscreen');
-    // });
-});
+        // Route::get('locked', function () {
+        //     Auth::logout();
+        //     return view('lockscreen');
+        // });
+    });
 });
 
-Route::resource('companies','Companies\CompaniesController');
+Route::resource('companies', 'Companies\CompaniesController');
 Route::get('/companies/{company}/ban', 'Companies\CompaniesController@ban')
-            ->name('companies.ban');
+    ->name('companies.ban');
 Route::get('/companies/{company}/unban', 'Companies\CompaniesController@unban')
-            ->name('companies.unban');
-Route::resource('users','Users\UsersController');
+    ->name('companies.unban');
+
+Route::get('/users/{user}/ban', 'Users\UsersController@ban')
+    ->name('users.ban');
+Route::get('/users/{user}/unban', 'Users\UsersController@unban')
+    ->name('users.unban');
+Route::resource('users', 'Users\UsersController');
 
 #---------- for datatable ----------------------
 Route::get('supervisors_list', 'Users\UsersController@supervisors_List');
-Route::get('get_companies','Companies\CompaniesController@get_companies')->name('get.companies');
+Route::get('get_companies', 'Companies\CompaniesController@get_companies')->name('get.companies');
