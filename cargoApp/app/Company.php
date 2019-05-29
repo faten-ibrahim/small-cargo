@@ -66,5 +66,4 @@ class Company extends Authenticatable implements JWTSubject
 
 
 
-
 }
