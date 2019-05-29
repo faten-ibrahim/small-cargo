@@ -33,7 +33,7 @@ class AuthController extends Controller
             return response()->json($validator->errors());
         }
         config()->set( 'auth.defaults.guard', 'company' );
-        \Config::set('jwt.user', 'App\Campany'); 
+        \Config::set('jwt.user', 'App\Campany');
 		\Config::set('auth.providers.users.model', \App\Company::class);
         $credentials = $request->only('email', 'password');
         try {
@@ -44,11 +44,11 @@ class AuthController extends Controller
             return response()->json(['error' => 'Failed to login, please try again.'], 500);
         }
 
-    
-        return $this->respondWithToken($token);;
+
+        return $this->respondWithToken($token);
     }
 
-       #------------------------------- regiser function ---------------------------    
+       #------------------------------- regiser function ---------------------------
        public function register(Request $request)
        {
            $validator = Validator::make($request->all(), [
@@ -58,7 +58,7 @@ class AuthController extends Controller
                    'phone'=>'required|unique:companies',
                    'password'=>'required|min:6'
            ]);
-   
+
            if($validator->fails()){
                    return response()->json($validator->errors(), 400);
            }
@@ -70,11 +70,11 @@ class AuthController extends Controller
                        'password'=> Hash::make($request->password),
                    ]);
                    config()->set( 'auth.defaults.guard', 'company' );
-                   \Config::set('jwt.user', 'App\Campany'); 
-                   \Config::set('auth.providers.users.model', \App\Company::class);        
+                   \Config::set('jwt.user', 'App\Campany');
+                   \Config::set('auth.providers.users.model', \App\Company::class);
            $token =JWTAuth::fromUser($company);
            return response()->json([
-            'status' => 'You have successfully register.', 
+            'status' => 'You have successfully register.',
             'data'=> [
                 'token' => $token ,
                 'company'=>$company
@@ -84,15 +84,15 @@ class AuthController extends Controller
        }
 
        #-------------------------------- logout ----------------------------------------
-       public function logout() 
+       public function logout()
        {
         config()->set('auth.defaults.guard', 'company' );
-        \Config::set('jwt.user', 'App\Campany'); 
+        \Config::set('jwt.user', 'App\Campany');
         \Config::set('auth.providers.users.model', \App\Company::class);
         try {
-        
+
             JWTAuth::invalidate(JWTAuth::getToken());
-        
+
             return response()->json([
                 'success' => true,
                 'message' => 'User logged out successfully'
@@ -104,26 +104,26 @@ class AuthController extends Controller
             ], 500);
         }
        }
-    
-  
+
+
        protected function respondWithToken($token)
        {
            return response()->json([
                'access_token' => $token,
                'token_type' => 'bearer',
                'expires_in' => JWTAuth::factory()->getTTL() * 60
-    
+
            ]);
        }
 
        public function getAuthUser()
        {
-           
+
            config()->set('auth.defaults.guard', 'company' );
-           \Config::set('jwt.user', 'App\Campany'); 
+           \Config::set('jwt.user', 'App\Campany');
            \Config::set('auth.providers.users.model', \App\Company::class);
            $user = JWTAuth::authenticate(JWTAuth::getToken());
-    
+
            return response()->json(['user' => $user]);
        }
 
