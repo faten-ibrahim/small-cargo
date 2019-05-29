@@ -16,7 +16,7 @@ class AddSupervisorIdColumnToDrivers extends Migration
         Schema::table('drivers', function (Blueprint $table) {
             $table->unsignedBigInteger('supervisor_id')->nullable();
             $table->foreign('supervisor_id')
-            ->references('id')->on('users');
+            ->references('id')->on('users')->onDelete('cascade');
         });
     }
 

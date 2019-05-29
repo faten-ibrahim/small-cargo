@@ -42,8 +42,8 @@
                 { data: 'drivers_count' },
                 {
                     mRender: function(data, type, row) {
-                         return '<a  style="margin-left:15px;" href="/users/' + row.id + '/edit" class="btn btn-xs btn-primary"><i class="fa fa-pencil" data-toggle="tooltip" data-placement="top" title="Edit"></i><span>Edit</span></a>'+
-                            '&ensp;<form method="POST" action="users/'+row.id+'">@csrf {{ method_field('DELETE')}}<button  type="submit" onclick="return myFunction();" class="btn btn-xs btn-danger"><i class="fa fa-trash" data-toggle="tooltip" data-placement="top" title="Delete"></i><span>Delete</span></button></form>'
+                         return '<a  style="margin-left:15px;" href="/users/' + row.id + '/edit" class="bttn btn btn-success btn-sm"><i class="fa fa-pencil" data-toggle="tooltip" data-placement="top" title="Edit"></i><span>Edit</span></a>'+
+                            '<form method="POST" action="users/'+row.id+'">@csrf {{ method_field('DELETE')}}<button  type="submit" onclick="return myFunction();" class="bttn btn btn-danger btn-sm"><i class="fa fa-trash" data-toggle="tooltip" data-placement="top" title="Delete"></i><span>Delete</span></button></form>'
                             }
                 },
                 {

@@ -17,15 +17,15 @@ class CreateCompanyOrderTable extends Migration
 
             $table->unsignedBigInteger('sender_id');
             $table->foreign('sender_id')
-            ->references('id')->on('companies');
+            ->references('id')->on('companies')->onDelete('cascade');
 
             $table->unsignedBigInteger('receiver_id');
             $table->foreign('receiver_id')
-            ->references('id')->on('companies');
+            ->references('id')->on('companies')->onDelete('cascade');
 
             $table->unsignedBigInteger('order_id');
             $table->foreign('order_id')
-            ->references('id')->on('orders');
+            ->references('id')->on('orders')->onDelete('cascade');
 
             $table->primary(['sender_id', 'receiver_id','order_id']);
 
