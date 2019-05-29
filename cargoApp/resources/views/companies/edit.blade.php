@@ -6,7 +6,7 @@
     <form  method="POST" action="/companies/{{$company->id}}" >
     {{ csrf_field() }}
     {{ method_field('patch') }}
-    
+
         @if ($errors->any())
         <br>
         <br>

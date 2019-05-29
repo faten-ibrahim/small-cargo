@@ -50,8 +50,8 @@
     <label>Confirm Password:</label>
     <input type="password" name="password-confirmation" placeholder="Confirm password" class="form-control"/>
     </div>
-    @endif 
-    
+    @endif
+
 
     @if($user->hasRole('supervisor'))
 
@@ -84,7 +84,7 @@
             </select>
         </div>
 
-    @endif 
+    @endif
 
     <button type="submit" class="btn btn-primary">Update</button>
     <a href="{{route('users.index')}}" class="btn btn-danger">Back</a>

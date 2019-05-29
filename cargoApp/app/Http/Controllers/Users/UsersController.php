@@ -40,7 +40,7 @@ class UsersController extends Controller
         )
         ->groupBy('users.id')
         ->orderBy('users.created_at', 'asc');
-  
+
         return datatables()->of($supervisors)->toJson();
     }
 
@@ -135,8 +135,8 @@ class UsersController extends Controller
 
 // -----------------   end if role is admin  ------------------------
 
-     }elseif($user->hasRole('supervisor')){     
-             
+     }elseif($user->hasRole('supervisor')){
+
         if (request('email') != $user->email) {
             $this->validate(request(), [
                 'email' => 'email|unique:users',
@@ -171,7 +171,7 @@ class UsersController extends Controller
 
         $user->save();
         return redirect()->route('users.index')->with('success', 'Supervisor account has been updated ');
-      }   
+      }
     }
 
     /* ******************  DELETE ************************ */
@@ -180,5 +180,20 @@ class UsersController extends Controller
     {
          $user->delete();
          return redirect()->route('users.index');
-    }  
+    }
+
+    public function ban(User $user)
+    {
+        $user->ban();
+        $user->status='inactive';
+        $user->save();
+        return redirect()->route('users.index');
+    }
+    public function unban(User $user)
+    {
+        $user->unban();
+        $user->status='active';
+        $user->save();
+        return redirect()->route('users.index');
+    }
 }

@@ -6,11 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Cog\Contracts\Ban\Bannable as BannableContract;
+use Cog\Laravel\Ban\Traits\Bannable;
 
 
-class Company extends Authenticatable implements JWTSubject
+class Company extends Authenticatable implements JWTSubject,BannableContract
 {
-    use Notifiable;
+    use Notifiable,Bannable;
     public function companycontactlists()
     {
         return $this->hasMany('App\CompanyContactList');
