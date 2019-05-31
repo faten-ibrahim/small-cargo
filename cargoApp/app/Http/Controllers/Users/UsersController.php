@@ -91,7 +91,7 @@ class UsersController extends Controller
     {
         // $drivers = User::find($id)->drivers;
             $drivers =DB::table('drivers')
-            ->join('driver_order', 'drivers.id', '=', 'driver_order.driver_id')
+            ->leftJoin('driver_order', 'drivers.id', '=', 'driver_order.driver_id')
             ->select('drivers.*', DB::raw("count(driver_order.order_id) as count"))
             ->groupBy('drivers.id')
             ->where('drivers.user_id','=',$id)
