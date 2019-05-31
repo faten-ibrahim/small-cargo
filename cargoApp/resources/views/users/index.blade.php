@@ -39,7 +39,12 @@
                 { data: 'address' },
                 { data: 'created_at' },
                 { data: 'status' },
-                { data: 'drivers_count' },
+                // { data: 'drivers_count' },
+                {
+                    mRender: function(data, type, row) {
+                         return '<span style="margin-left:5%;">'+row.drivers_count+'</>'+'<a href="/users/' + row.id + '" class="btn btn-link"><i class="fa fa-eye" data-toggle="tooltip" data-placement="top" title="Show"></i><span>show</span></a>'
+                            }
+                },
                 {
                     mRender: function(data, type, row) {
                          return '<a  style="margin-left:15px;" href="/users/' + row.id + '/edit" class="btn btn-xs btn-primary"><i class="fa fa-pencil" data-toggle="tooltip" data-placement="top" title="Edit"></i><span>Edit</span></a>'+

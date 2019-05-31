@@ -16,73 +16,72 @@ class AuthController extends Controller
     public function __construct()
     {
         $this->driver = new Driver();
-        // $this->middleware('auth:api', ['except' => ['login','register']]);
+        // $this->middleware('auth:driver-api', ['except' => ['login','register']]);
     }
 
     public function login(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'phone'=>'required',
-            // 'password'=>'required'
+            'phone' => 'required',
         ]);
         if ($validator->fails()) {
             return response()->json($validator->errors());
         }
-        config()->set( 'auth.defaults.guard', 'driver-api' );
-        \Config::set('jwt.user', 'App\Driver');
-		\Config::set('auth.providers.users.model', \App\Driver::class);
-        $credentials = $request->only('phone');
+
+        $phone = $request->input('phone');
+        $driver = Driver::where('phone', '=', $phone)->first();
         try {
-            if (! $token =JWTAuth::attempt($credentials)) {
-                return response()->json(['error' => 'We can`t find an account with this credentials.'], 401);
+            // verify the credentials and create a token for the user
+            if (!$token = JWTAuth::fromUser($driver)) {
+                return response()->json(['error' => 'invalid_credentials'], 401);
             }
         } catch (JWTException $e) {
-            return response()->json(['error' => 'Failed to login, please try again.'], 500);
+            // something went wrong
+            return response()->json(['error' => 'could_not_create_token'], 500);
         }
+        // if no errors are encountered we can return a JWT
+        return response()->json(compact('token'));
 
-
-        return $this->respondWithToken($token);
     }
 
-       #------------------------------- regiser function ---------------------------
-       public function register(Request $request)
-       {
-           $validator = Validator::make($request->all(), [
-                   'name'=>'required',
-                   'phone'=>'required|unique:drivers',
-                   'car_number'=>'required|unique:drivers',
-                   'car_type'=>'required'
+    // Driver Registration
+    public function register(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'phone' => 'required|unique:drivers',
+            'car_number' => 'required|unique:drivers',
+            'car_type' => 'required'
 
-           ]);
+        ]);
 
-           if($validator->fails()){
-                   return response()->json($validator->errors(), 400);
-           }
-           $driver = Driver::create([
-                       'name'=> $request->name,
-                       'phone'=> $request->phone,
-                       'car_number'=> $request->car_number,
-                       'car_type'=> $request->car_type,
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 400);
+        }
+        $driver = Driver::create([
+            'name' => $request->name,
+            'phone' => $request->phone,
+            'car_number' => $request->car_number,
+            'car_type' => $request->car_type,
 
-                   ]);
-                   config()->set( 'auth.defaults.guard', 'driver-api' );
-                   \Config::set('jwt.user', 'App\Driver');
-                   \Config::set('auth.providers.users.model', \App\Driver::class);
-           $token =JWTAuth::fromUser($driver);
-           return response()->json([
+        ]);
+        config()->set('auth.defaults.guard', 'driver-api');
+        \Config::set('jwt.user', 'App\Driver');
+        \Config::set('auth.providers.users.model', \App\Driver::class);
+        $token = JWTAuth::fromUser($driver);
+        return response()->json([
             'status' => 'You have successfully register.',
-            'data'=> [
-                'token' => $token ,
-                'driver-api'=>$driver
+            'data' => [
+                'token' => $token,
+                'driver-api' => $driver
             ]
-            ],201);
+        ], 201);
+    }
 
-       }
-
-       #-------------------------------- logout ----------------------------------------
-       public function logout()
-       {
-        config()->set('auth.defaults.guard', 'driver-api' );
+    // Driver Logout
+    public function logout()
+    {
+        config()->set('auth.defaults.guard', 'driver-api');
         \Config::set('jwt.user', 'App\Driver');
         \Config::set('auth.providers.users.model', \App\Driver::class);
         try {
@@ -99,27 +98,27 @@ class AuthController extends Controller
                 'message' => 'Sorry, the user cannot be logged out'
             ], 500);
         }
-       }
+    }
 
 
-       protected function respondWithToken($token)
-       {
-           return response()->json([
-               'access_token' => $token,
-               'token_type' => 'bearer',
-               'expires_in' => JWTAuth::factory()->getTTL() * 60
+    protected function respondWithToken($token)
+    {
+        return response()->json([
+            'access_token' => $token,
+            'token_type' => 'bearer',
+            'expires_in' => JWTAuth::factory()->getTTL() * 60
 
-           ]);
-       }
+        ]);
+    }
 
-       public function getAuthUser()
-       {
+    public function getAuthUser()
+    {
 
-           config()->set('auth.defaults.guard', 'driver-api' );
-           \Config::set('jwt.user', 'App\Driver');
-           \Config::set('auth.providers.users.model', \App\Driver::class);
-           $user = JWTAuth::authenticate(JWTAuth::getToken());
+        config()->set('auth.defaults.guard', 'driver-api');
+        \Config::set('jwt.user', 'App\Driver');
+        \Config::set('auth.providers.users.model', \App\Driver::class);
+        $user = JWTAuth::authenticate(JWTAuth::getToken());
 
-           return response()->json(['user' => $user]);
-       }
+        return response()->json(['user' => $user]);
+    }
 }

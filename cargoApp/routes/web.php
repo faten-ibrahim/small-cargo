@@ -44,3 +44,5 @@ Route::resource('users', 'Users\UsersController');
 #---------- for datatable ----------------------
 Route::get('supervisors_list', 'Users\UsersController@supervisors_List');
 Route::get('get_companies', 'Companies\CompaniesController@get_companies')->name('get.companies');
+// Route::get('users/{user}', 'Users\UsersController@drivers_list');
+

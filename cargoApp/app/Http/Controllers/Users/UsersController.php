@@ -11,7 +11,8 @@ use Hash;
 use Yajra\Datatables\Datatables;
 use App\Http\Requests\User\StoreUserRequest;
 use DB;
-
+use Response;
+use App\DriverOrder;
 
 class UsersController extends Controller
 {
@@ -24,22 +25,24 @@ class UsersController extends Controller
     {
         return view('users.index');
     }
-/* ****************************************** */
+    /* ****************************************** */
     public function supervisors_list()
     {
-        $supervisors= User::whereHas(
-            'roles', function($supervisor){
+        $supervisors = User::whereHas(
+            'roles',
+            function ($supervisor) {
                 $supervisor->where('name', 'supervisor');
-                 })
-       ->leftJoin('drivers', function ($join) {
-            $join->on('users.id', '=', 'drivers.supervisor_id');;
-        })
-        ->select(
-            'users.*',
-            DB::raw("count(drivers.supervisor_id) as drivers_count")
+            }
         )
-        ->groupBy('users.id')
-        ->orderBy('users.created_at', 'asc');
+            ->leftJoin('drivers', function ($join) {
+                $join->on('users.id', '=', 'drivers.user_id');;
+            })
+            ->select(
+                'users.*',
+                DB::raw("count(drivers.user_id) as drivers_count")
+            )
+            ->groupBy('users.id')
+            ->orderBy('users.created_at', 'asc');
 
         return datatables()->of($supervisors)->toJson();
     }
@@ -84,18 +87,30 @@ class UsersController extends Controller
     }
     /* *********************** SHOW ******************* */
     public function show($id)
-    { }
+    {
+        // $drivers = User::find($id)->drivers;
+            $drivers =DB::table('drivers')
+            ->join('driver_order', 'drivers.id', '=', 'driver_order.driver_id')
+            ->select('drivers.*', DB::raw("count(driver_order.order_id) as count"))
+            ->groupBy('drivers.id')
+            ->where('drivers.user_id','=',$id)
+            ->get();
+        // dd($drivers);
+        $supervisor_name = User::find($id)->name;
+        // $orders_num = DriverOrder::where('driver_id', '=', $id)->count();
+        return view('users.show', compact(['drivers', 'supervisor_name']));
+    }
     /* ********************** EDIT ******************** */
 
     public function edit(User $user)
     {
-          return view('users.edit', compact('user'));
+        return view('users.edit', compact('user'));
     }
 
     /* ********************* UPDATE ********************* */
-    public function update(Request $request,User $user)
+    public function update(Request $request, User $user)
     {
-     if($user->hasRole('admin')){
+        if ($user->hasRole('admin')) {
             $user->name = request('name');
 
             if (request('email') != $user->email) {
@@ -115,14 +130,13 @@ class UsersController extends Controller
                         'password-confirmation' => 'required|same:new-password',
                     ]);
 
-                    if (request('new-password') != request('old-password'))
-                    {
-                    $user->password = Hash::make(request('new-password'));
-                    $user->save();
+                    if (request('new-password') != request('old-password')) {
+                        $user->password = Hash::make(request('new-password'));
+                        $user->save();
 
-                    Auth::logout();
-                    return redirect('/login');
-                    }else{
+                        Auth::logout();
+                        return redirect('/login');
+                    } else {
                         return back()->with('error', 'New Password must differ from old one');
                     }
                 } else {
@@ -133,67 +147,75 @@ class UsersController extends Controller
                 return back();
             }
 
-// -----------------   end if role is admin  ------------------------
+            // -----------------   end if role is admin  ------------------------
 
-     }elseif($user->hasRole('supervisor')){
+        } elseif ($user->hasRole('supervisor')) {
 
-        if (request('email') != $user->email) {
-            $this->validate(request(), [
-                'email' => 'email|unique:users',
-            ]);
-            $user->email = request('email');
-        } else {
-            $user->email = request('email');
+            if (request('email') != $user->email) {
+                $this->validate(request(), [
+                    'email' => 'email|unique:users',
+                ]);
+                $user->email = request('email');
+            } else {
+                $user->email = request('email');
+            }
+
+            $request->validate(
+                [
+                    'name' => 'required',
+                    'email' => 'required',
+                    'address' => 'required',
+                    'phone' => 'required',
+                    'status' => 'required',
+                ],
+                [
+                    'name.required' => 'Please enter the name',
+                    'email.required' => 'Please enter the email',
+                    'email.email' => 'Please enter an valid email',
+                    'address' => 'Please enter the address',
+                    'phone.required' => 'Please enter the phone',
+                    'status.required' => 'Please select the status'
+                ]
+            );
+            $user->name = request('name');
+            $user->address = request('address');
+            $user->phone = request('phone');
+            $user->status = request('status');
+
+
+            $user->save();
+            return redirect()->route('users.index')->with('success', 'Supervisor account has been updated ');
         }
-
-        $request->validate(
-            [
-                'name' => 'required',
-                'email' => 'required',
-                'address' => 'required',
-                'phone' => 'required',
-                'status' => 'required',
-            ],
-            [
-                'name.required' => 'Please enter the name',
-                'email.required' => 'Please enter the email',
-                'email.email' => 'Please enter an valid email',
-                'address' => 'Please enter the address',
-                'phone.required' => 'Please enter the phone',
-                'status.required' => 'Please select the status'
-            ]
-        );
-        $user->name = request('name');
-        $user->address = request('address');
-        $user->phone = request('phone');
-        $user->status = request('status');
-
-
-        $user->save();
-        return redirect()->route('users.index')->with('success', 'Supervisor account has been updated ');
-      }
     }
 
     /* ******************  DELETE ************************ */
 
     public function destroy(User $user)
     {
-         $user->delete();
-         return redirect()->route('users.index');
+        $user->delete();
+        return redirect()->route('users.index');
     }
 
     public function ban(User $user)
     {
         $user->ban();
-        $user->status='inactive';
+        $user->status = 'inactive';
         $user->save();
         return redirect()->route('users.index');
     }
     public function unban(User $user)
     {
         $user->unban();
-        $user->status='active';
+        $user->status = 'active';
         $user->save();
         return redirect()->route('users.index');
     }
+
+    // public function drivers_list($id)
+    // {
+    //     $drivers = User::find($id)->drivers;
+    //     // dd($drivers);
+    //     // return datatables()->of($drivers)->make(true)->render('users.show');
+    //     return datatables()->of($drivers)->make(true)->render('users/{user}');
+    // }
 }
