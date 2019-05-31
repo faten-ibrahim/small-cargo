@@ -134,7 +134,6 @@
                     <li class="active"><a href="<?php echo e(route('companies.index')); ?>"><i class="fa fa-list-alt"></i> <span>Manage companies</span></a></li>
                     <li><a href="<?php echo e(route('users.index')); ?>"><i class="fa fa-users"></i> <span>Manage Supervisors</span></a></li>
                     <li><a href=""><i class="fa fa-users"></i> <span>Drivers</span></a></li>
-
                 </ul>
                 <!-- /.sidebar-menu -->
             </section>

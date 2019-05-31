@@ -14,7 +14,7 @@
                 <th>Orders Number</th>
                 <th>Options</th>
                 <th>Actions</th>
-                <th>Active/Inactive</th>
+                <th>Extra</th>
             </tr>
         </thead>
     </table>
@@ -73,11 +73,13 @@
                     mRender: function(data, type, row) {
 
                         if (!row.banned_at && row.status=='active')
-                            return '<a href="/companies/' + row.id + '/ban" class="bttn btn btn-warning btn-sm" data-id="' + row.id + '"><i class="fa fa-ban"></i><span>Deactive</span></a>'
+                            return '<a href="/companies/' + row.id + '/ban" class="bttn btn btn-warning btn-sm" data-id="' + row.id + '"><i class="fa fa-ban"></i><span>Deactive</span></a><br>'+
+                                    '<a href="/companies/' + row.id + '/add_list" class="bttn btn btn-primary btn-sm" data-id="' + row.id + '"><i class="fa fa-plus"></i><span>Add Contact</span></a>'
 
 
                         else
-                            return '<a href="/companies/' + row.id + '/unban" class="bttn btn btn-success btn-sm" data-id="' + row.id + '" ><i class="fa fa-check"></i><span>Active</span></a>'
+                            return '<a href="/companies/' + row.id + '/unban" class="bttn btn btn-success btn-sm" data-id="' + row.id + '" ><i class="fa fa-check"></i><span>Active</span></a><br>'+
+                                    '<a href="/companies/' + row.id + '/add_list" class="bttn btn btn-primary btn-sm" data-id="' + row.id + '"><i class="fa fa-plus"></i><span>Add Contact</span></a>'
 
 
                     }

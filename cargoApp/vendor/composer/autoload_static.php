@@ -416,6 +416,7 @@ class ComposerStaticInitea38bb81105a0eddd843963e403734d9
         'App\\CompanyOrder' => __DIR__ . '/../..' . '/app/CompanyOrder.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Driver' => __DIR__ . '/../..' . '/app/Driver.php',
+        'App\\DriverOrder' => __DIR__ . '/../..' . '/app/DriverOrder.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
         'App\\Http\\Controllers\\Api\\Company\\AuthController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/Company/AuthController.php',
         'App\\Http\\Controllers\\Api\\Driver\\AuthController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/Driver/AuthController.php',

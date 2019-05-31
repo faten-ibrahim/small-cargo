@@ -11,6 +11,7 @@ return array(
     'App\\CompanyOrder' => $baseDir . '/app/CompanyOrder.php',
     'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',
     'App\\Driver' => $baseDir . '/app/Driver.php',
+    'App\\DriverOrder' => $baseDir . '/app/DriverOrder.php',
     'App\\Exceptions\\Handler' => $baseDir . '/app/Exceptions/Handler.php',
     'App\\Http\\Controllers\\Api\\Company\\AuthController' => $baseDir . '/app/Http/Controllers/Api/Company/AuthController.php',
     'App\\Http\\Controllers\\Api\\Driver\\AuthController' => $baseDir . '/app/Http/Controllers/Api/Driver/AuthController.php',

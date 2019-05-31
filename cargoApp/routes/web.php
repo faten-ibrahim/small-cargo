@@ -34,6 +34,15 @@ Route::get('/companies/{company}/ban', 'Companies\CompaniesController@ban')
     ->name('companies.ban');
 Route::get('/companies/{company}/unban', 'Companies\CompaniesController@unban')
     ->name('companies.unban');
+Route::get('/companies/{company}/add_list', 'Companies\CompaniesController@create_list')
+    ->name('companies.create_list');
+Route::post('/contacts', 'Companies\CompaniesController@store_list')
+    ->name('companies.store_list');
+Route::get('/companies/{company}/contacts','Companies\CompaniesController@show')->name('contacts.show');
+
+
+// Route::get('/posts/create', 'PostsController@create')->name('posts.create');
+// Route::post('/posts', 'PostsController@store')->name('posts.store');
 
 Route::get('/users/{user}/ban', 'Users\UsersController@ban')
     ->name('users.ban');
@@ -45,4 +54,3 @@ Route::resource('users', 'Users\UsersController');
 Route::get('supervisors_list', 'Users\UsersController@supervisors_List');
 Route::get('get_companies', 'Companies\CompaniesController@get_companies')->name('get.companies');
 // Route::get('users/{user}', 'Users\UsersController@drivers_list');
-

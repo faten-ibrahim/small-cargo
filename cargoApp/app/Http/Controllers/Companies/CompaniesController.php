@@ -49,7 +49,7 @@ class CompaniesController extends Controller
         ]);
     }
 
-  /* *************************************************** */
+    /* *************************************************** */
     public function store(Request $request)
     {
         $request->validate(
@@ -91,67 +91,68 @@ class CompaniesController extends Controller
         return redirect()->route('companies.index');
     }
 
-   /* *************************************************** */
-    public function show($id)
+    /* *************************************************** */
+    public function show(Company $company)
     {
-        $company = Company::find($id);
+        $contacts = Company::find($company->id)->companycontactlists;
         return view('companies.show', [
-            'companies' => $company
+            'company' => $company,
+            'contacts' => $contacts
         ]);
     }
 
-  /* *************************************************** */
+    /* *************************************************** */
     public function edit(Company $company)
     {
-        $contact_list=CompanyContactList::where('company_id',$company->id)->first();
-        return view ('companies.edit',[
-            'company'=>$company,
+        $contact_list = CompanyContactList::where('company_id', $company->id)->first();
+        return view('companies.edit', [
+            'company' => $company,
             'contact_list' => $contact_list
-          ]);
+        ]);
     }
-  /* *************************************************** */
-  public function update(Request $request, Company $company)
-  {
-      if (request('email') != $company->email) {
-          $this->validate(request(), [
-              'email' => 'email|unique:users',
-          ]);
-          $company->email = request('email');
-      } else {
-          $company->email = request('email');
-      }
+    /* *************************************************** */
+    public function update(Request $request, Company $company)
+    {
+        if (request('email') != $company->email) {
+            $this->validate(request(), [
+                'email' => 'email|unique:users',
+            ]);
+            $company->email = request('email');
+        } else {
+            $company->email = request('email');
+        }
 
-      $request->validate(
-          [
-              'name' => 'required',
-              'email' => 'required|email',
-              'address' => 'required',
-              'phone' => 'required',
-          ],
-          [
-              'name.required' => 'Please enter the company name',
-              'email.required' => 'Please enter the company email',
-              'email.email' => 'Please enter an valid email',
-              'address.required' => 'Please enter the company address',
-              'phone.required' => 'Please enter the company phone',
-          ]
-      );
-      //update company
-      $company->name = request('name');
-      $company->address = request('address');
-      $company->phone = request('phone');
-      $company->save();
-      //update contact list
-      $contact_list=CompanyContactList::where('company_id',$company->id)->first();
-      $contact_list->receiver_name = request('receiver_name');
-      $contact_list->conatct_name = request('conatct_name');
-      $contact_list->contact_phone = request('contact_phone');
-      $contact_list->address_address = request('address_address');
-      $contact_list->address_latitude= request('address_latitude');
-      $contact_list->address_longitude= request('address_longitude');
-      $contact_list->save();
-      return redirect()->route('companies.index')->with('success', 'Company account has been updated ');
-  }
+        $request->validate(
+            [
+                'name' => 'required',
+                'email' => 'required|email',
+                'address' => 'required',
+                'phone' => 'required',
+            ],
+            [
+                'name.required' => 'Please enter the company name',
+                'email.required' => 'Please enter the company email',
+                'email.email' => 'Please enter an valid email',
+                'address.required' => 'Please enter the company address',
+                'phone.required' => 'Please enter the company phone',
+            ]
+        );
+        //update company
+        $company->name = request('name');
+        $company->address = request('address');
+        $company->phone = request('phone');
+        $company->save();
+        //update contact list
+        $contact_list = CompanyContactList::where('company_id', $company->id)->first();
+        $contact_list->receiver_name = request('receiver_name');
+        $contact_list->conatct_name = request('conatct_name');
+        $contact_list->contact_phone = request('contact_phone');
+        $contact_list->address_address = request('address_address');
+        $contact_list->address_latitude = request('address_latitude');
+        $contact_list->address_longitude = request('address_longitude');
+        $contact_list->save();
+        return redirect()->route('companies.index')->with('success', 'Company account has been updated ');
+    }
 
 
     /* *************************************************** */
@@ -160,39 +161,65 @@ class CompaniesController extends Controller
         $company->delete();
         return redirect()->route('companies.index');
     }
-    /* *************************************************** */
-    // public function get_table()
-    // {
-    //     $companies= DB::table('companies')
-    //         ->leftJoin('company_order', function ($join) {
-    //             $join->on('companies.id', '=', 'company_order.sender_id')
-    //                  ->orOn('companies.id', '=', 'company_order.receiver_id');
-    //         })
-    //         ->select(
-    //             'companies.*',
-    //             DB::raw("count(company_order.sender_id) as orders_count")
-    //         )
-    //         ->groupBy('companies.id')
-    //         ->orderBy('companies.created_at', 'desc')
-    //         ->get();
-    //         $res=response()->json($companies);
-    //         dd(res);
-    //     return response()->json($companies);
-    // }
-  /* *************************************************** */
+
     public function ban(Company $company)
     {
         $company->ban();
-        $company->status='inactive';
+        $company->status = 'inactive';
         $company->save();
         return redirect()->route('companies.index');
     }
-      /* *************************************************** */
+    /* *************************************************** */
     public function unban(Company $company)
     {
         $company->unban();
-        $company->status='active';
+        $company->status = 'active';
         $company->save();
         return redirect()->route('companies.index');
     }
+
+    public function create_list(Company $company)
+    {
+        return view('companies.add', [
+            'company' => $company,
+        ]);
+    }
+
+    public function store_list(Request $request)
+    {
+        // dd($request);
+        $request->validate(
+            [
+                'receiver_name' => 'required',
+                'conatct_name' => 'required',
+                'contact_phone' => 'required',
+
+            ],
+            [
+                'receiver_name.required' => 'Please enter the company name',
+                'conatct_name.required' => 'Please enter the contact name',
+                'contact_phone' => 'Please enter the phone',
+            ]
+        );
+
+        $contact_list = new CompanyContactList();
+        $contact_list['company_id'] = $request['company_id'];
+        $contact_list['receiver_name'] = $request['receiver_name'];
+        $contact_list['conatct_name'] = $request['conatct_name'];
+        $contact_list['contact_phone'] = $request['contact_phone'];
+        $contact_list['address_address'] = $request['address_address'];
+        $contact_list['address_latitude'] = $request['address_latitude'];
+        $contact_list['address_longitude'] = $request['address_longitude'];
+        $contact_list->save();
+        return redirect()->route('companies.index');
+    }
+
+    // public function get_contacts(Company $company)
+    // {
+    //     $contacts = Company::find($company->id)->companycontactlists;
+    //     return view('companies.show_contacts', [
+    //         'contacts' => $contacts
+    //     ]);
+
+    // }
 }
