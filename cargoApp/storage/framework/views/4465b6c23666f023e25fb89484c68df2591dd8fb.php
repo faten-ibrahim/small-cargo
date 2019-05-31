@@ -14,6 +14,7 @@
                 <th>Orders Number</th>
                 <th>Options</th>
                 <th>Actions</th>
+                <th>Active/Inactive</th>
             </tr>
         </thead>
     </table>
@@ -54,8 +55,16 @@
                 },
                 {
                     mRender: function(data, type, row) {
-                        return '<a href="/companies/' + row.id + '/orders" class="bttn btn btn-info" data-id="' + row.id + '" ><span>Show Orders</span></a>' +
-                            '<a href="/companies/' + row.id + '/contacts" class="bttn btn btn-primary" data-id="' + row.id + '"><span>Contact List</span></a>'
+                        return '<a href="/companies/' + row.id + '/orders" class="bttn btn btn-info btn-sm" data-id="' + row.id + '" ><span>Show Orders</span></a>' +
+                            '<a href="/companies/' + row.id + '/contacts" class="bttn btn btn-primary btn-sm" data-id="' + row.id + '"><span>Contact List</span></a>'
+
+
+                    }
+                },
+                {
+                    mRender: function(data, type, row) {
+                        return '<a  style="margin-left:-15px;"  href="/companies/' + row.id + '/edit" class="bttn btn btn-success btn-sm" data-id="' + row.id + '"><i class="fa fa-edit"></i><span>Edit</span></a><br>' +
+                        '<form method="POST" action="companies/'+row.id+'"><?php echo csrf_field(); ?> <?php echo e(method_field('DELETE')); ?><button style="margin-left:-25px;" type="submit" onclick="return myFunction();" class="bttn btn btn-danger btn-sm"><i class="fa fa-trash" data-toggle="tooltip" data-placement="top" title="Delete"></i><span>Delete</span></button></form>'
 
 
                     }
@@ -64,14 +73,11 @@
                     mRender: function(data, type, row) {
 
                         if (!row.banned_at && row.status=='active')
-                            return '<a  href="/companies/' + row.id + '/edit" class="bttn btn btn-success" data-id="' + row.id + '"><i class="fa fa-edit"></i><span>Edit</span></a><br>' +
-                                '<a href="/companies/' + row.id + '/ban" class="bttn btn btn-warning" data-id="' + row.id + '"><i class="fa fa-ban"></i><span>Deactive</span></a>'
-                                // '<a href="#" class="bttn btn btn-danger" row_id="' + row.id + '" data-toggle="modal" data-target="#DeleteModal" id="delete_toggle"><i class="fa fa-times"></i><span>Delete</span></a>'
+                            return '<a href="/companies/' + row.id + '/ban" class="bttn btn btn-warning btn-sm" data-id="' + row.id + '"><i class="fa fa-ban"></i><span>Deactive</span></a>'
+
 
                         else
-                            return '<a href="/companies/' + row.id + '/edit" class="bttn btn btn-success" data-id="' + row.id + '"><i class="fa fa-edit"></i><span>Edit</span></a>' +
-                                '<a href="/companies/' + row.id + '/unban" class="bttn btn btn-success" data-id="' + row.id + '" ><i class="fa fa-check"></i><span>Active</span></a>'
-                                // '<a href="#" class="bttn btn btn-danger" row_id="' + row.id + '" data-toggle="modal" data-target="#DeleteModal" id="delete_toggle"><i class="fa fa-times"></i><span>Delete</span></a>'
+                            return '<a href="/companies/' + row.id + '/unban" class="bttn btn btn-success btn-sm" data-id="' + row.id + '" ><i class="fa fa-check"></i><span>Active</span></a>'
 
 
                     }
@@ -85,6 +91,17 @@
             'autoWidth': true,
             'paging': true,
         });
+
+          //confirm deleting
+                function myFunction(){
+                     var agree = confirm("Are you sure you want to delete this Supervisdo\?");
+                        if(agree == true){
+                           return true
+                           }
+                           else{
+                           return false;
+                           }
+                     }
 
     </script>
 
