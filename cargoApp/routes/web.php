@@ -41,9 +41,6 @@ Route::post('/contacts', 'Companies\CompaniesController@store_list')
 Route::get('/companies/{company}/contacts','Companies\CompaniesController@show')->name('contacts.show');
 
 
-// Route::get('/posts/create', 'PostsController@create')->name('posts.create');
-// Route::post('/posts', 'PostsController@store')->name('posts.store');
-
 Route::get('/users/{user}/ban', 'Users\UsersController@ban')
     ->name('users.ban');
 Route::get('/users/{user}/unban', 'Users\UsersController@unban')
