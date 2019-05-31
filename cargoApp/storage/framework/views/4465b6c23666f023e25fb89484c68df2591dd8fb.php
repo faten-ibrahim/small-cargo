@@ -55,7 +55,7 @@
                 },
                 {
                     mRender: function(data, type, row) {
-                        return '<a href="/companies/' + row.id + '/orders" class="bttn btn btn-info btn-sm" data-id="' + row.id + '" ><span>Show Orders</span></a>' +
+                        return '<a href="/companies/' + row.id + '/orders" class="bttn btn btn-info btn-sm" data-id="' + row.id + '" ><span>Show Orders</span></a><br>' +
                             '<a href="/companies/' + row.id + '/contacts" class="bttn btn btn-primary btn-sm" data-id="' + row.id + '"><span>Contact List</span></a>'
 
 
@@ -63,8 +63,8 @@
                 },
                 {
                     mRender: function(data, type, row) {
-                        return '<a  style="margin-left:-15px;"  href="/companies/' + row.id + '/edit" class="bttn btn btn-success btn-sm" data-id="' + row.id + '"><i class="fa fa-edit"></i><span>Edit</span></a><br>' +
-                        '<form method="POST" action="companies/'+row.id+'"><?php echo csrf_field(); ?> <?php echo e(method_field('DELETE')); ?><button style="margin-left:-25px;" type="submit" onclick="return myFunction();" class="bttn btn btn-danger btn-sm"><i class="fa fa-trash" data-toggle="tooltip" data-placement="top" title="Delete"></i><span>Delete</span></button></form>'
+                        return '<a  href="/companies/' + row.id + '/edit" class="bttn btn btn-success btn-sm" data-id="' + row.id + '"><i class="fa fa-edit"></i><span>Edit</span></a><br>' +
+                        '<form method="POST" action="companies/'+row.id+'"><?php echo csrf_field(); ?> <?php echo e(method_field('DELETE')); ?><button style="margin-left:-18px;" type="submit" onclick="return myFunction();" class="bttn btn btn-danger btn-sm"><i class="fa fa-trash" data-toggle="tooltip" data-placement="top" title="Delete"></i><span>Delete</span></button></form>'
 
 
                     }

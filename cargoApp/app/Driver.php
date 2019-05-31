@@ -14,7 +14,7 @@ class Driver extends Authenticatable implements JWTSubject
     }
 
     protected $fillable = [
-        'name','phone','car_number','car_type'
+        'name','phone','car_number','car_type','address'
     ];
     /**
      * The attributes that should be hidden for arrays.

@@ -39,8 +39,16 @@ class AuthController extends Controller
             // something went wrong
             return response()->json(['error' => 'could_not_create_token'], 500);
         }
-        // if no errors are encountered we can return a JWT
-        return response()->json(compact('token'));
+
+        // return response()->json(compact('token'));
+
+        return response()->json([
+            'status' => 'You have successfully logged in .',
+            'data'=> [
+                'token' => $token ,
+                'driver-api'=>$driver
+            ]
+            ],201);
 
     }
 
@@ -49,9 +57,11 @@ class AuthController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required',
+            'address' => 'required',
             'phone' => 'required|unique:drivers',
             'car_number' => 'required|unique:drivers',
-            'car_type' => 'required'
+            'car_type' => 'required',
+
 
         ]);
 
@@ -60,9 +70,11 @@ class AuthController extends Controller
         }
         $driver = Driver::create([
             'name' => $request->name,
+            'address' => $request->address,
             'phone' => $request->phone,
             'car_number' => $request->car_number,
             'car_type' => $request->car_type,
+
 
         ]);
         config()->set('auth.defaults.guard', 'driver-api');
@@ -91,7 +103,7 @@ class AuthController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => 'User logged out successfully'
-            ]);
+            ],201);
         } catch (JWTException $exception) {
             return response()->json([
                 'success' => false,

@@ -26,7 +26,7 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'email'=>'required',
+            'name'=>'required',
             'password'=>'required'
         ]);
         if ($validator->fails()) {
@@ -35,7 +35,7 @@ class AuthController extends Controller
         config()->set( 'auth.defaults.guard', 'company' );
         \Config::set('jwt.user', 'App\Campany');
 		\Config::set('auth.providers.users.model', \App\Company::class);
-        $credentials = $request->only('email', 'password');
+        $credentials = $request->only('name', 'password');
         try {
             if (! $token =JWTAuth::attempt($credentials)) {
                 return response()->json(['error' => 'We can`t find an account with this credentials.'], 401);
@@ -44,8 +44,15 @@ class AuthController extends Controller
             return response()->json(['error' => 'Failed to login, please try again.'], 500);
         }
 
-
-        return $this->respondWithToken($token);
+        $company=Auth::user();
+        // return $this->respondWithToken($token);
+        return response()->json([
+            'status' => 'You have successfully logged in .',
+            'data' => [
+                'token' => $token,
+                'company' => $company
+            ]
+        ], 201);
     }
 
        #------------------------------- regiser function ---------------------------
