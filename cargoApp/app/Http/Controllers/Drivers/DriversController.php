@@ -99,7 +99,7 @@ class DriversController extends Controller
         $user = \Auth::user();
         $role = $user->roles->first()->name;
         if ($role === 'supervisor') {
-            $request['user_id']=$user->id;
+            $request['user_id'] = $user->id;
         }
         $request->validate(
             [
@@ -174,6 +174,22 @@ class DriversController extends Controller
     public function destroy(Driver $driver)
     {
         $driver->delete();
+        return redirect()->route('drivers.index');
+    }
+
+    public function ban(Driver $driver)
+    {
+        $driver->ban();
+        $driver->status = 'inactive';
+        $driver->save();
+        return redirect()->route('drivers.index');
+    }
+    /* *************************************************** */
+    public function unban(Driver $driver)
+    {
+        $driver->unban();
+        $driver->status = 'active';
+        $driver->save();
         return redirect()->route('drivers.index');
     }
 }

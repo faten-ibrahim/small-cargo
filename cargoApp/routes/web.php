@@ -49,6 +49,10 @@ Route::group(['middleware' => 'auth'], function () {
         // admin|supervisor routes
         Route::group(['middleware' => ['role:admin|supervisor']], function () {
             Route::resource('drivers', 'Drivers\DriversController');
+            Route::get('/drivers/{driver}/ban', 'Drivers\DriversController@ban')
+                ->name('users.ban');
+            Route::get('/drivers/{driver}/unban', 'Drivers\DriversController@unban')
+                ->name('users.unban');
 
             #---------- for datatable ----------------------
             Route::get('get_drivers', 'Drivers\DriversController@get_drivers')->name('get.drivers');
@@ -61,5 +65,3 @@ Route::group(['middleware' => 'auth'], function () {
 
     });
 });
-
-
