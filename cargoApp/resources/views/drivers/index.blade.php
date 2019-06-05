@@ -19,6 +19,7 @@
             @role('admin')
             <th>Supervisor name</th>
             @endrole
+            <th>Actions</th>
             </tr>
         </thead>
     </table>
@@ -104,6 +105,13 @@
     @endrole
     <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script>
+        c_array.push(
+            {
+                    mRender: function (data, type, row) {
+                        return '<form style="display:inline" method="POST" action="drivers/'+row.id+'">@csrf   {{ method_field('DELETE')}}<button type="submit" onclick="return myFunction();" class="btn btn-xs btn-danger"><i class="fa fa-times"></i>Delete</button></form>'
+                    }
+                },
+         );
         $('#example').DataTable({
 
             serverSide: true,
@@ -124,6 +132,15 @@
             'autoWidth': true,
             'paging': true,
         });
+
+        function myFunction() {
+            var agree = confirm("Are you sure you want to delete ?");
+            if (agree == true) {
+                return true
+            } else {
+                return false;
+            }
+        }
     </script>
 
 

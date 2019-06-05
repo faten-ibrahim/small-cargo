@@ -69,7 +69,23 @@ class DriversController extends Controller
      */
     public function create()
     {
-        //
+        $user = \Auth::user();
+        $role = $user->roles->first()->name;
+        if ($role === 'admin') {
+
+            $supervisors = DB::table('model_has_roles')
+                ->join('users', 'model_has_roles.model_id', '=', 'users.id')
+                ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
+                ->select(
+                    'users.*'
+                )
+                ->where('roles.name', '=', 'supervisor')
+                ->get();
+
+            return view('drivers.create', compact('supervisors'));
+        } elseif ($role === 'supervisor') {
+            return view('drivers.create');
+        }
     }
 
     /**
@@ -80,7 +96,39 @@ class DriversController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $user = \Auth::user();
+        $role = $user->roles->first()->name;
+        if ($role === 'supervisor') {
+            $request['user_id']=$user->id;
+        }
+        $request->validate(
+            [
+                'name' => 'required',
+                'phone' => 'required|unique:drivers',
+                'address' => 'required',
+                'car_number' => 'required',
+                'car_type' => 'required',
+                'user_id' => 'required',
+            ],
+            [
+                'name.required' => 'Please enter the driver name',
+                'phone.required' => 'Please enter the driver phone',
+                'phone.unique' => 'This phone is already exists',
+                'address.required' => 'Please enter the driver address',
+                'car_number.required' => 'Please enter the car number',
+                'car_type.required' => 'Please enter the car type',
+                'user_id.required' => 'Please enter supervisor',
+            ]
+        );
+        $driver = new Driver();
+        $driver['name'] = $request['name'];
+        $driver['phone'] = $request['phone'];
+        $driver['address'] = $request['address'];
+        $driver['car_number'] = $request['car_number'];
+        $driver['car_type'] = $request['car_type'];
+        $driver['user_id'] = $request['user_id'];
+        $driver->save();
+        return redirect()->route('drivers.index');
     }
 
     /**
@@ -123,8 +171,9 @@ class DriversController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Driver $driver)
     {
-        //
+        $driver->delete();
+        return redirect()->route('drivers.index');
     }
 }
