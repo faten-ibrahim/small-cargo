@@ -130,6 +130,7 @@
             columns: c_array,
 
             'lengthChange': true,
+
             'searching': true,
             'ordering': true,
             'info': true,
