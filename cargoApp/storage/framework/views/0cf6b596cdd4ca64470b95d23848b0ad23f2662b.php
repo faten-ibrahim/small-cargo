@@ -142,7 +142,7 @@
                     <li><a href="<?php echo e(route('users.index')); ?>"><i class="fa fa-users"></i> <span>Manage Supervisors</span></a></li>
                     <?php endif; ?>
                     <?php if(auth()->check() && auth()->user()->hasRole('admin|supervisor')): ?>
-                    <li><a href=""><i class="fa fa-users"></i> <span>Manage Drivers</span></a></li>
+                    <li><a href="<?php echo e(route('drivers.index')); ?>"><i class="fa fa-users"></i> <span>Manage Drivers</span></a></li>
                     <?php endif; ?>
                 </ul>
                 <!-- /.sidebar-menu -->

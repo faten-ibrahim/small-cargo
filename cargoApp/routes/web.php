@@ -44,10 +44,13 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/users/{user}/unban', 'Users\UsersController@unban')
         ->name('users.unban');
     Route::resource('users', 'Users\UsersController');
+    Route::resource('drivers', 'Drivers\DriversController');
 
     #---------- for datatable ----------------------
+    Route::get('get_drivers', 'Drivers\DriversController@get_drivers')->name('get.drivers');
     Route::get('supervisors_list', 'Users\UsersController@supervisors_List');
     Route::get('get_companies', 'Companies\CompaniesController@get_companies')->name('get.companies');
+
 });
 
 

@@ -140,7 +140,7 @@
                     <li><a href="{{route('users.index')}}"><i class="fa fa-users"></i> <span>Manage Supervisors</span></a></li>
                     @endrole
                     @role('admin|supervisor')
-                    <li><a href=""><i class="fa fa-users"></i> <span>Manage Drivers</span></a></li>
+                    <li><a href="{{route('drivers.index')}}"><i class="fa fa-users"></i> <span>Manage Drivers</span></a></li>
                     @endrole
                 </ul>
                 <!-- /.sidebar-menu -->
