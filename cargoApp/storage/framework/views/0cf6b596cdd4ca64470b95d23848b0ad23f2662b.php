@@ -81,11 +81,12 @@
                                     <?php echo e(__('Logout')); ?>
 
                                 </a><br>
-                                <a class="dropdown-item" href="/users/<?php echo e(Auth::user()->id); ?>/edit" >
+                                <?php if(auth()->check() && auth()->user()->hasRole('admin')): ?>
+                                <a class="dropdown-item" href="/users/<?php echo e(Auth::user()->id); ?>/edit">
                                     <?php echo e(__('Edit Profile')); ?>
 
                                 </a>
-
+                                <?php endif; ?>
                                 <form id="logout-form" action="<?php echo e(route('logout')); ?>" method="POST" style="display: none;">
                                     <?php echo csrf_field(); ?>
                                 </form>
@@ -109,15 +110,21 @@
                         <img src="/bower_components/admin-lte/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
                     </div>
                     <div class="pull-left info">
-
+                        <?php if(auth()->check() && auth()->user()->hasRole('admin')): ?>
+                        <p>Admin</p>
+                        <?php endif; ?>
+                        <?php if(auth()->check() && auth()->user()->hasRole('supervisor')): ?>
+                        <p>Supervisor</p>
+                        <?php endif; ?>
 
                         <!-- Status -->
-                        <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+                        <span><i class="fa fa-circle text-success"></i> Online</span>
                     </div>
                 </div>
+                <br>
 
                 <!-- search form (Optional) -->
-                <form action="#" method="get" class="sidebar-form">
+                <!-- <form action="#" method="get" class="sidebar-form">
                     <div class="input-group">
                         <input type="text" name="q" class="form-control" placeholder="Search...">
                         <span class="input-group-btn">
@@ -125,15 +132,18 @@
                             </button>
                         </span>
                     </div>
-                </form>
+                </form> -->
                 <!-- /.search form -->
 
                 <!-- Sidebar Menu -->
                 <ul class="sidebar-menu" data-widget="tree">
-
+                    <?php if(auth()->check() && auth()->user()->hasRole('admin')): ?>
                     <li class="active"><a href="<?php echo e(route('companies.index')); ?>"><i class="fa fa-list-alt"></i> <span>Manage companies</span></a></li>
                     <li><a href="<?php echo e(route('users.index')); ?>"><i class="fa fa-users"></i> <span>Manage Supervisors</span></a></li>
-                    <li><a href=""><i class="fa fa-users"></i> <span>Drivers</span></a></li>
+                    <?php endif; ?>
+                    <?php if(auth()->check() && auth()->user()->hasRole('admin|supervisor')): ?>
+                    <li><a href=""><i class="fa fa-users"></i> <span>Manage Drivers</span></a></li>
+                    <?php endif; ?>
                 </ul>
                 <!-- /.sidebar-menu -->
             </section>
@@ -253,7 +263,7 @@
         <!-- /.control-sidebar -->
         <!-- Add the sidebar's background. This div must be placed
   immediately after the control sidebar -->
-  <div class="control-sidebar-bg"></div>
+        <div class="control-sidebar-bg"></div>
     </div>
     <!-- ./wrapper -->
     <!-- REQUIRED JS SCRIPTS -->

@@ -103,7 +103,7 @@ class AuthController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => 'User logged out successfully'
-            ]);
+            ],201);
         } catch (JWTException $exception) {
             return response()->json([
                 'success' => false,

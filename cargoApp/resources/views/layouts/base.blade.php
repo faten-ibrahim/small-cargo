@@ -80,10 +80,11 @@
                                                      document.getElementById('logout-form').submit();">
                                     {{ __('Logout') }}
                                 </a><br>
-                                <a class="dropdown-item" href="/users/{{ Auth::user()->id }}/edit" >
+                                @role('admin')
+                                <a class="dropdown-item" href="/users/{{ Auth::user()->id }}/edit">
                                     {{ __('Edit Profile') }}
                                 </a>
-
+                                @endrole
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                     @csrf
                                 </form>
@@ -107,15 +108,21 @@
                         <img src="/bower_components/admin-lte/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
                     </div>
                     <div class="pull-left info">
-
+                        @role('admin')
+                        <p>Admin</p>
+                        @endrole
+                        @role('supervisor')
+                        <p>Supervisor</p>
+                        @endrole
 
                         <!-- Status -->
-                        <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+                        <span><i class="fa fa-circle text-success"></i> Online</span>
                     </div>
                 </div>
+                <br>
 
                 <!-- search form (Optional) -->
-                <form action="#" method="get" class="sidebar-form">
+                <!-- <form action="#" method="get" class="sidebar-form">
                     <div class="input-group">
                         <input type="text" name="q" class="form-control" placeholder="Search...">
                         <span class="input-group-btn">
@@ -123,15 +130,18 @@
                             </button>
                         </span>
                     </div>
-                </form>
+                </form> -->
                 <!-- /.search form -->
 
                 <!-- Sidebar Menu -->
                 <ul class="sidebar-menu" data-widget="tree">
-
+                    @role('admin')
                     <li class="active"><a href="{{route('companies.index')}}"><i class="fa fa-list-alt"></i> <span>Manage companies</span></a></li>
                     <li><a href="{{route('users.index')}}"><i class="fa fa-users"></i> <span>Manage Supervisors</span></a></li>
-                    <li><a href=""><i class="fa fa-users"></i> <span>Drivers</span></a></li>
+                    @endrole
+                    @role('admin|supervisor')
+                    <li><a href=""><i class="fa fa-users"></i> <span>Manage Drivers</span></a></li>
+                    @endrole
                 </ul>
                 <!-- /.sidebar-menu -->
             </section>
@@ -251,7 +261,7 @@
         <!-- /.control-sidebar -->
         <!-- Add the sidebar's background. This div must be placed
   immediately after the control sidebar -->
-  <div class="control-sidebar-bg"></div>
+        <div class="control-sidebar-bg"></div>
     </div>
     <!-- ./wrapper -->
     <!-- REQUIRED JS SCRIPTS -->
