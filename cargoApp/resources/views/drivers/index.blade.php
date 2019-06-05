@@ -3,7 +3,7 @@
 <div class="container" style="width:100%;">
     @include('flash-message')
     <h2>Manage Drivers</h2>
-    <a class="btn btn-info" href="{{route('users.create')}}"><i class="fa fa-plus"></i><span>Add New Supervisor</span></a><br><br>
+    <a class="btn btn-info" href="{{route('drivers.create')}}"><i class="fa fa-plus"></i><span>Add New Driver</span></a><br><br>
     <table id="example" class="table table-striped">
         <thead>
             <th>Name</th>
