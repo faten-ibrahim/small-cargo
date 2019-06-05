@@ -61,18 +61,11 @@ class DriversController extends Controller
         }
     }
 
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         $user = \Auth::user();
         $role = $user->roles->first()->name;
         if ($role === 'admin') {
-
             $supervisors = DB::table('model_has_roles')
                 ->join('users', 'model_has_roles.model_id', '=', 'users.id')
                 ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')

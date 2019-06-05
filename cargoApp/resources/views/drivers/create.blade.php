@@ -1,7 +1,5 @@
 @extends('layouts.base')
 @section('content')
-
-
 <div class="container con">
     <h2>Add Driver</h2>
 
@@ -22,12 +20,10 @@
             <input name="phone" type="phone" class="form-control" />
         </div>
 
-
         <div class="form-group">
             <label>Car Type</label>
             <input name="car_type" type="text" class="form-control" />
         </div>
-
 
         <div class="form-group">
             <label>Car Number </label>
