@@ -16,7 +16,10 @@ class AuthController extends Controller
     public function __construct()
     {
         $this->driver = new Driver();
-        // $this->middleware('auth:driver-api', ['except' => ['login','register']]);
+        config()->set('auth.defaults.guard', 'driver-api');
+        \Config::set('jwt.user', 'App\Driver');
+        \Config::set('auth.providers.users.model', \App\Driver::class);
+        $this->middleware('auth:driver-api', ['except' => ['login', 'register']]);
     }
 
     public function login(Request $request)
@@ -44,12 +47,11 @@ class AuthController extends Controller
 
         return response()->json([
             'status' => 'You have successfully logged in .',
-            'data'=> [
-                'token' => $token ,
-                'driver-api'=>$driver
+            'data' => [
+                'token' => $token,
+                'driver-api' => $driver
             ]
-            ],201);
-
+        ], 201);
     }
 
     // Driver Registration
@@ -77,9 +79,7 @@ class AuthController extends Controller
 
 
         ]);
-        config()->set('auth.defaults.guard', 'driver-api');
-        \Config::set('jwt.user', 'App\Driver');
-        \Config::set('auth.providers.users.model', \App\Driver::class);
+
         $token = JWTAuth::fromUser($driver);
         return response()->json([
             'status' => 'You have successfully register.',
@@ -93,9 +93,6 @@ class AuthController extends Controller
     // Driver Logout
     public function logout()
     {
-        config()->set('auth.defaults.guard', 'driver-api');
-        \Config::set('jwt.user', 'App\Driver');
-        \Config::set('auth.providers.users.model', \App\Driver::class);
         try {
 
             JWTAuth::invalidate(JWTAuth::getToken());
@@ -103,7 +100,7 @@ class AuthController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => 'User logged out successfully'
-            ],201);
+            ], 201);
         } catch (JWTException $exception) {
             return response()->json([
                 'success' => false,
@@ -125,12 +122,7 @@ class AuthController extends Controller
 
     public function getAuthUser()
     {
-
-        config()->set('auth.defaults.guard', 'driver-api');
-        \Config::set('jwt.user', 'App\Driver');
-        \Config::set('auth.providers.users.model', \App\Driver::class);
         $user = JWTAuth::authenticate(JWTAuth::getToken());
-
         return response()->json(['user' => $user]);
     }
 }
