@@ -13,6 +13,7 @@ Route::group([
 ], function ($router) {
     Route::post('company/logout', 'Api\Company\AuthController@logout');
     Route::get('company/me', 'Api\Company\AuthController@getAuthUser');
+    Route::post('company/token', 'Api\Company\AuthController@get_fcm_token');
 });
 
 Route::group([

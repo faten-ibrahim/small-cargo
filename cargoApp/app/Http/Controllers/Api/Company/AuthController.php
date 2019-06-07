@@ -14,6 +14,7 @@ use JWTAuth;
 use JWTAuthException;
 use App\Company;
 use Hash;
+use App\CompanyToken;
 
 
 class AuthController extends Controller
@@ -21,12 +22,12 @@ class AuthController extends Controller
     public function __construct()
     {
         $this->company = new Company;
-        config()->set( 'auth.defaults.guard', 'company' );
+        config()->set('auth.defaults.guard', 'company');
         \Config::set('jwt.user', 'App\Campany');
-		\Config::set('auth.providers.users.model', \App\Company::class);
-        $this->middleware('auth:company', ['except' => ['login','register']]);
+        \Config::set('auth.providers.users.model', \App\Company::class);
+        $this->middleware('auth:company', ['except' => ['login', 'register']]);
     }
-
+    // ########## Company Login ##########
     public function login(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -57,7 +58,7 @@ class AuthController extends Controller
         ], 201);
     }
 
-    #------------------------------- regiser function ---------------------------
+    // ########## Company Registration ##########
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -89,7 +90,8 @@ class AuthController extends Controller
         ], 201);
     }
 
-    #-------------------------------- logout ----------------------------------------
+
+    // ########## Company Logout ##########
     public function logout()
     {
         try {
@@ -119,10 +121,41 @@ class AuthController extends Controller
         ]);
     }
 
+    // ########## Get Company Current Authenticated company ##########
     public function getAuthUser()
     {
         $user = JWTAuth::authenticate(JWTAuth::getToken());
 
         return response()->json(['user' => $user]);
+    }
+
+    // ########## Get FCM Token Data ##########
+    public function get_fcm_token(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'company_id' => 'required',
+            'token' => 'required|unique:company_tokens',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 400);
+        }
+        $company_id=$request->company_id;
+        $company_token=$request->token;
+        $company=CompanyToken::where('company_id', '=', $company_id);
+        if ($company->exists()) {
+            $company->delete();
+        }
+        $company_token  = CompanyToken::create([
+            'company_id' => $company_id,
+            'token' => $company_token,
+        ]);
+
+        return response()->json([
+            'status' => 'company token save successfully',
+            'data' => [
+                'company_token' => $company_token
+            ]
+        ], 201);
     }
 }
