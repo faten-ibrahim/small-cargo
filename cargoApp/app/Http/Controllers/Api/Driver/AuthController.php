@@ -10,6 +10,7 @@ use JWTFactory;
 use JWTAuth;
 use JWTAuthException;
 use Hash;
+use App\DriverToken;
 
 class AuthController extends Controller
 {
@@ -119,10 +120,40 @@ class AuthController extends Controller
 
         ]);
     }
-
+    // ########## Get Current Authenticated Driver ##########
     public function getAuthUser()
     {
         $user = JWTAuth::authenticate(JWTAuth::getToken());
         return response()->json(['user' => $user]);
+    }
+
+    // ########## Get FCM Token For Drivers ##########
+    public function get_fcm_token(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'driver_id' => 'required',
+            'token' => 'required|unique:driver_tokens',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 400);
+        }
+        $driver_id = $request->driver_id;
+        $driver_token = $request->token;
+        $driver = DriverToken::where('driver_id', '=', $driver_id);
+        if ($driver->exists()) {
+            $driver->delete();
+        }
+        $driver_token  = DriverToken::create([
+            'driver_id' => $driver_id,
+            'token' => $driver_token,
+        ]);
+
+        return response()->json([
+            'status' => 'driver token save successfully',
+            'data' => [
+                'driver_token' => $driver_token
+            ]
+        ], 201);
     }
 }

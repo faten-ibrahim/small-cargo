@@ -22,4 +22,5 @@ Route::group([
 ], function ($router) {
     Route::post('driver/logout', 'Api\Driver\AuthController@logout');
     Route::get('driver/me', 'Api\Driver\AuthController@getAuthUser');
+    Route::post('driver/token', 'Api\Driver\AuthController@get_fcm_token');
 });
