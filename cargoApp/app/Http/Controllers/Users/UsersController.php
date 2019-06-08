@@ -88,15 +88,11 @@ class UsersController extends Controller
         $supervisor->assignRole('supervisor');
         
       ######  send email to supervisor
-        if (User::where('email', '=', $request['email'])->exists()) {
-        $data=[
-            'name' => $request['name'],
-            'email' => $request['email'],
-        ];
-        Mail::to($request['email'])->send(new SupervisorMail($data));
-        }
+      if (User::where('email', '=',  $request['email'])->exists()) {
+      $this->SendEmail($request['name'],$request['email']);
+      }
       ################################
-      
+
         return redirect()->route('users.index');
     }
     /* *********************** SHOW ******************* */
@@ -232,4 +228,13 @@ class UsersController extends Controller
     //     // return datatables()->of($drivers)->make(true)->render('users.show');
     //     return datatables()->of($drivers)->make(true)->render('users/{user}');
     // }
+
+    public function SendEmail($name,$email){
+            $data=[
+                'name' => $name,
+                'email' => $email,
+            ];
+            Mail::to($email)->send(new SupervisorMail($data));        
+    }
+
 }
