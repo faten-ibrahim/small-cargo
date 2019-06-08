@@ -16,9 +16,12 @@ class CompanyMail extends Mailable
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($data)
     {
-        //
+        $this->name = $data['name'];
+        $this->email = $data['email'];
+        $this->password= $data['password'];
+
     }
 
     /**
@@ -28,6 +31,14 @@ class CompanyMail extends Mailable
      */
     public function build()
     {
-        return $this->view('view.name');
+        return $this->from('mail@example.com', 'Mailtrap')
+            ->subject('Welcome to Cargo - مرحبا بك في كارجو')
+            ->markdown('emails.New_company')
+            ->with([
+                'name' => $this->name,
+                'email' => $this->email,
+                'password' => $this->password,
+                'link' => url('/login')
+            ]);
     }
 }

@@ -27,7 +27,7 @@ class UsersController extends Controller
     {
         return view('users.index');
     }
-    /* ****************************************** */
+    /* ************************************************* */
     public function supervisors_list()
     {
         $supervisors = User::whereHas(
@@ -87,11 +87,11 @@ class UsersController extends Controller
         $supervisor->save();
         $supervisor->assignRole('supervisor');
         
-      ######  send email to supervisor
+      # send email to supervisor
       if (User::where('email', '=',  $request['email'])->exists()) {
       $this->SendEmail($request['name'],$request['email']);
       }
-      ################################
+      #####
 
         return redirect()->route('users.index');
     }

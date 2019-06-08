@@ -9,6 +9,10 @@ use App\CompanyOrder;
 use DB;
 use Yajra\Datatables\Datatables;
 use App\CompanyContactList;
+use App\Mail\CompanyMail;
+use Mail;
+use Hash;
+
 
 class CompaniesController extends Controller
 {
@@ -74,8 +78,10 @@ class CompaniesController extends Controller
         $company['email'] = $request['email'];
         $company['address'] = $request['address'];
         $company['phone'] = $request['phone'];
-        $company['password'] = bcrypt("@passwd");
+        $pass=str_random(8);
+        $company['password'] =Hash::make($pass);
         $company->save();
+     
 
         // dd($company->id);
         $contact_list = new CompanyContactList();
@@ -87,6 +93,14 @@ class CompaniesController extends Controller
         $contact_list['address_latitude'] = $request['address_latitude'];
         $contact_list['address_longitude'] = $request['address_longitude'];
         $contact_list->save();
+
+          # send email to Company
+          if (Company::where('email', '=',  $request['email'])->exists()) {
+          $this->SendEmail($request['name'],$request['email'],$pass);
+          }
+          #####
+
+
         return redirect()->route('companies.index');
     }
 
@@ -222,4 +236,15 @@ class CompaniesController extends Controller
     //         'contacts' => $contacts
     //     ]);
     // }
+
+
+    public function SendEmail($name,$email,$password){
+        $data=[
+            'name' => $name,
+            'email' => $email,
+            'password' => $password,
+        ];
+        Mail::to($email)->send(new CompanyMail($data));        
+}
+
 }

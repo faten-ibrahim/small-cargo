@@ -7,6 +7,6 @@ Your Email has been added as a supervisor, click here to reset your password and
 @component('mail::button', ['url' => $link])
 Click here to reset your password
 @endcomponent
-thanks, 
+thanks,   {{-- use double space for line break --}}
 Cargo Team.
 @endcomponent
