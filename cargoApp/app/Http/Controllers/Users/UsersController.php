@@ -13,6 +13,8 @@ use App\Http\Requests\User\StoreUserRequest;
 use DB;
 use Response;
 use App\DriverOrder;
+use App\Mail\SupervisorMail;
+use Mail;
 
 class UsersController extends Controller
 {
@@ -84,6 +86,17 @@ class UsersController extends Controller
         //dd($supervisor);
         $supervisor->save();
         $supervisor->assignRole('supervisor');
+        
+      ######  send email to supervisor
+        if (User::where('email', '=', $request['email'])->exists()) {
+        $data=[
+            'name' => $request['name'],
+            'email' => $request['email'],
+        ];
+        Mail::to($request['email'])->send(new SupervisorMail($data));
+        }
+      ################################
+      
         return redirect()->route('users.index');
     }
     /* *********************** SHOW ******************* */

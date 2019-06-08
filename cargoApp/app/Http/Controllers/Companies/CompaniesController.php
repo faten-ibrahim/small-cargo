@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\Companies;
 
 use Illuminate\Http\Request;
@@ -110,6 +109,7 @@ class CompaniesController extends Controller
             'contact_list' => $contact_list
         ]);
     }
+
     /* *************************************************** */
     public function update(Request $request, Company $company)
     {
@@ -152,6 +152,7 @@ class CompaniesController extends Controller
         $contact_list->address_longitude = request('address_longitude');
         $contact_list->save();
         return redirect()->route('companies.index')->with('success', 'Company account has been updated ');
+    
     }
 
 
@@ -220,6 +221,5 @@ class CompaniesController extends Controller
     //     return view('companies.show_contacts', [
     //         'contacts' => $contacts
     //     ]);
-
     // }
 }
