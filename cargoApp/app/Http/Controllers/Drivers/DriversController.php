@@ -43,20 +43,21 @@ class DriversController extends Controller
                     'users.name as supervisor_name'
                 )
                 ->groupBy('drivers.id')
+                // ->orderBy('drivers.created_at','desc')
                 ->get();
-            // dd($drivers);
+                        
             return datatables()->of($drivers)->toJson();
         } elseif ($role === 'supervisor') {
             $user = \Auth::user();
             $id = $user->id;
-            // $drivers = User::find($user->id)->drivers;
             $drivers = DB::table('drivers')
                 ->leftJoin('driver_order', 'drivers.id', '=', 'driver_order.driver_id')
                 ->select('drivers.*', DB::raw("count(driver_order.order_id) as count"))
                 ->groupBy('drivers.id')
                 ->where('drivers.user_id', '=', $id)
+                // ->orderBy('drivers.created_at','desc')
                 ->get();
-            // dd($drivers);
+
             return datatables()->of($drivers)->toJson();
         }
     }

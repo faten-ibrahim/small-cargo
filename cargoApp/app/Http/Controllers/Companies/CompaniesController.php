@@ -76,6 +76,7 @@ class CompaniesController extends Controller
         $company['address'] = $request['address'];
         $company['phone'] = $request['phone'];
         $company['password'] = bcrypt("@passwd");
+        $company['status']='active';
         $company->save();
 
         // dd($company->id);
