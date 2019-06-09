@@ -36,12 +36,19 @@ Route::group(['middleware' => 'auth'], function () {
                 ->name('companies.store_list');
             Route::get('/companies/{company}/contacts', 'Companies\CompaniesController@show')->name('contacts.show');
 
+            Route::get('/companies/{company}/orders', 'Companies\CompaniesController@company_orders');
+
 
             Route::get('/users/{user}/ban', 'Users\UsersController@ban')
                 ->name('users.ban');
             Route::get('/users/{user}/unban', 'Users\UsersController@unban')
                 ->name('users.unban');
+
+
             Route::resource('users', 'Users\UsersController');
+
+            Route::resource('orders', 'Orders\OrdersController');
+            
             #---------- for datatable ----------------------
             Route::get('supervisors_list', 'Users\UsersController@supervisors_List');
             Route::get('get_companies', 'Companies\CompaniesController@get_companies')->name('get.companies');
