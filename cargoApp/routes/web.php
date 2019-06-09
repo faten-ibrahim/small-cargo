@@ -53,6 +53,7 @@ Route::group(['middleware' => 'auth'], function () {
             #---------- for datatable ----------------------
             Route::get('supervisors_list', 'Users\UsersController@supervisors_List');
             Route::get('get_companies', 'Companies\CompaniesController@get_companies')->name('get.companies');
+            Route::get('get_orders/{company}', 'Companies\CompaniesController@get_orders');
         });
         // admin|supervisor routes
         Route::group(['middleware' => ['role:admin|supervisor']], function () {

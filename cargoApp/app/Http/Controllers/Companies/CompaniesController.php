@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Company;
 use App\Order;
 use App\CompanyOrder;
+use App\DriverOrder;
+use App\Driver;
 use DB;
 use Yajra\Datatables\Datatables;
 use App\CompanyContactList;
@@ -40,7 +42,6 @@ class CompaniesController extends Controller
             ->groupBy('companies.id')
             ->orderBy('companies.created_at', 'desc');
 
-        // dd(datatables()->of(Company::all())->toJson());
         return datatables()->of($companies)->make(true);
     }
 
@@ -248,10 +249,42 @@ class CompaniesController extends Controller
     }
 
    /* *************************************************** */
-    public function company_orders(){
+    public function company_orders(Company $company){
+        // return view('companies.orders', [
+        //     'company' => $company,
+        // ]);
+        $company_orders = DB::table('company_order')
+        ->select('order_id')
+        ->where('sender_id', $company->id);
 
+        $orders=Order::whereIn('id', $company_orders)
+        // ->orderBy('orders.created_at', 'desc')
+           ->leftJoin('driver_order','orders.id', '=', 'driver_order.order_id')
+           ->leftJoin('drivers','drivers.id', '=', 'orders.driver_id');
 
+    
+
+        return datatables()->of($orders)->make(true); 
+        }
+        
     }
 
+   /* *************************************************** */
+//       public function get_orders(Company $company){
+//     //     $company_orders = DB::table('company_order')
+//     //                     ->select('order_id')
+//     //                     ->where('sender_id', $company->id);
 
-}
+//     //     $orders=Order::whereIn('id', $company_orders)
+//     //     ->orderBy('orders.created_at', 'desc')
+//     //     ->leftJoin('driver_order', function ($join) {
+//     //         $join->on('order.id', '=', 'driver_order.order_id');
+//     //     });   
+//     //      DB::raw("driver_order.order_id as driver_id");
+        
+//     //     return datatables()->of($orders)->make(true); 
+//     // }
+
+
+
+// }
