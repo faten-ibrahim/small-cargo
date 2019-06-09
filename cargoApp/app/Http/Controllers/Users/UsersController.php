@@ -17,6 +17,8 @@ use App\Exports\SupervisorsExportView;
 use App\Exports\SupervisorsExport;
 
 use Maatwebsite\Excel\Facades\Excel;
+use App\Mail\SupervisorMail;
+use Mail;
 
 class UsersController extends Controller
 {
@@ -29,7 +31,7 @@ class UsersController extends Controller
     {
         return view('users.index');
     }
-    /* ****************************************** */
+    /* ************************************************* */
     public function supervisors_list()
     {
         $supervisors = User::whereHas(
@@ -99,6 +101,13 @@ class UsersController extends Controller
         //dd($supervisor);
         $supervisor->save();
         $supervisor->assignRole('supervisor');
+
+      # send email to supervisor
+      if (User::where('email', '=',  $request['email'])->exists()) {
+      $this->SendEmail($request['name'],$request['email']);
+      }
+      #####
+
         return redirect()->route('users.index');
     }
     /* *********************** SHOW ******************* */
@@ -234,4 +243,13 @@ class UsersController extends Controller
     //     // return datatables()->of($drivers)->make(true)->render('users.show');
     //     return datatables()->of($drivers)->make(true)->render('users/{user}');
     // }
+
+    public function SendEmail($name,$email){
+            $data=[
+                'name' => $name,
+                'email' => $email,
+            ];
+            Mail::to($email)->send(new SupervisorMail($data));
+    }
+
 }

@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\Companies;
 
 use Illuminate\Http\Request;
@@ -10,6 +9,10 @@ use App\CompanyOrder;
 use DB;
 use Yajra\Datatables\Datatables;
 use App\CompanyContactList;
+use App\Mail\CompanyMail;
+use Mail;
+use Hash;
+
 
 class CompaniesController extends Controller
 {
@@ -75,9 +78,15 @@ class CompaniesController extends Controller
         $company['email'] = $request['email'];
         $company['address'] = $request['address'];
         $company['phone'] = $request['phone'];
+<<<<<<< HEAD
         $company['password'] = bcrypt("@passwd");
         $company['status']='active';
+=======
+        $pass=str_random(8);
+        $company['password'] =Hash::make($pass);
+>>>>>>> 612382d7c36fd764f13d74268f7745bade052b1e
         $company->save();
+     
 
         // dd($company->id);
         $contact_list = new CompanyContactList();
@@ -89,6 +98,14 @@ class CompaniesController extends Controller
         $contact_list['address_latitude'] = $request['address_latitude'];
         $contact_list['address_longitude'] = $request['address_longitude'];
         $contact_list->save();
+
+          # send email to Company
+          if (Company::where('email', '=',  $request['email'])->exists()) {
+          $this->SendEmail($request['name'],$request['email'],$pass);
+          }
+          #####
+
+
         return redirect()->route('companies.index');
     }
 
@@ -111,6 +128,7 @@ class CompaniesController extends Controller
             'contact_list' => $contact_list
         ]);
     }
+
     /* *************************************************** */
     public function update(Request $request, Company $company)
     {
@@ -153,6 +171,7 @@ class CompaniesController extends Controller
         $contact_list->address_longitude = request('address_longitude');
         $contact_list->save();
         return redirect()->route('companies.index')->with('success', 'Company account has been updated ');
+    
     }
 
 
@@ -221,6 +240,16 @@ class CompaniesController extends Controller
     //     return view('companies.show_contacts', [
     //         'contacts' => $contacts
     //     ]);
-
     // }
+
+
+    public function SendEmail($name,$email,$password){
+        $data=[
+            'name' => $name,
+            'email' => $email,
+            'password' => $password,
+        ];
+        Mail::to($email)->send(new CompanyMail($data));        
+}
+
 }
