@@ -78,15 +78,10 @@ class CompaniesController extends Controller
         $company['email'] = $request['email'];
         $company['address'] = $request['address'];
         $company['phone'] = $request['phone'];
-<<<<<<< HEAD
-        $company['password'] = bcrypt("@passwd");
-        $company['status']='active';
-=======
         $pass=str_random(8);
         $company['password'] =Hash::make($pass);
->>>>>>> 612382d7c36fd764f13d74268f7745bade052b1e
         $company->save();
-     
+
 
         // dd($company->id);
         $contact_list = new CompanyContactList();
@@ -171,7 +166,7 @@ class CompaniesController extends Controller
         $contact_list->address_longitude = request('address_longitude');
         $contact_list->save();
         return redirect()->route('companies.index')->with('success', 'Company account has been updated ');
-    
+
     }
 
 
@@ -249,7 +244,7 @@ class CompaniesController extends Controller
             'email' => $email,
             'password' => $password,
         ];
-        Mail::to($email)->send(new CompanyMail($data));        
+        Mail::to($email)->send(new CompanyMail($data));
 }
 
 }
