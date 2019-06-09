@@ -23,6 +23,7 @@ class AuthController extends Controller
         $this->middleware('auth:driver-api', ['except' => ['login', 'register']]);
     }
 
+    // ########## Driver Login ##########
     public function login(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -55,7 +56,7 @@ class AuthController extends Controller
         ], 201);
     }
 
-    // Driver Registration
+    // ########## Driver Registration ##########
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -91,7 +92,7 @@ class AuthController extends Controller
         ], 201);
     }
 
-    // Driver Logout
+    // ##########  Driver Logout ##########
     public function logout()
     {
         try {

@@ -4,7 +4,8 @@
 @include('flash-message')
 <h2>Manage Supervisors</h2>
 <a class="btn btn-info" href="{{route('users.create')}}"><i class="fa fa-plus"></i><span>Add New Supervisor</span></a><br><br>
-    <table id="example" class="table table-striped" >
+<a class="btn btn-primary"href="{{route('supervisors.excel')}}"><i class="fa fa-download"></i><span>Export Supervisors</span></a><br><br>
+<table id="example" class="table table-striped" >
         <thead >
                 <th>Supervisor name</th>
                 <th>Phone number</th>

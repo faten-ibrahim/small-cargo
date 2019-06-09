@@ -237,7 +237,7 @@ class CompaniesController extends Controller
     //     ]);
     // }
 
-
+  /* *************************************************** */
     public function SendEmail($name,$email,$password){
         $data=[
             'name' => $name,
@@ -245,6 +245,13 @@ class CompaniesController extends Controller
             'password' => $password,
         ];
         Mail::to($email)->send(new CompanyMail($data));        
-}
+    }
+
+   /* *************************************************** */
+    public function company_orders(){
+
+
+    }
+
 
 }

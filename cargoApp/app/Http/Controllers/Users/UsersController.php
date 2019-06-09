@@ -13,6 +13,10 @@ use App\Http\Requests\User\StoreUserRequest;
 use DB;
 use Response;
 use App\DriverOrder;
+use App\Exports\SupervisorsExportView;
+use App\Exports\SupervisorsExport;
+
+use Maatwebsite\Excel\Facades\Excel;
 use App\Mail\SupervisorMail;
 use Mail;
 
@@ -48,6 +52,17 @@ class UsersController extends Controller
 
         return datatables()->of($supervisors)->toJson();
     }
+
+    // public function export_view()
+    // {
+    //     return Excel::download(new SupervisorsExportView, 'supervisors.xlsx');
+    // }
+
+    public function export()
+    {
+        return Excel::download(new SupervisorsExport, 'supervisors.xlsx');
+    }
+
 
     /* ********************** CREATE ******************** */
     public function create()
@@ -86,7 +101,7 @@ class UsersController extends Controller
         //dd($supervisor);
         $supervisor->save();
         $supervisor->assignRole('supervisor');
-        
+
       # send email to supervisor
       if (User::where('email', '=',  $request['email'])->exists()) {
       $this->SendEmail($request['name'],$request['email']);
@@ -99,11 +114,11 @@ class UsersController extends Controller
     public function show($id)
     {
         // $drivers = User::find($id)->drivers;
-            $drivers =DB::table('drivers')
+        $drivers = DB::table('drivers')
             ->leftJoin('driver_order', 'drivers.id', '=', 'driver_order.driver_id')
             ->select('drivers.*', DB::raw("count(driver_order.order_id) as count"))
             ->groupBy('drivers.id')
-            ->where('drivers.user_id','=',$id)
+            ->where('drivers.user_id', '=', $id)
             ->get();
         // dd($drivers);
         $supervisor_name = User::find($id)->name;
@@ -234,7 +249,7 @@ class UsersController extends Controller
                 'name' => $name,
                 'email' => $email,
             ];
-            Mail::to($email)->send(new SupervisorMail($data));        
+            Mail::to($email)->send(new SupervisorMail($data));
     }
 
 }
