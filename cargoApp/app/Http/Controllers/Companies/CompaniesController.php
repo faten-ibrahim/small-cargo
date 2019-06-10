@@ -82,7 +82,7 @@ class CompaniesController extends Controller
         $pass=str_random(8);
         $company['password'] =Hash::make($pass);
         $company->save();
-     
+
 
         // dd($company->id);
         $contact_list = new CompanyContactList();
@@ -167,7 +167,7 @@ class CompaniesController extends Controller
         $contact_list->address_longitude = request('address_longitude');
         $contact_list->save();
         return redirect()->route('companies.index')->with('success', 'Company account has been updated ');
-    
+
     }
 
 
@@ -245,7 +245,7 @@ class CompaniesController extends Controller
             'email' => $email,
             'password' => $password,
         ];
-        Mail::to($email)->send(new CompanyMail($data));        
+        Mail::to($email)->send(new CompanyMail($data));
     }
 
    /* *************************************************** */
@@ -262,11 +262,11 @@ class CompaniesController extends Controller
            ->leftJoin('driver_order','orders.id', '=', 'driver_order.order_id')
            ->leftJoin('drivers','drivers.id', '=', 'orders.driver_id');
 
-    
 
-        return datatables()->of($orders)->make(true); 
+        dd($orders);
+        return datatables()->of($orders)->make(true);
         }
-        
+
     }
 
    /* *************************************************** */
@@ -279,10 +279,10 @@ class CompaniesController extends Controller
 //     //     ->orderBy('orders.created_at', 'desc')
 //     //     ->leftJoin('driver_order', function ($join) {
 //     //         $join->on('order.id', '=', 'driver_order.order_id');
-//     //     });   
+//     //     });
 //     //      DB::raw("driver_order.order_id as driver_id");
-        
-//     //     return datatables()->of($orders)->make(true); 
+
+//     //     return datatables()->of($orders)->make(true);
 //     // }
 
 

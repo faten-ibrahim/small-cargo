@@ -65,6 +65,7 @@ class AuthController extends Controller
             'phone' => 'required|unique:drivers',
             'car_number' => 'required|unique:drivers',
             'car_type' => 'required',
+            'token' => 'required|unique:driver_tokens',
 
 
         ]);
@@ -78,8 +79,11 @@ class AuthController extends Controller
             'phone' => $request->phone,
             'car_number' => $request->car_number,
             'car_type' => $request->car_type,
+        ]);
 
-
+        $driver_firebase_token  = DriverToken::create([
+            'driver_id' => $driver->id,
+            'token' => $request->token,
         ]);
 
         $token = JWTAuth::fromUser($driver);
@@ -87,7 +91,8 @@ class AuthController extends Controller
             'status' => 'You have successfully register.',
             'data' => [
                 'token' => $token,
-                'driver-api' => $driver
+                'driver-api' => $driver,
+                'driver_filebase_token'=>$driver_firebase_token,
             ]
         ], 201);
     }
@@ -129,32 +134,32 @@ class AuthController extends Controller
     }
 
     // ########## Get FCM Token For Drivers ##########
-    public function get_fcm_token(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'driver_id' => 'required',
-            'token' => 'required|unique:driver_tokens',
-        ]);
+    // public function get_fcm_token(Request $request)
+    // {
+    //     $validator = Validator::make($request->all(), [
+    //         'driver_id' => 'required',
+    //         'token' => 'required|unique:driver_tokens',
+    //     ]);
 
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 400);
-        }
-        $driver_id = $request->driver_id;
-        $driver_token = $request->token;
-        $driver = DriverToken::where('driver_id', '=', $driver_id);
-        if ($driver->exists()) {
-            $driver->delete();
-        }
-        $driver_token  = DriverToken::create([
-            'driver_id' => $driver_id,
-            'token' => $driver_token,
-        ]);
+    //     if ($validator->fails()) {
+    //         return response()->json($validator->errors(), 400);
+    //     }
+    //     $driver_id = $request->driver_id;
+    //     $driver_token = $request->token;
+    //     $driver = DriverToken::where('driver_id', '=', $driver_id);
+    //     if ($driver->exists()) {
+    //         $driver->delete();
+    //     }
+    //     $driver_token  = DriverToken::create([
+    //         'driver_id' => $driver_id,
+    //         'token' => $driver_token,
+    //     ]);
 
-        return response()->json([
-            'status' => 'driver token save successfully',
-            'data' => [
-                'driver_token' => $driver_token
-            ]
-        ], 201);
-    }
+    //     return response()->json([
+    //         'status' => 'driver token save successfully',
+    //         'data' => [
+    //             'driver_token' => $driver_token
+    //         ]
+    //     ], 201);
+    // }
 }
