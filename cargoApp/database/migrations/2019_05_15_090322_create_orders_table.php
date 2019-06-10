@@ -19,7 +19,7 @@ class CreateOrdersTable extends Migration
             $table->dateTime('pickup_date');
             $table->float('estimated_cost');
             $table->float('final_cost');
-            $table->string('status')->enum('status', ['pending', 'confirmed','delivered']);
+            $table->string('status')->enum('status', ['pending', 'accepted','ongoing','delivered'])->default('pending');
             $table->string('car_number',100);
             $table->timestamps();
         });

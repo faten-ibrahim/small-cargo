@@ -48,7 +48,7 @@ class UsersController extends Controller
                 DB::raw("count(drivers.user_id) as drivers_count")
             )
             ->groupBy('users.id')
-            ->orderBy('users.created_at', 'asc');
+            ->orderBy('users.created_at', 'desc');
 
         return datatables()->of($supervisors)->toJson();
     }

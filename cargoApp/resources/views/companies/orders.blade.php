@@ -1,4 +1,4 @@
-<!-- @extends('layouts.base')
+@extends('layouts.base')
 @section('content')
 <div class="container" style="width:100%;">
 @include('flash-message')
@@ -11,6 +11,9 @@
                 <th>Status </th>
                 <th>Estimated cost</th>
                 <th>Final date</th>
+                <th>Driver Name</th>
+                <th>Driver Phone</th>
+                <th>Order Details</th>
 
             </tr>
         </thead>
@@ -34,7 +37,24 @@
                 { data: 'pickup_date' },
                 { data: 'status' },
                 { data: 'estimated_cost' },
-                { data: 'final_cost' },
+        
+                {mRender: function (data, type, row) {
+                
+                    if (row.status!='delivered')
+                    return '<span>'+row.final_cost+'</span>';
+                    else
+                    return '<span>Not delivered yet</span>'
+                    }
+                },
+                
+                { data: 'name' },
+                { data: 'phone' },
+                {
+                    mRender: function(data, type, row) {
+                        return '<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">Details</button>' 
+                           
+                    }
+                },
 
             ],
 
@@ -52,4 +72,4 @@
 
 </div>
 
-@endsection -->
+@endsection
