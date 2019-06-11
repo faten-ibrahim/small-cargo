@@ -10,4 +10,6 @@ class Package extends Model
     {
         return $this->belongsTo('App\Order', 'foreign_key');
     }
+
+
 }

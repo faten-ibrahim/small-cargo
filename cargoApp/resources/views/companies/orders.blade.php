@@ -4,8 +4,9 @@
 @include('flash-message')
 <h2>{{$company->name}} orders</h2>
 
-<table id="example" class="table table-striped" >
-        <thead >
+<table class="table table-striped">
+  <thead class="thead-dark">
+        <tr>
                 <th>Shipment type</th>
                 <th>Pick up date/time</th>
                 <th>Status </th>
@@ -13,63 +14,86 @@
                 <th>Final date</th>
                 <th>Driver Name</th>
                 <th>Driver Phone</th>
-                <th>Order Details</th>
+                <th>Order details</th>
+        </tr>
+  </thead>
+  <tbody>
+  @foreach($orders as $order)
+    <tr>
 
-            </tr>
-        </thead>
-    </table>
+      <td>{{ $order-> shipment_type }}</td>
+      <td>{{ $order-> pickup_date }}</td>
+      <td>{{ $order-> status }}</td>
+      <td>{{ $order-> estimated_cost }}</td>
+      <td>{{ $order-> final_cost }}</td>
+      <td>{{ $order-> name }}</td>
+      <td>{{ $order-> phone }}</td>
+      <td><!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#{{ $order-> id }}">
+  Details
+</button>
 
-    <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-    <script>
-        $('#example').DataTable( {
-
-            serverSide: true,
-            ajax: {
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                url: '/get_orders/{{$company->id}}',
-                dataType : 'json',
-                type: 'get',
-            },
-            columns: [
-                { data: 'shipment_type' },
-                { data: 'pickup_date' },
-                { data: 'status' },
-                { data: 'estimated_cost' },
+<!-- Modal -->
+<div class="modal fade" id="{{ $order-> id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
         
-                {mRender: function (data, type, row) {
-                
-                    if (row.status!='delivered')
-                    return '<span>'+row.final_cost+'</span>';
-                    else
-                    return '<span>Not delivered yet</span>'
-                    }
-                },
-                
-                { data: 'name' },
-                { data: 'phone' },
-                {
-                    mRender: function(data, type, row) {
-                        return '<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">Details</button>' 
-                           
-                    }
-                },
+                <table class="table table-striped">
+                <tbody>
+                @foreach($packages as $package)
+                @if( $order->id === $package->order_id) 
+                    <tr>
+                    <th>Length</th>
+                    <td>{{ $package -> length}}</td>
+                    <tr>
+                    <th>Width</th>
+                    <td>{{ $package -> width}}</td>
+                    <tr>
+                    <th>Height</th>
+                    <td>{{ $package -> height}}</td>
+                    <tr>
+                    <th>Quantity</th>
+                    <td>{{ $package -> quantity}}</td>
+                    <tr>
+                    <th>Weight</th>
+                    <td>{{ $package -> Weight}} {{ $package -> unit}}</td>
+                    <tr>
+                    <th>Value</th>
+                    <td>{{ $package -> value}}</td>
+                    <tr>
+                    <th>Pickup location</th>
+                    <td>{{ $package -> pickup_location}}</td>
+                    <tr>
+                    <th>Drop off location</th>
+                    <td>{{ $package -> drop_off_location}}</td>
+                    <tr>
+                    <th>Time to deliver</th>
+                    <td>{{ $package -> time_to_deliver}}</td>
 
-            ],
+                    </tr>
+                  @endif   
+                @endforeach
+                </tbody>
+                </table>
 
-            'lengthChange': true,
-            'searching'   : true,
-            'ordering'    : true,
-            'info'        : true,
-            'autoWidth'   : true,
-            'paging'      : true,
-        } );
-
-
-    </script>
-
-
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div><td>
+    </tr>
+   @endforeach
+  </tbody>
+</table>
+{{ $orders->onEachSide(1)->links() }}
 </div>
 
 @endsection

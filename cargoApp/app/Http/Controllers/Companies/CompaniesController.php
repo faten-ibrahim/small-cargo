@@ -8,6 +8,7 @@ use App\Order;
 use App\CompanyOrder;
 use App\DriverOrder;
 use App\Driver;
+use App\Package;
 use DB;
 use Yajra\Datatables\Datatables;
 use App\CompanyContactList;
@@ -250,26 +251,47 @@ class CompaniesController extends Controller
 
    /* *************************************************** */
     public function company_orders(Company $company){
+        $company_orders = DB::table('company_order')
+                ->select('order_id')
+                ->where('sender_id',$company->id);            
+    
+        $orders=DriverOrder::whereIn('order_id', $company_orders)
+                ->leftJoin('orders','orders.id', '=', 'driver_order.order_id')
+                ->leftJoin('drivers', function ($join) {
+                        $join->on('drivers.id', '=', 'driver_order.driver_id');
+                    })        
+                ->select('orders.*','drivers.name','drivers.phone')  
+                ->orderBy('orders.created_at', 'desc')->paginate(5);
+                // dd($company);
+
+        $packages=Package::whereIn('order_id', $company_orders)->get();
+
+       
         return view('companies.orders', [
-            'company' => $company,
+            'orders' => $orders,
+            'company'=>$company,
+            'packages'=> $packages,
         ]);
+
     }
 
    /* *************************************************** */
-      public function get_orders(Company $company){
-            $company_orders = DB::table('company_order')
-            ->select('order_id')
-            ->where('sender_id',$company->id);
+    //   public function get_orders(Company $company){
+    //         $company_orders = DB::table('company_order')
+    //         ->select('order_id')
+    //         ->where('sender_id',$company->id);            
 
+    //         $orders=DriverOrder::whereIn('order_id', $company_orders)
+    //         ->leftJoin('orders','orders.id', '=', 'driver_order.order_id')
+    //         ->leftJoin('drivers', function ($join) {
+    //                 $join->on('drivers.id', '=', 'driver_order.driver_id');
+    //             });
+            
+    
+    //         // ->select('orders.*','drivers.name','drivers.phone')  
+    //         // ->orderBy('orders.created_at', 'desc');
 
-            $orders=DriverOrder::whereIn('order_id', $company_orders)
-            ->leftJoin('orders','orders.id', '=', 'driver_order.order_id')
-            ->leftJoin('drivers', function ($join) {
-                    $join->on('drivers.id', '=', 'driver_order.driver_id');
-                }) 
-            ->select('orders.*','drivers.name','drivers.phone')  
-            ->orderBy('orders.created_at', 'desc');
-        return datatables()->of($orders)->make(true);
-    }
+    //     return datatables()->of($orders)->make(true);
+    // }
 
 }
