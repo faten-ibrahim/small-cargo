@@ -60,7 +60,7 @@ class CompaniesController extends Controller
         $request->validate(
             [
                 'name' => 'required',
-                'email' => 'required|unique:users|email',
+                'email' => 'required|unique:companies|email',
                 'address' => 'required',
                 'phone' => 'required',
             ],
@@ -109,10 +109,8 @@ class CompaniesController extends Controller
     /* *************************************************** */
     public function edit(Company $company)
     {
-        $contact_list = CompanyContactList::where('company_id', $company->id)->first();
         return view('companies.edit', [
             'company' => $company,
-            'contact_list' => $contact_list
         ]);
     }
 
@@ -121,9 +119,10 @@ class CompaniesController extends Controller
     {
         if (request('email') != $company->email) {
             $this->validate(request(), [
-                'email' => 'email|unique:users',
+                'email' => 'email|unique:companies',
             ]);
             $company->email = request('email');
+
         } else {
             $company->email = request('email');
         }
@@ -145,18 +144,11 @@ class CompaniesController extends Controller
         );
         //update company
         $company->name = request('name');
-        $company->address = request('address');
         $company->phone = request('phone');
+        $company->address = request('address');
+        $company->address_latitude = request('address_latitude');
+        $company->address_longitude = request('address_longitude');
         $company->save();
-        //update contact list
-        $contact_list = CompanyContactList::where('company_id', $company->id)->first();
-        $contact_list->receiver_name = request('receiver_name');
-        $contact_list->conatct_name = request('conatct_name');
-        $contact_list->contact_phone = request('contact_phone');
-        $contact_list->address_address = request('address_address');
-        $contact_list->address_latitude = request('address_latitude');
-        $contact_list->address_longitude = request('address_longitude');
-        $contact_list->save();
         return redirect()->route('companies.index')->with('success', 'Company account has been updated ');
 
     }

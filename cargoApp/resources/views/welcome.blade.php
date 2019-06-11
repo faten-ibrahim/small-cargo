@@ -81,10 +81,10 @@
                     @auth
                         <a style="background-color: #374446;  font-size: 20px; font-style: normal;" href="{{ url('/home') }}">Home</a>
                     @else
-                        <a href="{{ route('login') }}">Login</a>
+                        <a style="background-color: #374446;  font-size: 20px; font-style: normal;"  href="{{ route('login') }}">Login</a>
 
                         @if (Route::has('register'))
-                            <a href="{{ route('register') }}">Register</a>
+                            <a style="background-color: #374446;  font-size: 20px; font-style: normal;"  href="{{ route('register') }}">Register</a>
                         @endif
                     @endauth
                 </div>
