@@ -18,7 +18,7 @@ class CreatePackagesTable extends Migration
             $table->float('length');
             $table->float('width');
             $table->float('height');
-            $table->string('photo');
+            $table->string('photo')->nullable();
             $table->string('pickup_location');
             $table->double('pickup_latitude')->nullable();
             $table->double('pickup_longitude')->nullable();
@@ -27,9 +27,9 @@ class CreatePackagesTable extends Migration
             $table->double('drop_off_longitude')->nullable();
             $table->string('value')->enum('value', ['cheap', 'medium','expensive']);
             $table->float('Weight');
-            $table->string('unit')->enum('unit', ['kg', 'ton']);
+            $table->string('unit')->enum('unit', ['kg', 'ton'])->default('kg');
             $table->integer('quantity');
-            $table->dateTime('time_to_deliver');
+            $table->dateTime('time_to_deliver')->nullable();
             // $table->unsignedbigInteger('order_id')->nullable();
             // $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
             $table->timestamps();
