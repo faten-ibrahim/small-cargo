@@ -4,9 +4,9 @@
 @include('flash-message')
 <h2>{{$company->name}} orders</h2>
 
-<table class="table table-striped">
+<table class="table  table-striped table-bordered ">
   <thead class="thead-dark">
-        <tr>
+        <tr class="bg-primary">
                 <th>Shipment type</th>
                 <th>Pick up date/time</th>
                 <th>Status </th>
@@ -19,13 +19,17 @@
   </thead>
   <tbody>
   @foreach($orders as $order)
-    <tr>
+    <tr  class="bg-success">
 
       <td>{{ $order-> shipment_type }}</td>
       <td>{{ $order-> pickup_date }}</td>
       <td>{{ $order-> status }}</td>
       <td>{{ $order-> estimated_cost }}</td>
+      @if( $order->status !== 'delivered') 
       <td>{{ $order-> final_cost }}</td>
+      @else
+      <td>Not delivered yet</td>
+      @endif   
       <td>{{ $order-> name }}</td>
       <td>{{ $order-> phone }}</td>
       <td><!-- Button trigger modal -->
@@ -75,7 +79,6 @@
                     <tr>
                     <th>Time to deliver</th>
                     <td>{{ $package -> time_to_deliver}}</td>
-
                     </tr>
                   @endif   
                 @endforeach
@@ -88,12 +91,14 @@
       </div>
     </div>
   </div>
-</div><td>
+</div></td>
     </tr>
    @endforeach
   </tbody>
 </table>
+
 {{ $orders->onEachSide(1)->links() }}
+
 </div>
 
 @endsection
