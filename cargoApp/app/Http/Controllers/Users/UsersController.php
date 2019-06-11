@@ -208,6 +208,8 @@ class UsersController extends Controller
             $user->address = request('address');
             $user->phone = request('phone');
             $user->status = request('status');
+            $user->address_latitude = request('address_latitude');
+            $user->address_longitude = request('address_longitude');
 
 
             $user->save();

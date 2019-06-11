@@ -55,9 +55,8 @@
                 },
                 {
                     mRender: function(data, type, row) {
-                        return '<a href="/companies/' + row.id + '/orders" class="bttn btn btn-info btn-sm" data-id="' + row.id + '" ><span>Show Orders</span></a><br>' +
-                            '<a href="/companies/' + row.id + '/contacts" class="bttn btn btn-primary btn-sm" data-id="' + row.id + '"><span>Contact List</span></a>'
-
+                        return '<a href="/companies/' + row.id + '/Send_orders" class="bttn btn btn-info btn-sm" data-id="' + row.id + '" ><span>Send Orders</span></a><br>' +
+                        '<a href="/companies/' + row.id + '/Recived_orders" class="bttn btn btn-info btn-sm" data-id="' + row.id + '" ><span>Recived Orders</span></a><br>' 
 
                     }
                 },
@@ -79,7 +78,7 @@
 
                         else
                             return '<a href="/companies/' + row.id + '/unban" class="bttn btn btn-success btn-sm" data-id="' + row.id + '" ><i class="fa fa-check"></i><span>Active</span></a><br>'+
-                                    '<a href="/companies/' + row.id + '/add_list" class="bttn btn btn-primary btn-sm" data-id="' + row.id + '"><i class="fa fa-plus"></i><span>Add Contact</span></a>'
+                                    '<a href="/companies/' + row.id + '/contacts" class="bttn btn btn-primary btn-sm" data-id="' + row.id + '"><span>Contact List</span></a>'
 
 
                     }
@@ -96,7 +95,7 @@
 
           //confirm deleting
                 function myFunction(){
-                     var agree = confirm("Are you sure you want to delete this Supervisdo\?");
+                     var agree = confirm("Are you sure you want to delete this Company\?");
                         if(agree == true){
                            return true
                            }

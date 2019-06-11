@@ -60,7 +60,7 @@ class CompaniesController extends Controller
         $request->validate(
             [
                 'name' => 'required',
-                'email' => 'required|unique:users|email',
+                'email' => 'required|unique:companies|email',
                 'address' => 'required',
                 'phone' => 'required',
             ],
@@ -109,10 +109,8 @@ class CompaniesController extends Controller
     /* *************************************************** */
     public function edit(Company $company)
     {
-        $contact_list = CompanyContactList::where('company_id', $company->id)->first();
         return view('companies.edit', [
             'company' => $company,
-            'contact_list' => $contact_list
         ]);
     }
 
@@ -121,9 +119,10 @@ class CompaniesController extends Controller
     {
         if (request('email') != $company->email) {
             $this->validate(request(), [
-                'email' => 'email|unique:users',
+                'email' => 'email|unique:companies',
             ]);
             $company->email = request('email');
+
         } else {
             $company->email = request('email');
         }
@@ -145,18 +144,11 @@ class CompaniesController extends Controller
         );
         //update company
         $company->name = request('name');
-        $company->address = request('address');
         $company->phone = request('phone');
+        $company->address = request('address');
+        $company->address_latitude = request('address_latitude');
+        $company->address_longitude = request('address_longitude');
         $company->save();
-        //update contact list
-        $contact_list = CompanyContactList::where('company_id', $company->id)->first();
-        $contact_list->receiver_name = request('receiver_name');
-        $contact_list->conatct_name = request('conatct_name');
-        $contact_list->contact_phone = request('contact_phone');
-        $contact_list->address_address = request('address_address');
-        $contact_list->address_latitude = request('address_latitude');
-        $contact_list->address_longitude = request('address_longitude');
-        $contact_list->save();
         return redirect()->route('companies.index')->with('success', 'Company account has been updated ');
 
     }
@@ -240,7 +232,7 @@ class CompaniesController extends Controller
     }
 
    /* *************************************************** */
-    public function company_orders(Company $company){
+    public function Send_company_orders(Company $company){
         $company_orders = DB::table('company_order')
                 ->select('order_id')
                 ->where('sender_id',$company->id);
@@ -256,8 +248,8 @@ class CompaniesController extends Controller
 
         $packages=Package::whereIn('order_id', $company_orders)->get();
 
-
-        return view('companies.orders', [
+       
+        return view('companies.send_orders', [
             'orders' => $orders,
             'company'=>$company,
             'packages'=> $packages,
@@ -266,22 +258,29 @@ class CompaniesController extends Controller
     }
 
    /* *************************************************** */
-    //   public function get_orders(Company $company){
-    //         $company_orders = DB::table('company_order')
-    //         ->select('order_id')
-    //         ->where('sender_id',$company->id);
+   public function Recived_company_orders(Company $company){
+    $company_orders = DB::table('company_order')
+            ->select('order_id')
+            ->where('receiver_id',$company->id);            
 
-    //         $orders=DriverOrder::whereIn('order_id', $company_orders)
-    //         ->leftJoin('orders','orders.id', '=', 'driver_order.order_id')
-    //         ->leftJoin('drivers', function ($join) {
-    //                 $join->on('drivers.id', '=', 'driver_order.driver_id');
-    //             });
+    $orders=DriverOrder::whereIn('order_id', $company_orders)
+            ->leftJoin('orders','orders.id', '=', 'driver_order.order_id')
+            ->leftJoin('drivers', function ($join) {
+                    $join->on('drivers.id', '=', 'driver_order.driver_id');
+                })        
+            ->select('orders.*','drivers.name','drivers.phone')  
+            ->orderBy('orders.created_at', 'desc')->paginate(5);
+            // dd($company);
 
+    $packages=Package::whereIn('order_id', $company_orders)->get();
 
-    //         // ->select('orders.*','drivers.name','drivers.phone')
-    //         // ->orderBy('orders.created_at', 'desc');
+   
+    return view('companies.recived_orders', [
+        'orders' => $orders,
+        'company'=>$company,
+        'packages'=> $packages,
+    ]);
 
-    //     return datatables()->of($orders)->make(true);
-    // }
+}
 
 }

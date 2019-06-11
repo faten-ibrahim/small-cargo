@@ -36,7 +36,8 @@ Route::group(['middleware' => 'auth'], function () {
                 ->name('companies.store_list');
             Route::get('/companies/{company}/contacts', 'Companies\CompaniesController@show')->name('contacts.show');
 
-            Route::get('/companies/{company}/orders', 'Companies\CompaniesController@company_orders');
+            Route::get('/companies/{company}/Send_orders', 'Companies\CompaniesController@Send_company_orders');
+            Route::get('/companies/{company}/Recived_orders', 'Companies\CompaniesController@Recived_company_orders');
 
 
             Route::get('/users/{user}/ban', 'Users\UsersController@ban')

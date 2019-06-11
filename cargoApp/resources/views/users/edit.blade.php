@@ -1,94 +1,73 @@
 @extends('layouts.base')
 @section('content')
-@if ($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
-
-<div id="app">
-
-@include('flash-message')
-
-@yield('content')
-
-</div>
-<br>
 
 <div class="container con">
-<form method="post" action="/users/{{$user->id}}">
+    <h2>Add Supervisor</h2>
+
+    <form method="post" action="/users/{{$user->id}}">
     {{ csrf_field() }}
     {{ method_field('patch') }}
 
-    @if($user->hasRole('admin'))
+        <div class="form-group">
+            <label>Name</label>
+            <input name="name" type="text" class="form-control" value="{{$user->name}}">
+        </div>
 
-    <div class="form-group">
-    <label>Name:</label>
-    <input type="text" name="name"  value="{{$user->name}}" class="form-control"/>
-    </div>
+        <div class="form-group">
+            <label>Email</label>
+            <input name="email" type="email" class="form-control" value="{{$user->email}}"/>
+        </div>
 
-    <div class="form-group">
-    <label>Email:</label>
-    <input type="email" name="email"  value="{{$user->email}}" class="form-control"/>
-    </div>
+        <div class="form-group">
+            <label>Phone</label>
+            <input name="phone" type="phone" class="form-control" value="{{$user->phone}}" />
+        </div>
 
-    <div class="form-group">
-    <label>Old Password:</label>
-    <input type="password" name="old-password" placeholder="Insert old password here" class="form-control"/>
-    </div>
+        <br>
+        <br>
 
-    <div class="form-group">
-    <label>New Password:</label>
-    <input type="password" name="new-password" placeholder="New password" class="form-control"/>
-    </div>
+        <div class="form-group">
+            <label for="address_address">Address</label>
+            <input type="text" id="address-input" name="address" class="form-control map-input" value="{{$user->address}}">
+            <input type="hidden" name="address_latitude" id="address-latitude" value="{{$user->address_latitude}}" />
+            <input type="hidden" name="address_longitude" id="address-longitude" value="{{$user->address_longitude}}" />
+        </div>
 
-    <div class="form-group">
-    <label>Confirm Password:</label>
-    <input type="password" name="password-confirmation" placeholder="Confirm password" class="form-control"/>
-    </div>
-    @endif
-
-
-    @if($user->hasRole('supervisor'))
-
-    <div class="form-group">
-    <label>Name:</label>
-    <input type="text" name="name"  value="{{$user->name}}"  class="form-control"/>
-    <div>
-
-    <div class="form-group">
-    <label>Email:</label>
-    <input type="email" name="email"  value="{{$user->email}}" class="form-control"/>
-    </div>
-
-    <div class="form-group">
-    <label>Phone Number :</label>
-    <input type="phone" name="phone"  value="{{$user->phone}}" class="form-control"/>
-    </div>
-
-    <div class="form-group">
-    <label>Address:</label>
-    <input type="text" name="address" value="{{$user->address}}" class="form-control"/>
-    </div>
-
-    <div class="form-group">
+        <div id="address-map-container" style="width:100%;height:400px; ">
+            <div style="width: 100%; height: 100%" id="address-map"></div>
+        </div>
+        <br>
+        <br>
+        <div class="form-group">
             <label>Status</label>
             <select name="status" class="form-control" value="{{$user->status}}">
-            <option value=" ">---  SELECT ---</option>
-                <option>Active</option>
-                <option>Inactive</option>
+                <option> - -  select  - - </option>
+                <option value="Active">Active</option>
+                <option value="Inactive">Inactive</option>
             </select>
         </div>
 
-    @endif
+        <button type="submit" class="btn btn-primary">Update</button>
+        <a href="{{route('users.index')}}" class="btn btn-danger">Back</a>
 
-    <button type="submit" class="btn btn-primary">Update</button>
-    <a href="{{route('users.index')}}" class="btn btn-danger">Back</a>
-    </div>
-</form>
+        <br>
+        <br>
+        @if ($errors->any())
+        <br>
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+        @endif
+    </form>
+</div>
 
 @endsection
+@section('content_scripts')
+@parent
+<script src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAPS_API_KEY') }}&libraries=places&callback=initialize" async defer></script>
+<script src="/js/mapInput.js"></script>
+@stop
