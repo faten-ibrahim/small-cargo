@@ -16,7 +16,7 @@ class AddOrderIdColumnToPackages extends Migration
         Schema::table('packages', function (Blueprint $table) {
             $table->unsignedBigInteger('order_id')->nullable();
             $table->foreign('order_id')
-            ->references('id')->on('orders')->onDelete('cascade');
+            ->references('id')->on('orders');
         });
     }
 

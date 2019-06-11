@@ -43,5 +43,11 @@ return [
             'tolerance' => env('STRIPE_WEBHOOK_TOLERANCE', 300),
         ],
     ],
+    /*
+     * Add the Firebase API key
+     */
+    'fcm' => [
+        'key' => 'AIzaSyBQqFgiawqbZda41R6LcCFKQ1NLCK69S7Y'
+    ],
 
 ];

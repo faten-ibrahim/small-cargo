@@ -45,7 +45,7 @@ class DriversController extends Controller
                 ->groupBy('drivers.id')
                 // ->orderBy('drivers.created_at','desc')
                 ->get();
-                        
+
             return datatables()->of($drivers)->toJson();
         } elseif ($role === 'supervisor') {
             $user = \Auth::user();
@@ -121,6 +121,9 @@ class DriversController extends Controller
         $driver['car_number'] = $request['car_number'];
         $driver['car_type'] = $request['car_type'];
         $driver['user_id'] = $request['user_id'];
+        $driver['address'] = $request['address'];
+        $driver['address_latitude'] = $request['address_latitude'];
+        $driver['address_longitude'] = $request['address_longitude'];
         $driver->save();
         return redirect()->route('drivers.index');
     }

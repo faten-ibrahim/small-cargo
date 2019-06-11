@@ -28,39 +28,14 @@
             <input name="email" type="email" class="form-control" />
         </div>
 
-
-        <div class="form-group">
-            <label>Address</label>
-            <input name="address" type="text" class="form-control" />
-        </div>
-
         <div class="form-group">
             <label>Phone</label>
             <input name="phone" type="phone" class="form-control" />
         </div>
-        <br>
-        <hr style="border: 1px solid #7d747a1f">
-        <!-- <label>Contact List</label>
-        <hr style="border: 1px solid #7d747a1f">
-        <br> -->
-
-        <div class="form-group">
-            <label>Receiver Name</label>
-            <input name="receiver_name" type="text" class="form-control" />
-        </div>
-        <div class="form-group">
-            <label>Contact Name</label>
-            <input name="conatct_name" type="text" class="form-control" />
-        </div>
-
-        <div class="form-group">
-            <label>Contact Phone</label>
-            <input name="contact_phone" type="phone" class="form-control" />
-        </div>
 
         <div class="form-group">
             <label for="address_address">Address</label>
-            <input type="text" id="address-input" name="address_address" class="form-control map-input">
+            <input type="text" id="address-input" name="address" class="form-control map-input">
             <input type="hidden" name="address_latitude" id="address-latitude" value="0" />
             <input type="hidden" name="address_longitude" id="address-longitude" value="0" />
         </div>
@@ -71,6 +46,7 @@
 
         <br>
         <br>
+
 
         <button type="submit" class="btn btn-primary">Submit</button>
 

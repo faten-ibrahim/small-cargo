@@ -169,6 +169,7 @@ return [
         Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
         Yajra\DataTables\DataTablesServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
+        Benwilkins\FCM\FcmNotificationServiceProvider::class,
 
         /*
          * Application Service Providers...

@@ -17,7 +17,7 @@ class CreateCompanyContactListsTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('company_id');
             $table->foreign('company_id')
-                ->references('id')->on('companies')->onDelete('cascade');
+                ->references('id')->on('companies');
             $table->string('receiver_name', 100)->nullable();
             $table->string('conatct_name', 100)->nullable();
             $table->string('contact_phone', 30)->nullable();

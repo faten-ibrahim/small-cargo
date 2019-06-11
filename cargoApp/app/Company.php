@@ -8,11 +8,13 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Cog\Contracts\Ban\Bannable as BannableContract;
 use Cog\Laravel\Ban\Traits\Bannable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 
 class Company extends Authenticatable implements JWTSubject,BannableContract
 {
-    use Notifiable,Bannable;
+    use Notifiable,Bannable,SoftDeletes;
+    protected $dates = ['deleted_at'];
     public function companycontactlists()
     {
         return $this->hasMany('App\CompanyContactList');

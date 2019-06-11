@@ -14,18 +14,17 @@ class CreateCompanyOrderTable extends Migration
     public function up()
     {
         Schema::create('company_order', function (Blueprint $table) {
-
             $table->unsignedBigInteger('sender_id');
             $table->foreign('sender_id')
-            ->references('id')->on('companies')->onDelete('cascade');
+            ->references('id')->on('companies');
 
             $table->unsignedBigInteger('receiver_id');
             $table->foreign('receiver_id')
-            ->references('id')->on('companies')->onDelete('cascade');
+            ->references('id')->on('companies');
 
             $table->unsignedBigInteger('order_id');
             $table->foreign('order_id')
-            ->references('id')->on('orders')->onDelete('cascade');
+            ->references('id')->on('orders');
 
             $table->primary(['sender_id', 'receiver_id','order_id']);
 
