@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Dashboard</div>
+                <div class="card-header">CarGo</div>
 
                 <div class="card-body">
                     @if (session('status'))
@@ -16,8 +16,7 @@
 
                     <br>
 
-                    <h5> You are logged in to control panel !</h5>
-
+                    <h5> Welcome to Admin Control Panal </h5>
 
                     <br>
                 </div>

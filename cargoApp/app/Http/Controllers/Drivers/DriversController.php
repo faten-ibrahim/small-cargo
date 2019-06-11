@@ -174,7 +174,7 @@ class DriversController extends Controller
     public function ban(Driver $driver)
     {
         $driver->ban();
-        $driver->status = 'inactive';
+        $driver->status_driver = 'inactive';
         $driver->save();
         return redirect()->route('drivers.index');
     }
@@ -182,7 +182,7 @@ class DriversController extends Controller
     public function unban(Driver $driver)
     {
         $driver->unban();
-        $driver->status = 'active';
+        $driver->status_driver = 'active';
         $driver->save();
         return redirect()->route('drivers.index');
     }

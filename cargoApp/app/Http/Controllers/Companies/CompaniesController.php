@@ -250,7 +250,7 @@ class CompaniesController extends Controller
     }
 
    /* *************************************************** */
-    public function company_orders(Company $company){
+    public function Send_company_orders(Company $company){
         $company_orders = DB::table('company_order')
                 ->select('order_id')
                 ->where('sender_id',$company->id);            
@@ -267,7 +267,7 @@ class CompaniesController extends Controller
         $packages=Package::whereIn('order_id', $company_orders)->get();
 
        
-        return view('companies.orders', [
+        return view('companies.send_orders', [
             'orders' => $orders,
             'company'=>$company,
             'packages'=> $packages,
@@ -276,22 +276,29 @@ class CompaniesController extends Controller
     }
 
    /* *************************************************** */
-    //   public function get_orders(Company $company){
-    //         $company_orders = DB::table('company_order')
-    //         ->select('order_id')
-    //         ->where('sender_id',$company->id);            
+   public function Recived_company_orders(Company $company){
+    $company_orders = DB::table('company_order')
+            ->select('order_id')
+            ->where('receiver_id',$company->id);            
 
-    //         $orders=DriverOrder::whereIn('order_id', $company_orders)
-    //         ->leftJoin('orders','orders.id', '=', 'driver_order.order_id')
-    //         ->leftJoin('drivers', function ($join) {
-    //                 $join->on('drivers.id', '=', 'driver_order.driver_id');
-    //             });
-            
-    
-    //         // ->select('orders.*','drivers.name','drivers.phone')  
-    //         // ->orderBy('orders.created_at', 'desc');
+    $orders=DriverOrder::whereIn('order_id', $company_orders)
+            ->leftJoin('orders','orders.id', '=', 'driver_order.order_id')
+            ->leftJoin('drivers', function ($join) {
+                    $join->on('drivers.id', '=', 'driver_order.driver_id');
+                })        
+            ->select('orders.*','drivers.name','drivers.phone')  
+            ->orderBy('orders.created_at', 'desc')->paginate(5);
+            // dd($company);
 
-    //     return datatables()->of($orders)->make(true);
-    // }
+    $packages=Package::whereIn('order_id', $company_orders)->get();
+
+   
+    return view('companies.recived_orders', [
+        'orders' => $orders,
+        'company'=>$company,
+        'packages'=> $packages,
+    ]);
+
+}
 
 }

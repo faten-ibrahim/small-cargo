@@ -3,6 +3,8 @@
 <div class="container" style="width:100%;">
 @include('flash-message')
 <h2> {{ucfirst($company->name)}} Conatct List</h2>
+
+<a href="/companies/{{ $company->id }}/add_list" class="bttn btn btn-primary btn-sm" data-id="' + row.id + '"><i class="fa fa-plus"></i><span>Add Contact</span></a>
     <table id="example" class="table table-hover" >
         <thead >
             <tr>
