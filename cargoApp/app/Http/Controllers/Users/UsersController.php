@@ -95,6 +95,8 @@ class UsersController extends Controller
         $supervisor['name'] = $request['name'];
         $supervisor['email'] = $request['email'];
         $supervisor['address'] = $request['address'];
+        $supervisor['address_latitude'] = $request['address_latitude'];
+        $supervisor['address_longitude'] = $request['address_longitude'];
         $supervisor['phone'] = $request['phone'];
         $supervisor['status'] = $request['status'];
         $supervisor['password'] = bcrypt("@passwd");

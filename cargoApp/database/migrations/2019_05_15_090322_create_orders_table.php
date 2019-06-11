@@ -14,6 +14,7 @@ class CreateOrdersTable extends Migration
     public function up()
     {
         Schema::create('orders', function (Blueprint $table) {
+            $table->softDeletes();
             $table->bigIncrements('id');
             $table->string('shipment_type')->enum('shipment_type', ['glass','poisonous', 'flammable']);
             $table->dateTime('pickup_date');

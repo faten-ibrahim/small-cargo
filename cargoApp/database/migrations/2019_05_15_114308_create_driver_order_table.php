@@ -16,10 +16,10 @@ class CreateDriverOrderTable extends Migration
         Schema::create('driver_order', function (Blueprint $table) {
             $table->unsignedBigInteger('order_id');
             $table->foreign('order_id')
-            ->references('id')->on('orders')->onDelete('cascade');
+            ->references('id')->on('orders');
             $table->unsignedBigInteger('driver_id');
             $table->foreign('driver_id')
-            ->references('id')->on('drivers')->onDelete('cascade');
+            ->references('id')->on('drivers');
             $table->primary(['driver_id','order_id']);
             $table->timestamps();
         });

@@ -1,4 +1,11 @@
 <?php return array (
+  'benwilkins/laravel-fcm-notification' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Benwilkins\\FCM\\FcmNotificationServiceProvider',
+    ),
+  ),
   'beyondcode/laravel-dump-server' => 
   array (
     'providers' => 

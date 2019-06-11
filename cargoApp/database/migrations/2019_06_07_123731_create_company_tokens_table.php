@@ -16,7 +16,7 @@ class CreateCompanyTokensTable extends Migration
         Schema::create('company_tokens', function (Blueprint $table) {
             $table->unsignedBigInteger('company_id')->unique();
             $table->foreign('company_id')
-            ->references('id')->on('companies')->onDelete('cascade');
+            ->references('id')->on('companies');
             $table->string('token')->unique();
             $table->primary(['company_id', 'token']);
             $table->timestamps();

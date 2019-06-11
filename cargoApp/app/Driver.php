@@ -8,9 +8,12 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Cog\Laravel\Ban\Traits\Bannable;
 use Cog\Contracts\Ban\Bannable as BannableContract;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
 class Driver extends Authenticatable implements JWTSubject,BannableContract
 {
-    use Notifiable,Bannable;
+    use Notifiable,Bannable,SoftDeletes;
+    protected $dates = ['deleted_at'];
     public function supervisor()
     {
         return $this->belongsTo('App\User', 'foreign_key');

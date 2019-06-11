@@ -79,22 +79,12 @@ class CompaniesController extends Controller
         $company['name'] = $request['name'];
         $company['email'] = $request['email'];
         $company['address'] = $request['address'];
+        $company['address_latitude'] = $request['address_latitude'];
+        $company['address_longitude'] = $request['address_longitude'];
         $company['phone'] = $request['phone'];
         $pass=str_random(8);
         $company['password'] =Hash::make($pass);
         $company->save();
-
-
-        // dd($company->id);
-        $contact_list = new CompanyContactList();
-        $contact_list['company_id'] = $company->id;
-        $contact_list['receiver_name'] = $request['receiver_name'];
-        $contact_list['conatct_name'] = $request['conatct_name'];
-        $contact_list['contact_phone'] = $request['contact_phone'];
-        $contact_list['address_address'] = $request['address_address'];
-        $contact_list['address_latitude'] = $request['address_latitude'];
-        $contact_list['address_longitude'] = $request['address_longitude'];
-        $contact_list->save();
 
           # send email to Company
           if (Company::where('email', '=',  $request['email'])->exists()) {
@@ -253,20 +243,20 @@ class CompaniesController extends Controller
     public function company_orders(Company $company){
         $company_orders = DB::table('company_order')
                 ->select('order_id')
-                ->where('sender_id',$company->id);            
-    
+                ->where('sender_id',$company->id);
+
         $orders=DriverOrder::whereIn('order_id', $company_orders)
                 ->leftJoin('orders','orders.id', '=', 'driver_order.order_id')
                 ->leftJoin('drivers', function ($join) {
                         $join->on('drivers.id', '=', 'driver_order.driver_id');
-                    })        
-                ->select('orders.*','drivers.name','drivers.phone')  
+                    })
+                ->select('orders.*','drivers.name','drivers.phone')
                 ->orderBy('orders.created_at', 'desc')->paginate(5);
                 // dd($company);
 
         $packages=Package::whereIn('order_id', $company_orders)->get();
 
-       
+
         return view('companies.orders', [
             'orders' => $orders,
             'company'=>$company,
@@ -279,16 +269,16 @@ class CompaniesController extends Controller
     //   public function get_orders(Company $company){
     //         $company_orders = DB::table('company_order')
     //         ->select('order_id')
-    //         ->where('sender_id',$company->id);            
+    //         ->where('sender_id',$company->id);
 
     //         $orders=DriverOrder::whereIn('order_id', $company_orders)
     //         ->leftJoin('orders','orders.id', '=', 'driver_order.order_id')
     //         ->leftJoin('drivers', function ($join) {
     //                 $join->on('drivers.id', '=', 'driver_order.driver_id');
     //             });
-            
-    
-    //         // ->select('orders.*','drivers.name','drivers.phone')  
+
+
+    //         // ->select('orders.*','drivers.name','drivers.phone')
     //         // ->orderBy('orders.created_at', 'desc');
 
     //     return datatables()->of($orders)->make(true);

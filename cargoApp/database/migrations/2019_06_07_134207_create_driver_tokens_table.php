@@ -16,7 +16,7 @@ class CreateDriverTokensTable extends Migration
         Schema::create('driver_tokens', function (Blueprint $table) {
             $table->unsignedBigInteger('driver_id')->unique();
             $table->foreign('driver_id')
-            ->references('id')->on('drivers')->onDelete('cascade');
+            ->references('id')->on('drivers');
             $table->string('token')->unique();
             $table->primary(['driver_id', 'token']);
             $table->timestamps();

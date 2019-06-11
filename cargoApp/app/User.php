@@ -9,10 +9,18 @@ use Spatie\Permission\Traits\HasRoles;
 use App\Notifications\ResetPassword as ResetPasswordNotification;
 use Cog\Contracts\Ban\Bannable as BannableContract;
 use Cog\Laravel\Ban\Traits\Bannable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable implements  BannableContract
 {
-    use Notifiable, HasRoles,Bannable;
+    use Notifiable, HasRoles,Bannable,SoftDeletes;
+    protected $dates = ['deleted_at'];
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    // protected $dates = ['deleted_at'];
 
     /**
      * The attributes that are mass assignable.

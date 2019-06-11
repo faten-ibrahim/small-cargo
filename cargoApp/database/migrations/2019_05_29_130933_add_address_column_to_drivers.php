@@ -15,6 +15,8 @@ class AddAddressColumnToDrivers extends Migration
     {
         Schema::table('drivers', function (Blueprint $table) {
             $table->string('address',250)->nullable();
+            $table->double('address_latitude')->nullable();
+            $table->double('address_longitude')->nullable();
         });
     }
 

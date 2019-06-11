@@ -26,7 +26,7 @@
                 <td>{{$driver->phone}}</td>
                 <td>{{$driver->address}}</td>
                 <td>{{$driver->created_at}}</td>
-                <td>{{$driver->status}}</td>
+                <td>{{$driver->status_driver}}</td>
                 <td>{{$driver->availability}}</td>
                 <td>{{$driver->car_type}}</td>
                 <td>{{$driver->car_number}}</td>

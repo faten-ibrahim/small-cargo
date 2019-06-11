@@ -20,7 +20,11 @@ class CreatePackagesTable extends Migration
             $table->float('height');
             $table->string('photo');
             $table->string('pickup_location');
+            $table->double('pickup_latitude')->nullable();
+            $table->double('pickup_longitude')->nullable();
             $table->string('drop_off_location');
+            $table->double('drop_off_latitude')->nullable();
+            $table->double('drop_off_longitude')->nullable();
             $table->string('value')->enum('value', ['cheap', 'medium','expensive']);
             $table->float('Weight');
             $table->string('unit')->enum('unit', ['kg', 'ton']);

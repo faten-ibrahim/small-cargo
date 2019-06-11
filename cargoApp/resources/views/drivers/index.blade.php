@@ -42,7 +42,7 @@
                 data: 'created_at'
             },
             {
-                data: 'status'
+                data: 'status_driver'
             },
             {
                 data: 'availability'
@@ -80,7 +80,7 @@
                 data: 'created_at'
             },
             {
-                data: 'status'
+                data: 'status_driver'
             },
             {
                 data: 'availability'
@@ -108,7 +108,7 @@
         c_array.push(
             {
                     mRender: function (data, type, row) {
-                        if (!row.banned_at && row.status=='active')
+                        if (!row.banned_at && row.status_driver=='active')
                         return '<a href="/drivers/' + row.id + '/ban" class="bttn btn btn-xs btn-warning" data-id="' + row.id + '"><i class="fa fa-ban"></i><span>Deactive</span></a><br><form style="display:inline" method="POST" action="drivers/'+row.id+'">@csrf   {{ method_field('DELETE')}}<button type="submit" onclick="return myFunction();" class="btn btn-xs btn-danger"><i class="fa fa-times"></i>Delete</button></form>'
                         else
                         return '<a href="/drivers/' + row.id + '/unban" class="bttn btn btn-xs btn-success" data-id="' + row.id + '" ><i class="fa fa-check"></i><span>Active</span></a><br><form style="display:inline" method="POST" action="drivers/'+row.id+'">@csrf   {{ method_field('DELETE')}}<button type="submit" onclick="return myFunction();" class="btn btn-xs btn-danger"><i class="fa fa-times"></i>Delete</button></form>'
