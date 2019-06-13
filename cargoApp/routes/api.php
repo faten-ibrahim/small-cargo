@@ -6,6 +6,7 @@ Route::post('company/register', 'Api\Company\AuthController@register');
 
 Route::post('driver/login', 'Api\Driver\AuthController@login');
 Route::post('driver/register', 'Api\Driver\AuthController@register');
+Route::post('company/order', 'Api\Company\CompaniesOrdersController@store');
 
 Route::group([
     'middleware' => ['auth:company'],
@@ -14,6 +15,8 @@ Route::group([
     Route::post('company/logout', 'Api\Company\AuthController@logout');
     Route::get('company/me', 'Api\Company\AuthController@getAuthUser');
     Route::post('company/token', 'Api\Company\AuthController@get_fcm_token');
+    // Route::get('company/order', 'Api\Company\CompaniesOrdersController@store');
+
 });
 
 Route::group([
@@ -24,3 +27,5 @@ Route::group([
     Route::get('driver/me', 'Api\Driver\AuthController@getAuthUser');
     Route::post('driver/token', 'Api\Driver\AuthController@get_fcm_token');
 });
+
+

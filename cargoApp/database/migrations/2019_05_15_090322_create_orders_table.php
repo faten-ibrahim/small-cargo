@@ -17,11 +17,11 @@ class CreateOrdersTable extends Migration
             $table->softDeletes();
             $table->bigIncrements('id');
             $table->string('shipment_type')->enum('shipment_type', ['glass','poisonous', 'flammable']);
-            $table->dateTime('pickup_date');
-            $table->float('estimated_cost');
-            $table->float('final_cost');
+            $table->dateTime('pickup_date')->nullable();
+            $table->float('estimated_cost')->nullable();
+            $table->float('final_cost')->nullable();
             $table->string('status')->enum('status', ['pending', 'accepted','ongoing','delivered'])->default('pending');
-            $table->string('car_number',100);
+            $table->integer('car_number');
             $table->timestamps();
         });
     }
