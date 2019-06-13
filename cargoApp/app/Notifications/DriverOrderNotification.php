@@ -17,7 +17,7 @@ class DriverOrderNotification extends Notification
      *
      * @return void
      */
-    // private $device_token=array();
+    private $device_token=array();
 
     public function __construct()
     {
