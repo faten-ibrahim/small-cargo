@@ -4,6 +4,8 @@ use Illuminate\Http\Request;
 Route::post('company/login', 'Api\Company\AuthController@login');
 Route::post('company/register', 'Api\Company\AuthController@register');
 
+Route::get('driver/driversNotification','Api\Company\CompaniesOrdersController@driversNotification');
+
 Route::post('driver/login', 'Api\Driver\AuthController@login');
 Route::post('driver/register', 'Api\Driver\AuthController@register');
 Route::post('company/order', 'Api\Company\CompaniesOrdersController@store');
