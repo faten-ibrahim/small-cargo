@@ -32,7 +32,8 @@
                 dataType: 'json',
                 type: 'get',
             },
-            columns: [{
+            columns: [
+                {
                     data: 'id'
                 },
                 {

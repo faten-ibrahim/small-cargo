@@ -40,9 +40,9 @@ class CompaniesController extends Controller
                 'companies.*',
                 DB::raw("count(company_order.sender_id) as orders_count")
             )
+            ->where('deleted_at',Null)
             ->groupBy('companies.id')
             ->orderBy('companies.created_at', 'desc');
-
         return datatables()->of($companies)->make(true);
     }
 
@@ -60,7 +60,7 @@ class CompaniesController extends Controller
         $request->validate(
             [
                 'name' => 'required',
-                'email' => 'required|unique:companies|email',
+                'email' => 'required|unique:companies,email,NULL,id,deleted_at,NULL',
                 'address' => 'required',
                 'phone' => 'required',
             ],
@@ -73,18 +73,29 @@ class CompaniesController extends Controller
                 'phone.required' => 'Please enter the company phone',
             ]
         );
-        // dd($request);
-        // Company::create($request->all());
-        $company = new Company();
-        $company['name'] = $request['name'];
-        $company['email'] = $request['email'];
-        $company['address'] = $request['address'];
-        $company['address_latitude'] = $request['address_latitude'];
-        $company['address_longitude'] = $request['address_longitude'];
-        $company['phone'] = $request['phone'];
-        $pass=str_random(8);
-        $company['password'] =Hash::make($pass);
-        $company->save();
+
+        //----------------
+        $contact_companies=Company::select('*')
+        ->where('status','contact')->get();
+        foreach ($contact_companies as $contact_company){
+            if( ($contact_company->phone === $request['phone']) || ($contact_company->name === $request['name']) ){
+                 $contact_company->delete();
+            }
+        }     
+
+        //----------------
+
+            $company = new Company();
+            $company['name'] = $request['name'];
+            $company['email'] = $request['email'];
+            $company['address'] = $request['address'];
+            $company['address_latitude'] = $request['address_latitude'];
+            $company['address_longitude'] = $request['address_longitude'];
+            $company['phone'] = $request['phone'];
+            $pass=str_random(8);
+            $company['password'] =Hash::make($pass);
+            $company->save();
+            
 
           # send email to Company
           if (Company::where('email', '=',  $request['email'])->exists()) {
@@ -92,7 +103,7 @@ class CompaniesController extends Controller
           }
           #####
 
-
+ 
         return redirect()->route('companies.index');
     }
 
@@ -100,6 +111,7 @@ class CompaniesController extends Controller
     public function show(Company $company)
     {
         $contacts = Company::find($company->id)->companycontactlists;
+    
         return view('companies.show', [
             'company' => $company,
             'contacts' => $contacts
@@ -117,20 +129,10 @@ class CompaniesController extends Controller
     /* *************************************************** */
     public function update(Request $request, Company $company)
     {
-        if (request('email') != $company->email) {
-            $this->validate(request(), [
-                'email' => 'email|unique:companies',
-            ]);
-            $company->email = request('email');
-
-        } else {
-            $company->email = request('email');
-        }
-
         $request->validate(
             [
                 'name' => 'required',
-                'email' => 'required|email',
+                'email' => 'required|unique:companies,email,'.$company->id.',id,deleted_at,NULL',
                 'address' => 'required',
                 'phone' => 'required',
             ],
@@ -145,10 +147,11 @@ class CompaniesController extends Controller
         //update company
         $company->name = request('name');
         $company->phone = request('phone');
+        $company->email = request('email');
         $company->address = request('address');
         $company->address_latitude = request('address_latitude');
         $company->address_longitude = request('address_longitude');
-        $company->save();
+        $company->update();
         return redirect()->route('companies.index')->with('success', 'Company account has been updated ');
 
     }
@@ -157,6 +160,8 @@ class CompaniesController extends Controller
     /* *************************************************** */
     public function destroy(Company $company)
     {
+        $contacts = Company::find($company->id)->companycontactlists;
+        $contacts->each->delete();
         $company->delete();
         return redirect()->route('companies.index');
     }
@@ -233,53 +238,41 @@ class CompaniesController extends Controller
 
    /* *************************************************** */
     public function Send_company_orders(Company $company){
-        $company_orders = DB::table('company_order')
-                ->select('order_id')
+        $company_orders = CompanyOrder::select('order_id')
                 ->where('sender_id',$company->id);
-
-        $orders=DriverOrder::whereIn('order_id', $company_orders)
-                ->leftJoin('orders','orders.id', '=', 'driver_order.order_id')
-                ->leftJoin('drivers', function ($join) {
-                        $join->on('drivers.id', '=', 'driver_order.driver_id');
-                    })
-                ->select('orders.*','drivers.name','drivers.phone')
-                ->orderBy('orders.created_at', 'desc')->paginate(5);
-                // dd($company);
-
-        $packages=Package::whereIn('order_id', $company_orders)->get();
+        $orders_details=Package::whereIn('order_id', $company_orders)
+                ->Join('orders','orders.id','=','packages.order_id')->paginate(5);
+ 
+        $orders_drivers=DriverOrder::whereIn('order_id', $company_orders)
+          ->Join('drivers','drivers.id', '=', 'driver_order.driver_id')
+          ->select('order_id','name','phone')->get();
 
        
         return view('companies.send_orders', [
-            'orders' => $orders,
+            'orders' => $orders_details,
             'company'=>$company,
-            'packages'=> $packages,
+            'drivers'=>$orders_drivers,
         ]);
 
     }
 
    /* *************************************************** */
    public function Recived_company_orders(Company $company){
-    $company_orders = DB::table('company_order')
-            ->select('order_id')
-            ->where('receiver_id',$company->id);            
+        $company_orders = CompanyOrder::select('order_id')
+            ->where('receiver_id',$company->id)->get();
 
-    $orders=DriverOrder::whereIn('order_id', $company_orders)
-            ->leftJoin('orders','orders.id', '=', 'driver_order.order_id')
-            ->leftJoin('drivers', function ($join) {
-                    $join->on('drivers.id', '=', 'driver_order.driver_id');
-                })        
-            ->select('orders.*','drivers.name','drivers.phone')  
-            ->orderBy('orders.created_at', 'desc')->paginate(5);
-            // dd($company);
+        $orders_details=Package::whereIn('order_id', $company_orders)
+            ->Join('orders','orders.id','=','packages.order_id')->paginate(5);
 
-    $packages=Package::whereIn('order_id', $company_orders)->get();
+        $orders_drivers=DriverOrder::whereIn('order_id', $company_orders)
+        ->Join('drivers','drivers.id', '=', 'driver_order.driver_id')
+        ->select('order_id','name','phone')->get();
 
-   
-    return view('companies.recived_orders', [
-        'orders' => $orders,
+        return view('companies.send_orders', [
+        'orders' => $orders_details,
         'company'=>$company,
-        'packages'=> $packages,
-    ]);
+        'drivers'=>$orders_drivers,
+        ]);
 
 }
 

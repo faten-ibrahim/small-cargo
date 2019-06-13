@@ -29,9 +29,18 @@
       <td>{{ $order-> final_cost }}</td>
       @else
       <td>Not delivered yet</td>
-      @endif   
-      <td>{{ $order-> name }}</td>
-      <td>{{ $order-> phone }}</td>
+      @endif  
+
+      @foreach($drivers as $driver)
+      @if( $driver->order_id === $order->id) 
+      <td>{{ $driver -> name }}</td>
+      <td>{{ $driver -> phone }}</td>
+      @else
+      <td>No driver accept order yet</td>
+      <td>No driver accept order yet</td>
+      @endif  
+      @endforeach
+
       <td><!-- Button trigger modal -->
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#{{ $order-> id }}">
   Details
@@ -50,38 +59,34 @@
         
                 <table class="table table-striped">
                 <tbody>
-                @foreach($packages as $package)
-                @if( $order->id === $package->order_id) 
                     <tr>
                     <th>Length</th>
-                    <td>{{ $package -> length}}</td>
+                    <td>{{ $order -> length}}</td>
                     <tr>
                     <th>Width</th>
-                    <td>{{ $package -> width}}</td>
+                    <td>{{ $order -> width}}</td>
                     <tr>
                     <th>Height</th>
-                    <td>{{ $package -> height}}</td>
+                    <td>{{ $order -> height}}</td>
                     <tr>
                     <th>Quantity</th>
-                    <td>{{ $package -> quantity}}</td>
+                    <td>{{ $order -> quantity}}</td>
                     <tr>
                     <th>Weight</th>
-                    <td>{{ $package -> Weight}} {{ $package -> unit}}</td>
+                    <td>{{ $order -> Weight}} {{ $order -> unit}}</td>
                     <tr>
                     <th>Value</th>
-                    <td>{{ $package -> value}}</td>
+                    <td>{{ $order -> value}}</td>
                     <tr>
                     <th>Pickup location</th>
-                    <td>{{ $package -> pickup_location}}</td>
+                    <td>{{ $order -> pickup_location}}</td>
                     <tr>
                     <th>Drop off location</th>
-                    <td>{{ $package -> drop_off_location}}</td>
+                    <td>{{ $order -> drop_off_location}}</td>
                     <tr>
                     <th>Time to deliver</th>
-                    <td>{{ $package -> time_to_deliver}}</td>
+                    <td>{{ $order -> time_to_deliver}}</td>
                     </tr>
-                  @endif   
-                @endforeach
                 </tbody>
                 </table>
 

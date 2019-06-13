@@ -17,13 +17,14 @@ class CreateCompaniesTable extends Migration
             $table->softDeletes();
             $table->bigIncrements('id');
             $table->string('name');
-            $table->string('email')->unique();
+            $table->string('email');
             $table->string('address');
             $table->double('address_latitude')->nullable();
             $table->double('address_longitude')->nullable();
             $table->string('phone');
-            $table->string('status')->enum('status', ['active', 'inactive','new'])->default('new');
+            $table->string('status')->enum('status', ['active', 'inactive','new','contact'])->default('new');
             $table->timestamps();
+
         });
     }
 
