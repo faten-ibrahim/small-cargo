@@ -17,7 +17,7 @@ class DriverOrderNotification extends Notification
      *
      * @return void
      */
-    private $drivers_tokens=array();
+    // private $device_token=array();
 
     public function __construct()
     {
@@ -58,7 +58,7 @@ class DriverOrderNotification extends Notification
      */
     public function routeNotificationForFcm($notification)
     {
-        return $this->drivers_tokens;
+        return $this->device_token;
     }
 
 
@@ -78,7 +78,7 @@ class DriverOrderNotification extends Notification
  
     public function setDriverNotification($tokens,$order)
     {
-         $this->drivers_tokens=$tokens;
+         $this->device_token=$tokens;
     }
 
 
