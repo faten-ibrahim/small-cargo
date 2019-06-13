@@ -17,6 +17,8 @@ use App\Company;
 use App\DriverToken;
 use App\CompanyContactList;
 use Hash;
+use App\CompanyToken;
+use App\Notifications\CompanyOrderNotification;
 use App\Notifications\DriverOrderNotification;
 
 class CompaniesOrdersController extends Controller
@@ -118,7 +120,7 @@ class CompaniesOrdersController extends Controller
             'contact_name'=>$request->contact_name,
             'order_id'=>$order->id,
         ]);
-        
+
         $orderNotify=array();
         $orderNotify=array_merge($order->toArray(),$package->toArray());
         $drivers_tokens=$this->driversNotification();
@@ -126,6 +128,9 @@ class CompaniesOrdersController extends Controller
         $notify->setDriverNotification($drivers_tokens,$orderNotify);
 
 
+        // dd($this->get_tokens ($request->sender_id,$id));
+        $notification=new CompanyOrderNotification();
+        $notification->setCompanyNotification($this->get_tokens ($request->sender_id,$id),$order);
         return response()->json([
             'message' => 'Order Saved Successfully',
             'order' => $order,
@@ -135,6 +140,16 @@ class CompaniesOrdersController extends Controller
         ], 201);
     }
 
+    public function get_tokens ($sender_id,$receiver_id)
+    {
+        $sender_token=CompanyToken::where('company_id', '=',$sender_id)->first()->token;
+        $receiver_token=CompanyToken::where('company_id', '=',$receiver_id)->first()->token;
+
+        $tokens =[];
+        array_push($tokens,$sender_token,$receiver_token);
+
+        return $tokens;
+    }
 
     public function driversNotification()
     {
@@ -143,7 +158,7 @@ class CompaniesOrdersController extends Controller
         for($i=0;$i<sizeof($drivers); $i++){
             array_push($drivers_tokens,$drivers[$i]['token']);
         }
-        
+
 
         return $drivers_tokens;
     }

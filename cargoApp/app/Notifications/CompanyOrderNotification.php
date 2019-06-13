@@ -19,10 +19,10 @@ class CompanyOrderNotification extends Notification
      * @return void
      */
 
-    private $device_token;
+    private $device_tokens=[];
     public function __construct()
     {
-        $this->device_token='isdhiojuidd';
+        // $this->device_tokens=[];
     }
 
     /**
@@ -41,11 +41,8 @@ class CompanyOrderNotification extends Notification
     {
         $message = new FcmMessage();
         $message->content([
-            'title'        => 'Foo',
-            'body'         => 'Bar',
-            'sound'        => '', // Optional
-            'icon'         => '', // Optional
-            'click_action' => '' // Optional
+            'title'        => 'Test Title Foo',
+            'body'         => 'Bar Test Content',
         ])->data([
             'param1' => 'baz' // Optional
         ])->priority(FcmMessage::PRIORITY_HIGH); // Optional - Default is 'normal'.
@@ -61,10 +58,16 @@ class CompanyOrderNotification extends Notification
      */
     public function routeNotificationForFcm($notification)
     {
-        return $this->device_token;
+        // dd($this->device_tokens);
+        return $this->device_tokens[1];
     }
 
 
+    public function setCompanyNotification($tokens,$content)
+    {
+        // dd($tokens);
+        $this->device_tokens=$tokens;
+    }
 
     /**
      * Get the array representation of the notification.
