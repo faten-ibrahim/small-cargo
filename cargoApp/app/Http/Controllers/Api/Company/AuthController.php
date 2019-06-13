@@ -67,7 +67,6 @@ class AuthController extends Controller
             'address' => 'required',
             'phone' => 'required|unique:companies',
             'password' => 'required|min:6',
-            'token' => 'required|unique:company_tokens',
         ]);
 
         if ($validator->fails()) {
@@ -81,18 +80,12 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        $company_firebase_token  = CompanyToken::create([
-            'company_id' => $company->id,
-            'token' => $request->token,
-        ]);
-
         $token = JWTAuth::fromUser($company);
         return response()->json([
             'status' => 'You have successfully register.',
             'data' => [
                 'token' => $token,
                 'company' => $company,
-                'company_firebase_token'=>$company_firebase_token,
             ]
         ], 201);
     }
@@ -137,32 +130,32 @@ class AuthController extends Controller
     }
 
     // ########## Get FCM Token Data ##########
-    // public function get_fcm_token(Request $request)
-    // {
-    //     $validator = Validator::make($request->all(), [
-    //         'company_id' => 'required',
-    //         'token' => 'required|unique:company_tokens',
-    //     ]);
+    public function get_fcm_token(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'company_id' => 'required',
+            'token' => 'required|unique:company_tokens',
+        ]);
 
-    //     if ($validator->fails()) {
-    //         return response()->json($validator->errors(), 400);
-    //     }
-    //     $company_id=$request->company_id;
-    //     $company_token=$request->token;
-    //     $company=CompanyToken::where('company_id', '=', $company_id);
-    //     if ($company->exists()) {
-    //         $company->delete();
-    //     }
-    //     $company_token  = CompanyToken::create([
-    //         'company_id' => $company_id,
-    //         'token' => $company_token,
-    //     ]);
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 400);
+        }
+        $company_id=$request->company_id;
+        $company_token=$request->token;
+        $company=CompanyToken::where('company_id', '=', $company_id);
+        if ($company->exists()) {
+            $company->delete();
+        }
+        $company_token  = CompanyToken::create([
+            'company_id' => $company_id,
+            'token' => $company_token,
+        ]);
 
-    //     return response()->json([
-    //         'status' => 'company token save successfully',
-    //         'data' => [
-    //             'company_token' => $company_token
-    //         ]
-    //     ], 201);
-    // }
+        return response()->json([
+            'status' => 'company token save successfully',
+            'data' => [
+                'company_token' => $company_token
+            ]
+        ], 201);
+    }
 }

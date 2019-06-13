@@ -18,9 +18,11 @@ class CompanyOrderNotification extends Notification
      *
      * @return void
      */
+
+    private $device_token;
     public function __construct()
     {
-        //
+        $this->device_token='isdhiojuidd';
     }
 
     /**
