@@ -17,6 +17,8 @@ class DriverOrderNotification extends Notification
      *
      * @return void
      */
+    private $drivers_tokens=array();
+
     public function __construct()
     {
         //
@@ -38,11 +40,9 @@ class DriverOrderNotification extends Notification
     {
         $message = new FcmMessage();
         $message->content([
-            'title'        => 'Foo',
+            'title'        => 'Hello manar',
             'body'         => 'Bar',
-            'sound'        => '', // Optional
-            'icon'         => '', // Optional
-            'click_action' => '' // Optional
+       
         ])->data([
             'param1' => 'baz' // Optional
         ])->priority(FcmMessage::PRIORITY_HIGH); // Optional - Default is 'normal'.
@@ -58,7 +58,7 @@ class DriverOrderNotification extends Notification
      */
     public function routeNotificationForFcm($notification)
     {
-        return $this->device_token;
+        return $this->drivers_tokens;
     }
 
 
@@ -75,4 +75,11 @@ class DriverOrderNotification extends Notification
             //
         ];
     }
+ 
+    public function setDriverNotification($tokens,$order)
+    {
+         $this->drivers_tokens=$tokens;
+    }
+
+
 }

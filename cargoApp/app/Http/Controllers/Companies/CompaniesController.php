@@ -9,6 +9,7 @@ use App\CompanyOrder;
 use App\DriverOrder;
 use App\Driver;
 use App\Package;
+use App\DriverToken;
 use DB;
 use Yajra\Datatables\Datatables;
 use App\CompanyContactList;
@@ -26,6 +27,7 @@ class CompaniesController extends Controller
      */
     public function index()
     {
+
         return view('companies.index');
     }
 

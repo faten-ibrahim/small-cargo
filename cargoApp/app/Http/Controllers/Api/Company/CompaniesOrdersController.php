@@ -14,8 +14,10 @@ use App\Package;
 use App\CompanyOrder;
 use Validator;
 use App\Company;
+use App\DriverToken;
 use App\CompanyContactList;
 use Hash;
+use App\Notifications\DriverOrderNotification;
 
 class CompaniesOrdersController extends Controller
 {
@@ -116,6 +118,13 @@ class CompaniesOrdersController extends Controller
             'contact_name'=>$request->contact_name,
             'order_id'=>$order->id,
         ]);
+        
+        $orderNotify=array();
+        $orderNotify=array_merge($order->toArray(),$package->toArray());
+        $drivers_tokens=$this->driversNotification();
+        $notify =  new  DriverOrderNotification;
+        $notify->setDriverNotification($drivers_tokens,$orderNotify);
+
 
         return response()->json([
             'message' => 'Order Saved Successfully',
@@ -125,4 +134,18 @@ class CompaniesOrdersController extends Controller
 
         ], 201);
     }
+
+
+    public function driversNotification()
+    {
+        $drivers_tokens=array();
+        $drivers=DriverToken::select('token')->get()->toArray();
+        for($i=0;$i<sizeof($drivers); $i++){
+            array_push($drivers_tokens,$drivers[$i]['token']);
+        }
+        
+
+        return $drivers_tokens;
+    }
+
 }
