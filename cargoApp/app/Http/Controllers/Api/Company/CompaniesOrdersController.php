@@ -16,6 +16,8 @@ use Validator;
 use App\Company;
 use App\CompanyContactList;
 use Hash;
+use App\CompanyToken;
+use App\Notifications\CompanyOrderNotification;
 
 class CompaniesOrdersController extends Controller
 {
@@ -117,6 +119,9 @@ class CompaniesOrdersController extends Controller
             'order_id'=>$order->id,
         ]);
 
+        // dd($this->get_tokens ($request->sender_id,$id));
+        $notification=new CompanyOrderNotification();
+        $notification->setCompanyNotification($this->get_tokens ($request->sender_id,$id),$order);
         return response()->json([
             'message' => 'Order Saved Successfully',
             'order' => $order,
@@ -124,5 +129,16 @@ class CompaniesOrdersController extends Controller
             'company_order' => $company_order,
 
         ], 201);
+    }
+
+    public function get_tokens ($sender_id,$receiver_id)
+    {
+        $sender_token=CompanyToken::where('company_id', '=',$sender_id)->first()->token;
+        $receiver_token=CompanyToken::where('company_id', '=',$receiver_id)->first()->token;
+
+        $tokens =[];
+        array_push($tokens,$sender_token,$receiver_token);
+
+        return $tokens;
     }
 }
