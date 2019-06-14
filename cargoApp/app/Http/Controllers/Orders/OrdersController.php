@@ -9,6 +9,7 @@ use App\CompanyOrder;
 use App\Package;
 use App\Company;
 use App\Driver;
+use App\Exports\OrdersExport;
 
 class OrdersController extends Controller
 {
@@ -27,9 +28,14 @@ class OrdersController extends Controller
         ->leftjoin('companies','companies.id','company_order.sender_id')
         ->leftjoin('drivers','drivers.id','driver_order.driver_id');
 
-     
+
         // ->orderBy('orders.created_at', 'desc');
         return datatables()->of($orders)->make(true);
-                
+
+    }
+
+    public function export()
+    {
+        return Excel::download(new OrdersExport, 'orders.xlsx');
     }
 }
