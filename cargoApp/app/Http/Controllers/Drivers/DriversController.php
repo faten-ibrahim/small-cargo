@@ -8,6 +8,8 @@ use Auth;
 use DB;
 use App\User;
 use App\Driver;
+use App\Exports\DriversExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class DriversController extends Controller
 {
@@ -61,6 +63,12 @@ class DriversController extends Controller
             return datatables()->of($drivers)->toJson();
         }
     }
+
+    public function export()
+    {
+        return Excel::download(new DriversExport, 'drivers.xlsx');
+    }
+
 
     public function create()
     {

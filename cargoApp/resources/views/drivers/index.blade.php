@@ -4,6 +4,7 @@
     @include('flash-message')
     <h2>Manage Drivers</h2>
     <a class="btn btn-info" href="{{route('drivers.create')}}"><i class="fa fa-plus"></i><span>Add New Driver</span></a><br><br>
+    <a class="btn btn-primary"href="{{route('drivers.excel')}}"><i class="fa fa-download"></i><span>Export Drivers</span></a><br><br>
     <table id="example" class="table table-striped">
         <thead>
             <th>Name</th>
