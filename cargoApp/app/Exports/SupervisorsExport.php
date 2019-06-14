@@ -37,7 +37,7 @@ class SupervisorsExport implements FromCollection, WithHeadings, ShouldAutoSize,
                 DB::raw("count(drivers.user_id) as drivers_count")
             )
             ->groupBy('users.id')
-            ->orderBy('users.created_at', 'asc')->get();
+            ->orderBy('users.created_at', 'desc')->get();
 
         return $supervisors;
     }

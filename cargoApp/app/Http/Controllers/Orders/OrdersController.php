@@ -10,6 +10,7 @@ use App\Package;
 use App\Company;
 use App\Driver;
 use App\Exports\OrdersExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class OrdersController extends Controller
 {

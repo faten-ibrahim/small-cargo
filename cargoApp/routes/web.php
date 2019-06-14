@@ -45,12 +45,12 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/users/{user}/unban', 'Users\UsersController@unban')
                 ->name('users.unban');
 
-
+            Route::get('orders/excel', 'Orders\OrdersController@export')->name('orders.excel');
             Route::resource('users', 'Users\UsersController');
 
             Route::resource('orders', 'Orders\OrdersController');
 
-            Route::get('orders/excel', 'Orders\OrdersController@export')->name('orders.excel');
+
             Route::get('supervisors/excel', 'Users\UsersController@export')->name('supervisors.excel');
             #---------- for datatable ----------------------
             Route::get('supervisors_list', 'Users\UsersController@supervisors_List');
