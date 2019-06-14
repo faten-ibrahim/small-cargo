@@ -55,4 +55,5 @@ class Driver extends Authenticatable implements JWTSubject,BannableContract
     {
         return [];
     }
+
 }

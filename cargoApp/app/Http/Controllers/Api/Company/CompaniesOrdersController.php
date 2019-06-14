@@ -124,7 +124,7 @@ class CompaniesOrdersController extends Controller
         $orderNotify=array();
         $orderNotify=array_merge($order->toArray(),$package->toArray());
         $drivers_tokens=$this->driversNotification();
-        $notify =  new  DriverOrderNotification;
+        $notify =  new  DriverOrderNotification();
         $notify->setDriverNotification($drivers_tokens,$orderNotify);
 
 

@@ -47,7 +47,11 @@ return [
      * Add the Firebase API key
      */
     'fcm' => [
-        'key' => 'AIzaSyBQqFgiawqbZda41R6LcCFKQ1NLCK69S7Y'
+        'key' => 'AAAA4NTf2yU:APA91bH_fkARCWidRURyBjVJj0CsicohQfIioNZnstnGgR4uXOJCo__aZpdynk8kmNuId5wQm_LJ99EC8mBBu-Aqcgt066F0ula-JWu8XDkZoR1mTpgcxb1SccNkMORi4n2LCrfIFfdy'
     ],
 
 ];
+
+// AAAA4NTf2yU:APA91bH_fkARCWidRURyBjVJj0CsicohQfIioNZnstnGgR4uXOJCo__aZpdynk8kmNuId5wQm_LJ99EC8mBBu-Aqcgt066F0ula-JWu8XDkZoR1mTpgcxb1SccNkMORi4n2LCrfIFfdy
+
+// AIzaSyBo5wDjfPsCBR_7cnGpp3V4JKqmXyy6E0U
