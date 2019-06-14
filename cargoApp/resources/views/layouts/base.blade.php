@@ -138,6 +138,7 @@
                     @role('admin')
                     <li class="active"><a href="{{route('companies.index')}}"><i class="fa fa-list-alt"></i> <span>Manage companies</span></a></li>
                     <li><a href="{{route('users.index')}}"><i class="fa fa-users"></i> <span>Manage Supervisors</span></a></li>
+                    <li><a href="{{route('orders.index')}}"><i class="fa fa-users"></i> <span>Manage Orders</span></a></li>
                     @endrole
                     @role('admin|supervisor')
                     <li><a href="{{route('drivers.index')}}"><i class="fa fa-users"></i> <span>Manage Drivers</span></a></li>

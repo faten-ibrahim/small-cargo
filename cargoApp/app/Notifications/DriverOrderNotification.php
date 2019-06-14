@@ -38,6 +38,7 @@ class DriverOrderNotification extends Notification
 
     public function toFcm($notifiable)
     {
+        dd('hello');
         $message = new FcmMessage();
         $message->content([
             'title'        => 'Hello manar',

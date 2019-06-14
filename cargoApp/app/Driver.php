@@ -54,6 +54,6 @@ class Driver extends Authenticatable implements JWTSubject,BannableContract
     public function getJWTCustomClaims()
     {
         return [];
-
+    }
 
 }
