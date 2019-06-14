@@ -43,6 +43,7 @@ class CompanyOrderNotification extends Notification
         $message->content([
             'title'        => 'Test Title Foo',
             'body'         => 'Bar Test Content',
+            'sound' => 'bingbong.aiff'
         ])->data([
             'param1' => 'baz' // Optional
         ])->priority(FcmMessage::PRIORITY_HIGH); // Optional - Default is 'normal'.

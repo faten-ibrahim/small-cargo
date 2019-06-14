@@ -49,7 +49,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::resource('users', 'Users\UsersController');
 
             Route::resource('orders', 'Orders\OrdersController');
-            
+
             Route::get('supervisors/excel', 'Users\UsersController@export')->name('supervisors.excel');
             #---------- for datatable ----------------------
             Route::get('supervisors_list', 'Users\UsersController@supervisors_List');
@@ -59,6 +59,8 @@ Route::group(['middleware' => 'auth'], function () {
         });
         // admin|supervisor routes
         Route::group(['middleware' => ['role:admin|supervisor']], function () {
+            Route::get('/drivers/excel', 'Drivers\DriversController@export')
+                ->name('drivers.excel');
             Route::resource('drivers', 'Drivers\DriversController');
             Route::get('/drivers/{driver}/ban', 'Drivers\DriversController@ban')
                 ->name('users.ban');
