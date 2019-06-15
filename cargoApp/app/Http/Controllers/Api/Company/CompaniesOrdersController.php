@@ -121,24 +121,43 @@ class CompaniesOrdersController extends Controller
         $orderNotify = array();
         $orderNotify = array_merge($order->toArray(), $package->toArray());
         $drivers_tokens = $this->driversNotification();
-        fcm()
-            ->to($drivers_tokens) // $recipients must an array
-            ->data([
-                'title' => 'Test driver FCM',
-                'body' => 'This is a test of driver FCM',
-            ])
-            ->send();
+        // dd('token driver',$drivers_tokens);
+        try {
+            fcm()
+                ->to($drivers_tokens) // $recipients must an array
+                ->notification([
+                    'title' => 'Test driver FCM',
+                    'body' => 'This is a test of driver FCM',
+                    'content'=>$orderNotify,
+                ])
+                ->send();
+        } catch (\Exception $e) {
+            dd($e);
+            report($e);
+            return $e->getMessage();
+        }
 
         // Companies Notifications
         $recipients = [];
         $recipients = $this->get_tokens($request->sender_id, $id);
-        fcm()
-            ->to($recipients) // $recipients must an array
-            ->data([
-                'title' => 'Test company FCM',
-                'body' => 'This is a test of company FCM',
-            ])
-            ->send();
+
+
+        try {
+
+            fcm()
+                ->to($recipients) // $recipients must an array
+                ->notification([
+                    'title' => 'Test company FCM',
+                    'body' => 'This is a test of company FCM',
+                    'content'=>$order,
+                ])
+                ->send();
+                // dd('company tokens',$recipients);
+        } catch (\Exception $e) {
+
+            return $e->getMessage();
+        }
+
 
         return response()->json([
             'message' => 'Order Saved Successfully',
