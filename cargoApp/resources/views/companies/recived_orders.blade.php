@@ -2,7 +2,7 @@
 @section('content')
 <div class="container" style="width:100%;">
 @include('flash-message')
-<h2>{{$company->name}} orders</h2>
+<h2>{{$company->comp_name}} orders</h2>
 
 <table class="table  table-striped table-bordered ">
   <thead class="thead-dark">

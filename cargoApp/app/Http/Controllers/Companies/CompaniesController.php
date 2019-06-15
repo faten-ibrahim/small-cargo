@@ -80,7 +80,7 @@ class CompaniesController extends Controller
         $contact_companies=Company::select('*')
         ->where('status','contact')->get();
         foreach ($contact_companies as $contact_company){
-            if( ($contact_company->phone === $request['phone']) || ($contact_company->name === $request['name']) ){
+            if( ($contact_company->phone === $request['phone']) || ($contact_company->comp_name === $request['name']) ){
                  $contact_company->delete();
             }
         }     
@@ -88,7 +88,7 @@ class CompaniesController extends Controller
         //----------------
 
             $company = new Company();
-            $company['name'] = $request['name'];
+            $company['comp_name'] = $request['name'];
             $company['email'] = $request['email'];
             $company['address'] = $request['address'];
             $company['address_latitude'] = $request['address_latitude'];
@@ -147,7 +147,7 @@ class CompaniesController extends Controller
             ]
         );
         //update company
-        $company->name = request('name');
+        $company->comp_name = request('name');
         $company->phone = request('phone');
         $company->email = request('email');
         $company->address = request('address');

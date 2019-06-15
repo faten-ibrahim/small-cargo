@@ -2,7 +2,7 @@
 @section('content')
 <div class="container" style="width:100%;">
 @include('flash-message')
-<h2>{{$company->name}} orders</h2>
+<h2>{{$company->comp_name}} orders</h2>
 
 <table class="table  table-striped table-bordered ">
   <thead class="thead-dark">
@@ -25,7 +25,7 @@
       <td>{{ $order-> pickup_date }}</td>
       <td>{{ $order-> status }}</td>
       <td>{{ $order-> estimated_cost }}</td>
-      @if( $order->status !== 'delivered') 
+      @if( $order->status === 'delivered') 
       <td>{{ $order-> final_cost }}</td>
       @else
       <td>Not delivered yet</td>

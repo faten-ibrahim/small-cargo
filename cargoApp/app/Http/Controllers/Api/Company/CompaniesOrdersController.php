@@ -6,8 +6,6 @@ use JWTAuth;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-// use App\Attendence;
-// use App\Customer;
 use App\Http\Controllers\Api\Company\AuthController;
 use App\Order;
 use App\Package;
@@ -60,7 +58,7 @@ class CompaniesOrdersController extends Controller
         }
 
         $receiver_name=$request->receiver_name;
-        $receiver_company = Company::where('name', '=', $receiver_name)->first();
+        $receiver_company = Company::where('comp_name', '=', $receiver_name)->first();
         $id='';
         if ($receiver_company) {
             $company = CompanyContactList::where('receiver_name', '=', $request->receiver_name)->first();
@@ -76,7 +74,7 @@ class CompaniesOrdersController extends Controller
             }
         } else {
             $company_created=Company::create([
-                'name' => $request->receiver_name,
+                'comp_name' => $request->receiver_name,
                 'address' => $request->address,
                 'password' => Hash::make(str_random(8)),
                 'email' => str_random(5).'@gamil.com',

@@ -25,7 +25,7 @@ class OrdersController extends Controller
         ->leftjoin('packages','orders.id','packages.order_id')
         ->leftjoin('companies','companies.id','company_order.sender_id')
         ->leftjoin('drivers','drivers.id','driver_order.driver_id')
-        ->select ('orders.*','packages.quantity','packages.Weight','packages.value','packages.pickup_location','packages.drop_off_location','packages.time_to_deliver','packages.height','packages.length','packages.width','companies.name as comp_name','drivers.name','drivers.phone')
+        ->select ('orders.*','packages.quantity','packages.Weight','packages.value','packages.pickup_location','packages.drop_off_location','packages.time_to_deliver','packages.height','packages.length','packages.width','companies.comp_name','drivers.name','drivers.phone')
         ->orderBy('packages.created_at', 'desc');
 
      

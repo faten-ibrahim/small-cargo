@@ -73,7 +73,7 @@ class AuthController extends Controller
             return response()->json($validator->errors(), 400);
         }
         $company = Company::create([
-            'name' => $request->name,
+            'comp_name' => $request->name,
             'email' => $request->email,
             'address' => $request->address,
             'phone' => $request->phone,

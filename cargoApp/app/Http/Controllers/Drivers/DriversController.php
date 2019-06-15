@@ -153,10 +153,11 @@ class DriversController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Driver $driver)
     {
-        //
+        return view('drivers.edit', compact('driver'));
     }
+
 
     /**
      * Update the specified resource in storage.

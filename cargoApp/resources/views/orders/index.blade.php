@@ -14,6 +14,7 @@
                 <th>Final cost</th>
                 <th>Driver name</th>
                 <th>Driver phone</th>
+                <th>Details</th>
             </tr>
         </thead>
     </table>
@@ -32,18 +33,108 @@
                 type: 'get',
             },
             columns: [
-                { data: 'comp_name' },
+                { data: 'comp_name',name: 'companies.comp_name'},
                 { data: 'shipment_type' },
                 { data: 'pickup_date' },
                 { data: 'status' },
-                { data: 'estimated_cost' },
-                { data: 'final_cost' },
-                { data: 'name' },
-                { data: 'phone' },
+                {
+                    mRender: function(data, type, row) {
+                            if (row.estimated_cost)
+                               return '<span>' + row.estimated_cost + '</span>'
+                            else
+                            return '-'
+                            }
+                },
+                {
+                    mRender: function(data, type, row) {
+                            if (row.status === 'delivered')
+                                return '<span>' + row.final_cost + '</span>'
+                            else
+                                return 'Not Deliverd yet'
+                            }
+                },
+                {
+                    mRender: function(data, type, row) {
+                            if (row.name)
+                               return '<span>' + row.name + '</span>'
+                            else
+                            return '-'
+                            }
+                },
+                {
+                    mRender: function(data, type, row) {
+                            if (row.phone)
+                               return '<span>' + row.phone + '</span>'
+                            else
+                            return '-'
+                            }
+                },
+                {
+                    mRender: function(data, type, row) {
+                         return `
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#${row.id}">
+                            Details
+                            </button>
+
+                            <!-- Modal -->
+                            <div class="modal fade" id="${row.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                                         
+                                <table class="table table-striped">
+                                <tbody>
+                                    <tr>
+                                    <th>Length</th>
+                                    <td>${row.length}</td>
+                                    <tr>
+                                    <th>Width</th>
+                                    <td>${row. width}</td>
+                                    <tr>
+                                    <th>Height</th>
+                                    <td>${row.height}</td>
+                                    <tr>
+                                    <th>Quantity</th>
+                                    <td>${row. quantity}</td>
+                                    <tr>
+                                    <th>Weight</th>
+                                    <td>${row.Weight}</td>
+                                    <tr>
+                                    <th>Value</th>
+                                    <td>${row.value}</td>
+                                    <tr>
+                                    <th>Pickup location</th>
+                                    <td>${row.pickup_location}</td>
+                                    <tr>
+                                    <th>Drop off location</th>
+                                    <td>${row.drop_off_location}</td>
+                                    <tr>
+                                    <th>Time to deliver</th>
+                                    <td>${row.time_to_deliver}</td>
+                                    </tr>
+
+                                    </tbody>
+                                    </table>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-primary">Save changes</button>
+                                </div>
+                                </div>
+                            </div>
+                            </div>`
+                            }
+                },
   
             ],
 
-            'lengthChange': true,
+              'lengthChange': true,
             'searching'   : true,
             'ordering'    : true,
             'info'        : true,

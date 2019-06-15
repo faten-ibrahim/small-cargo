@@ -5,7 +5,7 @@
     <table id="example" class="table table-striped">
         <thead>
             <tr>
-                <th>#</th>
+                <th>Id</th>
                 <th>Name</th>
                 <th>Email</th>
                 <th>Phone</th>
@@ -37,7 +37,7 @@
                     data: 'id'
                 },
                 {
-                    data: 'name'
+                    data: 'comp_name'
                 },
                 {
                     data: 'email'
@@ -52,8 +52,7 @@
                     data: 'status'
                 },
                 {
-                    data: 'orders_count'
-                },
+                    data: 'orders_count'},
                 {
                     mRender: function(data, type, row) {
                         return '<a href="/companies/' + row.id + '/Send_orders" class="bttn btn btn-info btn-sm" data-id="' + row.id + '" ><span>Send Orders</span></a><br>' +
@@ -87,11 +86,11 @@
             ],
 
             'lengthChange': true,
-            'searching': false,
-            'ordering': true,
-            'info': true,
-            'autoWidth': true,
-            'paging': true,
+            'searching'   : true,
+            'ordering'    : true,
+            'info'        : true,
+            'autoWidth'   : true,
+            'paging'      : true,
         });
 
           //confirm deleting
