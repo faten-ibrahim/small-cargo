@@ -6,8 +6,6 @@ use JWTAuth;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-// use App\Attendence;
-// use App\Customer;
 use App\Http\Controllers\Api\Company\AuthController;
 use App\Order;
 use App\Package;
@@ -18,8 +16,6 @@ use App\DriverToken;
 use App\CompanyContactList;
 use Hash;
 use App\CompanyToken;
-use App\Notifications\CompanyOrderNotification;
-use App\Notifications\DriverOrderNotification;
 
 class CompaniesOrdersController extends Controller
 {
@@ -155,11 +151,16 @@ class CompaniesOrdersController extends Controller
 
     public function get_tokens($sender_id, $receiver_id)
     {
-        $sender_token = CompanyToken::where('company_id', '=', $sender_id)->first()->token;
-        $receiver_token = CompanyToken::where('company_id', '=', $receiver_id)->first()->token;
+        $sender_token = CompanyToken::where('company_id', '=', $sender_id)->first();
+        $receiver_token = CompanyToken::where('company_id', '=', $receiver_id)->first();
 
         $tokens = [];
-        array_push($tokens, $sender_token, $receiver_token);
+        if (!$receiver_token) {
+            array_push($tokens, $sender_token->token);
+        } else {
+            array_push($tokens, $sender_token->token, $receiver_token->token);
+        }
+
 
         return $tokens;
     }
