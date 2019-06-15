@@ -9,6 +9,8 @@ use App\CompanyOrder;
 use App\Package;
 use App\Company;
 use App\Driver;
+use App\Exports\OrdersExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class OrdersController extends Controller
 {
@@ -28,9 +30,14 @@ class OrdersController extends Controller
         ->select ('orders.*','packages.quantity','packages.Weight','packages.value','packages.pickup_location','packages.drop_off_location','packages.time_to_deliver','packages.height','packages.length','packages.width','companies.comp_name','drivers.name','drivers.phone')
         ->orderBy('packages.created_at', 'desc');
 
-     
+
         // ->orderBy('orders.created_at', 'desc');
         return datatables()->of($orders)->make(true);
-                
+
+    }
+
+    public function export()
+    {
+        return Excel::download(new OrdersExport, 'orders.xlsx');
     }
 }

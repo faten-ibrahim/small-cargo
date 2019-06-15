@@ -169,7 +169,8 @@ return [
         Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
         Yajra\DataTables\DataTablesServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
-        Benwilkins\FCM\FcmNotificationServiceProvider::class,
+        Kawankoding\Fcm\FcmServiceProvider::class,
+        // Benwilkins\FCM\FcmNotificationServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -234,6 +235,7 @@ return [
         'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class,
         'DataTables' => Yajra\DataTables\Facades\DataTables::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+        'Fcm' => Kawankoding\Fcm\FcmFacade::class,
 
     ],
 

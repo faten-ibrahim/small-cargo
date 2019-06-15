@@ -1,11 +1,4 @@
 <?php return array (
-  'benwilkins/laravel-fcm-notification' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'Benwilkins\\FCM\\FcmNotificationServiceProvider',
-    ),
-  ),
   'beyondcode/laravel-dump-server' => 
   array (
     'providers' => 
@@ -25,6 +18,17 @@
     'providers' => 
     array (
       0 => 'Fideloper\\Proxy\\TrustedProxyServiceProvider',
+    ),
+  ),
+  'kawankoding/laravel-fcm' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Kawankoding\\Fcm\\FcmServiceProvider',
+    ),
+    'aliases' => 
+    array (
+      'Fcm' => 'Kawankoding\\Fcm\\FcmFacade',
     ),
   ),
   'laravel/tinker' => 

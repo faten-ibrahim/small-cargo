@@ -43,7 +43,7 @@
         <header class="main-header">
 
             <!-- Logo -->
-            <a href="/" class="logo">
+            <a href="/home" class="logo">
                 <!-- mini logo for sidebar mini 50x50 pixels -->
                 <span class="logo-mini">CarGo</span>
                 <!-- logo for regular state and mobile devices -->
@@ -140,6 +140,7 @@
                     <?php if(auth()->check() && auth()->user()->hasRole('admin')): ?>
                     <li class="active"><a href="<?php echo e(route('companies.index')); ?>"><i class="fa fa-list-alt"></i> <span>Manage companies</span></a></li>
                     <li><a href="<?php echo e(route('users.index')); ?>"><i class="fa fa-users"></i> <span>Manage Supervisors</span></a></li>
+                    <li><a href="<?php echo e(route('orders.index')); ?>"><i class="fa fa-users"></i> <span>Manage Orders</span></a></li>
                     <?php endif; ?>
                     <?php if(auth()->check() && auth()->user()->hasRole('admin|supervisor')): ?>
                     <li><a href="<?php echo e(route('drivers.index')); ?>"><i class="fa fa-users"></i> <span>Manage Drivers</span></a></li>
