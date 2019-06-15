@@ -1,5 +1,6 @@
 @component('mail::message')
 Hi  **{{$name}}**,  {{-- use double space for line break --}}
+your email is  :  **{{$email}}**,  {{-- use double space for line break --}}
 
 Your Email has been added as a supervisor, click here to reset your password and to access your account.
 

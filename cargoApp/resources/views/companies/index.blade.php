@@ -55,15 +55,15 @@
                     data: 'orders_count'},
                 {
                     mRender: function(data, type, row) {
-                        return '<a href="/companies/' + row.id + '/Send_orders" class="bttn btn btn-info btn-sm" data-id="' + row.id + '" ><span>Send Orders</span></a><br>' +
-                        '<a href="/companies/' + row.id + '/Recived_orders" class="bttn btn btn-info btn-sm" data-id="' + row.id + '" ><span>Recived Orders</span></a><br>' 
+                        return '<a href="/companies/' + row.id + '/Send_orders" class="bttn btn btn-xs btn-info " data-id="' + row.id + '" ><span>Send Orders</span></a><br>' +
+                        '<a href="/companies/' + row.id + '/Recived_orders" class="bttn btn btn-xs btn-info " data-id="' + row.id + '" ><span>Recived Orders</span></a><br>' 
 
                     }
                 },
                 {
                     mRender: function(data, type, row) {
-                        return '<a  href="/companies/' + row.id + '/edit" class="bttn btn btn-success btn-sm" data-id="' + row.id + '"><i class="fa fa-edit"></i><span>Edit</span></a><br>' +
-                        '<form method="POST" action="companies/'+row.id+'">@csrf {{ method_field('DELETE')}}<button style="margin-left:-18px;" type="submit" onclick="return myFunction();" class="bttn btn btn-danger btn-sm"><i class="fa fa-trash" data-toggle="tooltip" data-placement="top" title="Delete"></i><span>Delete</span></button></form>'
+                        return '<a  href="/companies/' + row.id + '/edit" class="bttn btn btn-xs btn-success " data-id="' + row.id + '"><i class="fa fa-edit"></i><span>Edit</span></a><br>' +
+                        '<form method="POST" action="companies/'+row.id+'">@csrf {{ method_field('DELETE')}}<button style="margin-left:-18px;" type="submit" onclick="return myFunction();" class="bttn btn btn-xs btn-danger"><i class="fa fa-trash" data-toggle="tooltip" data-placement="top" title="Delete"></i><span>Delete</span></button></form>'
 
 
                     }
@@ -72,13 +72,13 @@
                     mRender: function(data, type, row) {
 
                         if (!row.banned_at && row.status=='active')
-                            return '<a href="/companies/' + row.id + '/ban" class="bttn btn btn-warning btn-sm" data-id="' + row.id + '"><i class="fa fa-ban"></i><span>Deactive</span></a><br>'+
-                                    '<a href="/companies/' + row.id + '/add_list" class="bttn btn btn-primary btn-sm" data-id="' + row.id + '"><i class="fa fa-plus"></i><span>Add Contact</span></a>'
+                            return '<a href="/companies/' + row.id + '/ban" class="bttn btn btn-xs btn-warning" data-id="' + row.id + '"><i class="fa fa-ban"></i><span>Deactive</span></a><br>'+
+                                    '<a href="/companies/' + row.id + '/add_list" class="bttn btn btn-xs btn-primary" data-id="' + row.id + '"><i class="fa fa-plus"></i><span>Add Contact</span></a>'
 
 
                         else
-                            return '<a href="/companies/' + row.id + '/unban" class="bttn btn btn-success btn-sm" data-id="' + row.id + '" ><i class="fa fa-check"></i><span>Active</span></a><br>'+
-                                    '<a href="/companies/' + row.id + '/contacts" class="bttn btn btn-primary btn-sm" data-id="' + row.id + '"><span>Contact List</span></a>'
+                            return '<a href="/companies/' + row.id + '/unban" class="bttn btn btn-xs btn-success " data-id="' + row.id + '" ><i class="fa fa-check"></i><span>Active</span></a><br>'+
+                                    '<a href="/companies/' + row.id + '/contacts" class="bttn btn btn-xs btn-primary " data-id="' + row.id + '"><span>Contact List</span></a>'
 
 
                     }

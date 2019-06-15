@@ -45,7 +45,8 @@ class DriversController extends Controller
                     'users.name as supervisor_name'
                 )
                 ->groupBy('drivers.id')
-                // ->orderBy('drivers.created_at','desc')
+                ->where('drivers.deleted_at',Null)
+                ->orderBy('drivers.created_at','desc')
                 ->get();
 
             return datatables()->of($drivers)->toJson();
@@ -57,7 +58,8 @@ class DriversController extends Controller
                 ->select('drivers.*', DB::raw("count(driver_order.order_id) as count"))
                 ->groupBy('drivers.id')
                 ->where('drivers.user_id', '=', $id)
-                // ->orderBy('drivers.created_at','desc')
+                ->where('drivers.deleted_at',Null)
+                ->orderBy('drivers.created_at','desc')
                 ->get();
 
             return datatables()->of($drivers)->toJson();
@@ -106,7 +108,7 @@ class DriversController extends Controller
         $request->validate(
             [
                 'name' => 'required',
-                'phone' => 'required|unique:drivers',
+                'phone' => 'required|unique:drivers,phone,NULL,id,deleted_at,NULL',
                 'address' => 'required',
                 'car_number' => 'required',
                 'car_type' => 'required',
@@ -155,7 +157,29 @@ class DriversController extends Controller
      */
     public function edit(Driver $driver)
     {
-        return view('drivers.edit', compact('driver'));
+
+        $user = \Auth::user();
+        $role = $user->roles->first()->name;
+        if ($role === 'admin') {
+            $supervisors = DB::table('model_has_roles')
+                ->join('users', 'model_has_roles.model_id', '=', 'users.id')
+                ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
+                ->select(
+                    'users.*'
+                )
+                ->where('roles.name', '=', 'supervisor')
+                ->get();
+
+
+        return view('drivers.edit',[
+            'driver' => $driver,
+            'supervisors'=> $supervisors
+        ]);
+        } elseif ($role === 'supervisor') {
+            return view('drivers.edit',[
+                'driver' => $driver,
+            ]);
+        }
     }
 
 
@@ -166,9 +190,53 @@ class DriversController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Driver $driver)
     {
-        //
+        $user = \Auth::user();
+        $role = $user->roles->first()->name;
+        $request->validate(
+            [
+                'name' => 'required',
+                'phone' => 'required|unique:drivers,phone,'.$driver->id.',id,deleted_at,NULL',
+                'address' => 'required',
+                'car_number' => 'required',
+                'car_type' => 'required',
+            ],
+            [
+                'name.required' => 'Please enter the driver name',
+                'phone.required' => 'Please enter the driver phone',
+                'phone.unique' => 'This phone is already exists',
+                'address.required' => 'Please enter the driver address',
+                'car_number.required' => 'Please enter the car number',
+                'car_type.required' => 'Please enter the car type',
+            ]
+        );
+
+        if ($role === 'admin') {
+            $request->validate(
+                [
+                    'user_id' => 'required',
+                ],
+                [
+                    'user_id.required' => 'Please enter supervisor',
+                ]
+            );
+        }
+            $driver['name'] = $request['name'];
+            $driver['phone'] = $request['phone'];
+            $driver['address'] = $request['address'];
+            $driver['car_number'] = $request['car_number'];
+            $driver['car_type'] = $request['car_type'];
+            if ($role === 'admin') {
+            $driver['user_id'] = $request['user_id'];
+            }
+            $driver['address'] = $request['address'];
+            $driver['address_latitude'] = $request['address_latitude'];
+            $driver['address_longitude'] = $request['address_longitude'];
+            $driver->update();
+            return redirect()->route('drivers.index')->with('success', 'driver account has been updated ');
+    
+
     }
 
     /**

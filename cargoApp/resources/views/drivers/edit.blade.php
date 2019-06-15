@@ -2,11 +2,12 @@
 @section('content')
 <div class="container con">
 
-    <form action="{{route('drivers.edit')}}" method="POST">
-        @csrf
+<form method="post" action="/drivers/{{$driver->id}}">
+    {{ csrf_field() }}
+    {{ method_field('patch') }}
         <div class="form-group">
             <label>Name</label>
-            <input name="name" type="text" class="form-control">
+            <input name="name" type="text" class="form-control" value="{{$driver->name}}">
         </div>
 
         <!-- <div class="form-group">
@@ -46,7 +47,7 @@
             <select class="form-control" name="user_id">
                 <option> - - select - - </option>
                 @foreach($supervisors as $supervisor)
-                <option value="{{$supervisor->id}}">{{$supervisor->name}}</option>
+                <option  value="{{$supervisor->id}}" <?php   if($supervisor->id==$driver->user_id) echo "selected='selected'";?> >{{$supervisor->name}}</option>
                 @endforeach
             </select>
         </div>
