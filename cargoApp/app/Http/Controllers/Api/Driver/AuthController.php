@@ -11,6 +11,9 @@ use JWTAuth;
 use JWTAuthException;
 use Hash;
 use App\DriverToken;
+use App\DriverRealTimeLocation;
+use App\DriverLocation;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
@@ -152,5 +155,56 @@ class AuthController extends Controller
                 'driver_token' => $driver_token
             ]
         ], 201);
+    }
+
+    public function post_driver_location(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'driver_id' => 'required',
+            'driver_latitude' => 'required',
+            'driver_longitude' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 400);
+        }
+
+        $driver_id = $request->driver_id;
+        $driver = DriverLocation::where('driver_id', '=', $driver_id);
+        if ($driver->exists()) {
+            $driver->delete();
+        }
+        $driver_location  = DriverLocation::create([
+            'driver_id' => $driver_id,
+            'driver_latitude' => $request->driver_latitude,
+            'driver_longitude' => $request->driver_longitude,
+        ]);
+
+        return response()->json([
+            'status' => 'current driver location save successfully',
+            'data' => [
+                'driver_location' => $driver_location
+            ]
+        ], 201);
+    }
+
+
+    public function get_driver_location($id)
+    {
+        $driver_location = DriverLocation::where('driver_id', '=', $id);
+
+        if (!$driver_location->exists()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Sorry, driver with id ' . $id . ' cannot be found'
+            ], 400);
+        } else {
+            return response()->json([
+                'status' => 'driver location returned successfully',
+                'data' => [
+                    'driver_location' => $driver_location->get(),
+                ]
+            ], 200);
+        }
     }
 }
