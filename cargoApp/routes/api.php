@@ -16,7 +16,7 @@ Route::group([
     Route::get('company/me', 'Api\Company\AuthController@getAuthUser');
     Route::post('company/token', 'Api\Company\AuthController@get_fcm_token');
     Route::post('company/order', 'Api\Company\CompaniesOrdersController@store');
-
+    Route::get('company/currentOrders/{id}', 'Api\Company\CompaniesOrdersController@currentOrders');
 });
 
 Route::group([
@@ -27,5 +27,7 @@ Route::group([
     Route::get('driver/me', 'Api\Driver\AuthController@getAuthUser');
     Route::post('driver/token', 'Api\Driver\AuthController@get_fcm_token');
 });
+
+Route::get('company/get_driver/{id}', 'Api\Company\CompaniesOrdersController@get_driver');
 
 

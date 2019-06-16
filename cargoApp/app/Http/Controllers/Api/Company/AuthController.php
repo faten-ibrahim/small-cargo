@@ -31,14 +31,14 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required',
+            'comp_name' => 'required',
             'password' => 'required'
         ]);
         if ($validator->fails()) {
             return response()->json($validator->errors());
         }
 
-        $credentials = $request->only('name', 'password');
+        $credentials = $request->only('comp_name', 'password');
         try {
             if (!$token = JWTAuth::attempt($credentials)) {
                 return response()->json(['error' => 'We can`t find an account with this credentials.'], 401);
@@ -62,7 +62,7 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required',
+            'comp_name' => 'required',
             'email' => 'required|unique:companies',
             'address' => 'required',
             'phone' => 'required|unique:companies',
@@ -73,7 +73,7 @@ class AuthController extends Controller
             return response()->json($validator->errors(), 400);
         }
         $company = Company::create([
-            'comp_name' => $request->name,
+            'comp_name' => $request->comp_name,
             'email' => $request->email,
             'address' => $request->address,
             'phone' => $request->phone,
@@ -116,7 +116,6 @@ class AuthController extends Controller
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
-            'expires_in' => JWTAuth::factory()->getTTL() * 60
 
         ]);
     }
