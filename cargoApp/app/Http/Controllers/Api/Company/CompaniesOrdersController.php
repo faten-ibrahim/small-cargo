@@ -59,7 +59,7 @@ class CompaniesOrdersController extends Controller
         }
 
         $receiver_name = $request->receiver_name;
-        $receiver_company = Company::where('name', '=', $receiver_name)->first();
+        $receiver_company = Company::where('comp_name', '=', $receiver_name)->first();
         $id = '';
         if ($receiver_company) {
             $company = CompanyContactList::where('receiver_name', '=', $request->receiver_name)->first();
@@ -75,7 +75,7 @@ class CompaniesOrdersController extends Controller
             }
         } else {
             $company_created = Company::create([
-                'name' => $request->receiver_name,
+                'comp_name' => $request->receiver_name,
                 'address' => $request->address,
                 'password' => Hash::make(str_random(8)),
                 'email' => str_random(5) . '@gamil.com',
@@ -272,12 +272,12 @@ class CompaniesOrdersController extends Controller
                           ->where('orders.status','completed');
                     })
         ->Join('packages','packages.order_id','=','orders.id')
-        ->join('companies', function ($join) {
-            $join->on('companies.id', '=', 'company_order.sender_id')
-                 ->orOn('companies.id', '=', 'company_order.receiver_id');
-                })->get();
-        // ->select('company_order.sender','company_order.receiver_id','packages.pickup_location','packages.pickup_latitude','packages.pickup_longitude','packages.drop_off_location','packages.drop_off_latitude','packages.drop_off_longitude','packages.Weight','packages.width','packages.height','packages.length','packages.quantity','packages.value','orders.car_number','orders.shipment_type','orders.truck_type','orders.pickup_date','orders.status')->get();       
-
+        ->join('companies','companies.id','=','company_order.sender_id')->get();
+        
+        // >join('companies', function ($join) {
+        //     $join->on('companies.id', '=', 'company_order.sender_id')
+        //          ->orOn('companies.id', '=', 'company_order.receiver_id');
+        //         })->get();
         return response()->json([
             'last_orders' => $last_orders ,
         ], 201); 
