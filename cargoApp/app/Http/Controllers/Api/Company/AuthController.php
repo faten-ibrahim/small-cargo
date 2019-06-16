@@ -48,7 +48,7 @@ class AuthController extends Controller
         }
 
         $company = Auth::user();
-        // return $this->respondWithToken($token);
+    // return $this->respondWithToken($token);
         return response()->json([
             'status' => 'You have successfully logged in .',
             'data' => [
@@ -59,6 +59,7 @@ class AuthController extends Controller
     }
 
     // ########## Company Registration ##########
+
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [

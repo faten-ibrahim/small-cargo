@@ -265,13 +265,22 @@ class CompaniesOrdersController extends Controller
     }
 
     public function lastOrders($id){
-        // $last_orders = CompanyOrder::where('sender_id',$id)
-        // ->Join('orders', function($q) {
-        //                 $q->on('orders.id', '=', 'company_order.order_id')
-        //                   ->where('orders.status','completed');
-        //             })
-        // ->Join('packages','packages.order_id','=','orders.id')
-        // ->join('companies','companies.id','=','company_order.receiver_id')->get();
+        $last_orders = CompanyOrder::where('sender_id',$id)
+                     ->orWhere('receiver_id', $id)
+        ->Join('orders', function($q) {
+                        $q->on('orders.id', '=', 'company_order.order_id')
+                          ->where('orders.status','completed');
+                    })
+        ->Join('packages','packages.order_id','=','orders.id')
+        ->join('companies', function ($join) {
+            $join->on('companies.id', '=', 'company_order.sender_id')
+                 ->orOn('companies.id', '=', 'company_order.receiver_id');
+                })->get();
+        // ->select('company_order.sender','company_order.receiver_id','packages.pickup_location','packages.pickup_latitude','packages.pickup_longitude','packages.drop_off_location','packages.drop_off_latitude','packages.drop_off_longitude','packages.Weight','packages.width','packages.height','packages.length','packages.quantity','packages.value','orders.car_number','orders.shipment_type','orders.truck_type','orders.pickup_date','orders.status')->get();       
+
+        return response()->json([
+            'last_orders' => $last_orders ,
+        ], 201); 
 
     }
 }
