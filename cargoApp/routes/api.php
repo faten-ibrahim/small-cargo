@@ -6,8 +6,7 @@ Route::post('company/register', 'Api\Company\AuthController@register');
 
 Route::post('driver/login', 'Api\Driver\AuthController@login');
 Route::post('driver/register', 'Api\Driver\AuthController@register');
-Route::post('company/order', 'Api\Company\CompaniesOrdersController@store');
-Route::post('driver/loc', 'Api\Company\CompaniesOrdersController@get_nearest_drivers');
+// Route::post('company/order', 'Api\Company\CompaniesOrdersController@store');
 
 Route::group([
     'middleware' => ['auth:company'],
@@ -16,9 +15,14 @@ Route::group([
     Route::post('company/logout', 'Api\Company\AuthController@logout');
     Route::get('company/me', 'Api\Company\AuthController@getAuthUser');
     Route::post('company/token', 'Api\Company\AuthController@get_fcm_token');
-    // Route::post('company/order', 'Api\Company\CompaniesOrdersController@store');
+    Route::post('company/order', 'Api\Company\CompaniesOrdersController@store');
     Route::post('company/edit', 'Api\Company\AuthController@edit_profile');
 
+    Route::post('company/order', 'Api\Company\CompaniesOrdersController@store');
+    Route::get('company/currentOrders/{id}', 'Api\Company\CompaniesOrdersController@currentOrders');
+
+    Route::post('company/order', 'Api\Company\CompaniesOrdersController@store');
+    Route::post('driver/loc', 'Api\Driver\AuthController@get_nearest_drivers');
 
     // Route::post('driver/loc', 'Api\Driver\AuthController@get_nearest_drivers');
 
@@ -37,4 +41,6 @@ Route::group([
 
 });
 
+Route::get('company/get_driver/{id}', 'Api\Company\CompaniesOrdersController@get_driver');
+Route::get('company/lastOrders/{id}', 'Api\Company\CompaniesOrdersController@lastOrders');
 

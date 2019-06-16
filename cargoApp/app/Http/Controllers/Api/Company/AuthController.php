@@ -21,7 +21,7 @@ class AuthController extends Controller
         config()->set('auth.defaults.guard', 'company');
         \Config::set('jwt.user', 'App\Campany');
         \Config::set('auth.providers.users.model', \App\Company::class);
-        $this->middleware('auth:company', ['except' => ['login', 'register']]);
+        // $this->middleware('auth:company', ['except' => ['login', 'register']]);
     }
     // ########## Company Login ##########
     public function login(Request $request)
@@ -112,7 +112,6 @@ class AuthController extends Controller
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
-            'expires_in' => JWTAuth::factory()->getTTL() * 60
 
         ]);
     }
@@ -157,14 +156,15 @@ class AuthController extends Controller
 
     public function edit_profile(Request $request)
     {
-        $comp=Company::find(auth('company')->user()->id)->update([
+        // dd(JWTAuth::user()->id);
+        $comp=Company::find(JWTAuth::user()->id)->update([
             'comp_name' => $request->comp_name,
             'email' => $request->email,
             'password' => bcrypt($request->password),
             'address' => $request->address,
             'phone' => $request->phone,
         ]);
-        dd($comp);
-        return response()->json(['message' => "your updated successfully"]);
+        // dd($comp);
+        return response()->json(['message' => "your updated successfully"],200);
     }
 }

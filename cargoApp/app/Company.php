@@ -32,7 +32,7 @@ class Company extends Authenticatable implements JWTSubject,BannableContract
     }
 
     protected $fillable = [
-        'name', 'email', 'password','address','phone',
+        'comp_name', 'email', 'password','address','phone',
     ];
     /**
      * The attributes that should be hidden for arrays.

@@ -20,7 +20,7 @@ class CreateOrdersTable extends Migration
             $table->dateTime('pickup_date')->nullable();
             $table->float('estimated_cost')->nullable();
             $table->float('final_cost')->nullable();
-            $table->string('status')->enum('status', ['pending', 'accepted','ongoing','delivered'])->default('pending');
+            $table->string('status')->enum('status', ['pending', 'accepted','ongoing','delivered','completed'])->default('pending');
             $table->integer('car_number');
             $table->timestamps();
         });
