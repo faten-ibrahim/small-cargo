@@ -48,8 +48,18 @@
                 {
                     data: 'address'
                 },
+         
                 {
-                    data: 'status'
+                    mRender: function(data, type, row) {
+
+                        if (row.status =='active')
+                            return '<span style="color:#0C9D2C; font-weight: bold;">Active<span>'
+                        else if (row.status =='inactive')
+                            return '<span style="color:red;  font-weight: bold;">InActive<span>'
+                        else if (row.status =='new')
+                            return '<span style="color:red;  font-weight: bold;">New<span>'
+
+                    }
                 },
                 {
                     data: 'orders_count'},

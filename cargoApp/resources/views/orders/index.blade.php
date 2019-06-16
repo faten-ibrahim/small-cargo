@@ -35,7 +35,20 @@
                 { data: 'comp_name',name: 'companies.comp_name'},
                 { data: 'shipment_type' },
                 { data: 'pickup_date' },
-                { data: 'status' },
+                {
+                    mRender: function(data, type, row) {
+
+                        if (row.status =='pending')
+                            return '<span style="color:#0C9D2C; font-weight: bold;">pending<span>'
+                        else if (row.status =='accepted')
+                            return '<span style="color:red;  font-weight: bold;">accepted<span>'
+                        else if (row.status =='ongoing')
+                            return '<span style="color:#F7B017;  font-weight: bold;">ongoing<span>'
+                        else if (row.status =='delivered')
+                            return '<span style="color:red;  font-weight: bold;">delivered<span>'    
+
+                    }
+                },
                 {
                     mRender: function(data, type, row) {
                             if (row.estimated_cost)

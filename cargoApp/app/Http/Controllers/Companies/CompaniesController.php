@@ -244,12 +244,9 @@ class CompaniesController extends Controller
                 ->where('sender_id',$company->id);
         $orders_details=Package::whereIn('order_id', $company_orders)
                 ->Join('orders','orders.id','=','packages.order_id')->paginate(5);
- 
         $orders_drivers=DriverOrder::whereIn('order_id', $company_orders)
           ->Join('drivers','drivers.id', '=', 'driver_order.driver_id')
           ->select('order_id','name','phone')->get();
-
-       
         return view('companies.send_orders', [
             'orders' => $orders_details,
             'company'=>$company,
@@ -270,7 +267,7 @@ class CompaniesController extends Controller
         ->Join('drivers','drivers.id', '=', 'driver_order.driver_id')
         ->select('order_id','name','phone')->get();
 
-        return view('companies.send_orders', [
+        return view('companies.recived_orders', [
         'orders' => $orders_details,
         'company'=>$company,
         'drivers'=>$orders_drivers,

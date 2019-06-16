@@ -39,7 +39,14 @@
                 { data: 'email' },
                 { data: 'address' },
                 { data: 'created_at' },
-                { data: 'status' },
+                {
+                    mRender: function(data, type, row) {
+                        if (row.status =='Active')
+                            return '<span style="color:#0C9D2C; font-weight: bold;">Active<span>'
+                        else if (row.status =='Inactive')
+                            return '<span style="color:red;  font-weight: bold;">InActive<span>'
+                    }
+                },
                 // { data: 'drivers_count' },
                 {
                     mRender: function(data, type, row) {

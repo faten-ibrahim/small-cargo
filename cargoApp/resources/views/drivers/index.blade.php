@@ -44,8 +44,17 @@
                 data: 'created_at'
             },
             {
-                data: 'status_driver'
-            },
+                    mRender: function(data, type, row) {
+
+                        if (row.status_driver =='active')
+                            return '<span style="color:#0C9D2C; font-weight: bold;">Active<span>'
+                        else if (row.status_driver =='inactive')
+                            return '<span style="color:red;  font-weight: bold;">InActive<span>'
+                        else if (row.status_driver =='new')
+                            return '<span style="color:red;  font-weight: bold;">New<span>'
+
+                    }
+                },
             {
                 data: 'availability'
             },
@@ -82,8 +91,17 @@
                 data: 'created_at'
             },
             {
-                data: 'status_driver'
-            },
+                    mRender: function(data, type, row) {
+
+                        if (row.status_driver =='active')
+                            return '<span style="color:#0C9D2C; font-weight: bold;">Active<span>'
+                        else if (row.status_driver =='inactive')
+                            return '<span style="color:red;  font-weight: bold;">InActive<span>'
+                        else if (row.status_driver =='new')
+                            return '<span style="color:red;  font-weight: bold;">New<span>'
+
+                    }
+                },
             {
                 data: 'availability'
             },
