@@ -303,6 +303,7 @@ class CompaniesOrdersController extends Controller
         $lat2 = $request->drop_off_latitude;
         $lon2 = $request->drop_off_longitude;
         $Weight = $request->Weight;
+        $type=$request->shipment_type;
         $unit = "K";
         $final_distance;
         if (($lat1 == $lat2) && ($lon1 == $lon2)) {
@@ -330,10 +331,16 @@ class CompaniesOrdersController extends Controller
         $Weight_cost = ($Weight * (0.5));
         // dd($Weight_cost);
 
-        $total_estimated_cost = $final_distance_cost + $Weight_cost;
+        $total_cost = $final_distance_cost + $Weight_cost;
         // dd($total_estimated_cost);
+        if($type=="glass"){
+            $_final_estimated_cost=$total_cost;
+        }else if($type=="poisonous"||$type=="flammable"){
+            $_final_estimated_cost=$total_cost*1.5;
+        }
         return response()->json([
-            'total_estimated_cost' => $total_estimated_cost,
+            'total_cost' => $total_cost,
+            'final_estimated_cost'=>$_final_estimated_cost,
         ], 200);
     }
 }
