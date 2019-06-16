@@ -205,4 +205,19 @@ class AuthController extends Controller
             ], 200);
         }
     }
+
+    public function edit_profile(Request $request)
+    {
+        // dd(JWTAuth::user()->id);
+        $comp=Driver::find(JWTAuth::user()->id)->update([
+            'name' => $request->name,
+            'car_type' => $request->car_type,
+            'car_number' =>$request->car_number,
+            'address' => $request->address,
+            'phone' => $request->phone,
+        ]);
+        // dd($comp);
+        return response()->json(['message' => "your updated successfully"],200);
+    }
+
 }

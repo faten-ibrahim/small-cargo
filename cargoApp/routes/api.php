@@ -17,15 +17,8 @@ Route::group([
     Route::post('company/token', 'Api\Company\AuthController@get_fcm_token');
     Route::post('company/order', 'Api\Company\CompaniesOrdersController@store');
     Route::post('company/edit', 'Api\Company\AuthController@edit_profile');
-
-    Route::post('company/order', 'Api\Company\CompaniesOrdersController@store');
     Route::get('company/currentOrders/{id}', 'Api\Company\CompaniesOrdersController@currentOrders');
-
     Route::get('company/lastOrders/{id}', 'Api\Company\CompaniesOrdersController@lastOrders');
-    Route::post('company/order', 'Api\Company\CompaniesOrdersController@store');
-    Route::post('driver/loc', 'Api\Driver\AuthController@get_nearest_drivers');
-
-    // Route::post('driver/loc', 'Api\Driver\AuthController@get_nearest_drivers');
 
 });
 
@@ -38,7 +31,7 @@ Route::group([
     Route::post('driver/token', 'Api\Driver\AuthController@get_fcm_token');
     Route::post('driver/location', 'Api\Driver\AuthController@post_driver_location');
     Route::get('drivers/{driver}', 'Api\Driver\AuthController@get_driver_location');
-
+    Route::post('driver/edit', 'Api\Driver\AuthController@edit_profile');
 
 });
 
