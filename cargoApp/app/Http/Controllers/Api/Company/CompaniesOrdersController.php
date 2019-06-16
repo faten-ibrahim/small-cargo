@@ -133,8 +133,8 @@ class CompaniesOrdersController extends Controller
             fcm()
                 ->to($drivers_tokens) // $recipients must an array
                 ->notification([
-                    'title' => 'Test driver FCM',
-                    'body' => 'This is a test of driver FCM',
+                    'title' => 'Cargo Order',
+                    'body' => 'There is an order for you',
                     'content' => $orderDetails,
                 ])
                 ->send();
@@ -153,9 +153,9 @@ class CompaniesOrdersController extends Controller
             fcm()
                 ->to($recipients) // $recipients must an array
                 ->notification([
-                    'title' => 'Test company FCM',
-                    'body' => 'This is a test of company FCM',
-                    'content' => $order,
+                    'title' => 'Cargo order',
+                    'body' => 'Your order is pending , now',
+                    'content' => $orderDetails,
                 ])
                 ->send();
             // dd('company tokens',$recipients);
