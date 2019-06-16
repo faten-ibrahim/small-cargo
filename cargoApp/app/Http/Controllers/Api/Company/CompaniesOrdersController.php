@@ -24,7 +24,7 @@ class CompaniesOrdersController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:company');
+        // $this->middleware('auth:company');
     }
 
     public function store(Request $request)
@@ -95,7 +95,7 @@ class CompaniesOrdersController extends Controller
             'car_number' => $request->car_number,
             'truck_type' => $request->truck_type,
             'pickup_date' => $request->pickup_date,
-            'status'=>'pending',
+            'status' => 'pending',
         ]);
         $order->status = 'pending';
         $order->save();
@@ -127,11 +127,11 @@ class CompaniesOrdersController extends Controller
         $lat = $request->pickup_latitude;
         $lng = $request->pickup_longitude;
         $nearest_drivers = $this->get_nearest_drivers($lat, $lng);
-        $orderContent =[];
+        $orderContent = [];
         $orderContent = array_merge($order->toArray(), $package->toArray());
         $drivers_tokens = $this->driversTokens($nearest_drivers);
         // dd('token driver',$drivers_tokens);
-        $orderDetails=json_encode($orderContent);
+        $orderDetails = json_encode($orderContent);
         // dd($orderDetails);
         try {
             fcm()
@@ -196,18 +196,21 @@ class CompaniesOrdersController extends Controller
     public function driversTokens($nearest_drivers)
     {
         // dd('near drivers', $nearest_drivers);
-        $drivers=DriverToken::whereIn('driver_id', $nearest_drivers)->select('token')->get()->toArray();
+        $drivers = DriverToken::whereIn('driver_id', $nearest_drivers)->select('token')->get()->toArray();
         // dd('drivers',$drivers);
         $drivers_tokens = [];
-       foreach($drivers as $driver){
+        foreach ($drivers as $driver) {
             array_push($drivers_tokens, $driver['token']);
         }
         // dd($drivers_tokens);
         return $drivers_tokens;
     }
 
-    public function get_nearest_drivers($lat,$lng)
+    public function get_nearest_drivers()
     {
+
+        $lat = 31.1926859;
+        $lng = 29.906324700000027;
         $circle_radius = 3959;
         $max_distance = 10;
         $locations = DB::select(
@@ -221,71 +224,116 @@ class CompaniesOrdersController extends Controller
                 ORDER BY distance
                  '
         );
+        return response()->json([
+            'message' => ' Successfully',
+            'result' => $locations,
 
+
+        ], 201);
         $result = [];
         foreach ($locations as $loc) {
             array_push($result, $loc->driver_id);
         }
-        return $result;
-
+        // return $result;
     }
 
-    public function currentOrders($id){
-        $sent_orders = CompanyOrder::where('sender_id',$id)
-                ->Join('orders', function($q) {
-                                $q->on('orders.id', '=', 'company_order.order_id')
-                                  ->whereNotIn('orders.status',['completed']);
-                            })
-                ->Join('packages','packages.order_id','=','orders.id')
-                ->join('companies','companies.id','=','company_order.receiver_id')
-                ->select('company_order.sender_id','packages.pickup_location','packages.pickup_latitude','packages.pickup_longitude','packages.drop_off_location','packages.drop_off_latitude','packages.drop_off_longitude','packages.Weight','packages.width','packages.height','packages.length','packages.quantity','packages.value','orders.car_number','orders.shipment_type','orders.truck_type','orders.pickup_date','orders.status','company_order.receiver_id','companies.comp_name as receiver_company_name','companies.phone','companies.address')->get();
+    public function currentOrders($id)
+    {
+        $sent_orders = CompanyOrder::where('sender_id', $id)
+            ->Join('orders', function ($q) {
+                $q->on('orders.id', '=', 'company_order.order_id')
+                    ->whereNotIn('orders.status', ['completed']);
+            })
+            ->Join('packages', 'packages.order_id', '=', 'orders.id')
+            ->join('companies', 'companies.id', '=', 'company_order.receiver_id')
+            ->select('company_order.sender_id', 'packages.pickup_location', 'packages.pickup_latitude', 'packages.pickup_longitude', 'packages.drop_off_location', 'packages.drop_off_latitude', 'packages.drop_off_longitude', 'packages.Weight', 'packages.width', 'packages.height', 'packages.length', 'packages.quantity', 'packages.value', 'orders.car_number', 'orders.shipment_type', 'orders.truck_type', 'orders.pickup_date', 'orders.status', 'company_order.receiver_id', 'companies.comp_name as receiver_company_name', 'companies.phone', 'companies.address')->get();
 
-        $recevied_orders = CompanyOrder::where('receiver_id',$id)
-                ->Join('orders', function($q) {
-                                $q->on('orders.id', '=', 'company_order.order_id')
-                                  ->whereNotIn('orders.status',['completed']);
-                            })
-                ->Join('packages','packages.order_id','=','orders.id')
-                ->join('companies','companies.id','=','company_order.sender_id')
-                ->select('company_order.receiver_id','packages.pickup_location','packages.pickup_latitude','packages.pickup_longitude','packages.drop_off_location','packages.drop_off_latitude','packages.drop_off_longitude','packages.Weight','packages.width','packages.height','packages.length','packages.quantity','packages.value','orders.car_number','orders.shipment_type','orders.truck_type','orders.pickup_date','orders.status','company_order.sender_id','companies.comp_name as sender_company_name','companies.phone','companies.address')->get();
+        $recevied_orders = CompanyOrder::where('receiver_id', $id)
+            ->Join('orders', function ($q) {
+                $q->on('orders.id', '=', 'company_order.order_id')
+                    ->whereNotIn('orders.status', ['completed']);
+            })
+            ->Join('packages', 'packages.order_id', '=', 'orders.id')
+            ->join('companies', 'companies.id', '=', 'company_order.sender_id')
+            ->select('company_order.receiver_id', 'packages.pickup_location', 'packages.pickup_latitude', 'packages.pickup_longitude', 'packages.drop_off_location', 'packages.drop_off_latitude', 'packages.drop_off_longitude', 'packages.Weight', 'packages.width', 'packages.height', 'packages.length', 'packages.quantity', 'packages.value', 'orders.car_number', 'orders.shipment_type', 'orders.truck_type', 'orders.pickup_date', 'orders.status', 'company_order.sender_id', 'companies.comp_name as sender_company_name', 'companies.phone', 'companies.address')->get();
 
 
         return response()->json([
-                    'sent_orders' => $sent_orders ,
-                    'recevied_orders ' => $recevied_orders,
-                ], 201);
+            'sent_orders' => $sent_orders,
+            'recevied_orders ' => $recevied_orders,
+        ], 201);
     }
 
 
-    public function get_driver($id){
-        $driver=DriverOrder::where('order_id',$id)
-                ->join('drivers','drivers.id','=','driver_order.driver_id')->get();
+    public function get_driver($id)
+    {
+        $driver = DriverOrder::where('order_id', $id)
+            ->join('drivers', 'drivers.id', '=', 'driver_order.driver_id')->get();
 
         return response()->json([
-                    'driver' => $driver ,
-                ], 201);
-
+            'driver' => $driver,
+        ], 201);
     }
 
-    public function lastOrders($id){
-        $last_orders = CompanyOrder::where('sender_id',$id)
-                     ->orWhere('receiver_id', $id)
-        ->Join('orders', function($q) {
-                        $q->on('orders.id', '=', 'company_order.order_id')
-                          ->where('orders.status','completed');
-                    })
-        ->Join('packages','packages.order_id','=','orders.id')
-        ->join('companies','companies.id','=','company_order.sender_id')->get();
+    public function lastOrders($id)
+    {
+        $last_orders = CompanyOrder::where('sender_id', $id)
+            ->orWhere('receiver_id', $id)
+            ->Join('orders', function ($q) {
+                $q->on('orders.id', '=', 'company_order.order_id')
+                    ->where('orders.status', 'completed');
+            })
+            ->Join('packages', 'packages.order_id', '=', 'orders.id')
+            ->join('companies', 'companies.id', '=', 'company_order.sender_id')->get();
 
         // >join('companies', function ($join) {
         //     $join->on('companies.id', '=', 'company_order.sender_id')
         //          ->orOn('companies.id', '=', 'company_order.receiver_id');
         //         })->get();
         return response()->json([
-            'last_orders' => $last_orders ,
+            'last_orders' => $last_orders,
         ], 201);
-
     }
 
 
+    public function calc_total_estimated_cost(Request $request)
+    {
+        $lat1 = $request->pickup_latitude;
+        $lon1 = $request->pickup_longitude;
+        $lat2 = $request->drop_off_latitude;
+        $lon2 = $request->drop_off_longitude;
+        $Weight = $request->Weight;
+        $unit = "K";
+        $final_distance;
+        if (($lat1 == $lat2) && ($lon1 == $lon2)) {
+            return 0;
+        } else {
+            $theta = $lon1 - $lon2;
+            $dist = sin(deg2rad($lat1)) * sin(deg2rad($lat2)) +  cos(deg2rad($lat1)) * cos(deg2rad($lat2)) * cos(deg2rad($theta));
+            $dist = acos($dist);
+            $dist = rad2deg($dist);
+            $miles = $dist * 60 * 1.1515;
+            $unit = strtoupper($unit);
+
+            if ($unit == "K") {
+                // dd('dist in kkkk', $miles * 1.609344);
+                $final_distance = $miles * 1.609344;
+            } else if ($unit == "M") {
+                // dd('dist in miles ', $miles);
+                $final_distance = $miles;
+            }
+        }
+
+        $final_distance_cost = $final_distance * 2;
+        // dd($final_distance_cost);
+
+        $Weight_cost = ($Weight * (0.5));
+        // dd($Weight_cost);
+
+        $total_estimated_cost = $final_distance_cost + $Weight_cost;
+        // dd($total_estimated_cost);
+        return response()->json([
+            'total_estimated_cost' => $total_estimated_cost,
+        ], 200);
+    }
 }
