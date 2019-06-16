@@ -21,6 +21,7 @@ Route::group([
     Route::post('company/order', 'Api\Company\CompaniesOrdersController@store');
     Route::get('company/currentOrders/{id}', 'Api\Company\CompaniesOrdersController@currentOrders');
 
+    Route::get('company/lastOrders/{id}', 'Api\Company\CompaniesOrdersController@lastOrders');
     Route::post('company/order', 'Api\Company\CompaniesOrdersController@store');
     Route::post('driver/loc', 'Api\Driver\AuthController@get_nearest_drivers');
 

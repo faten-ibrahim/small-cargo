@@ -268,13 +268,22 @@ class CompaniesOrdersController extends Controller
     }
 
     public function lastOrders($id){
-        // $last_orders = CompanyOrder::where('sender_id',$id)
-        // ->Join('orders', function($q) {
-        //                 $q->on('orders.id', '=', 'company_order.order_id')
-        //                   ->where('orders.status','completed');
-        //             })
-        // ->Join('packages','packages.order_id','=','orders.id')
-        // ->join('companies','companies.id','=','company_order.receiver_id')->get();
+        $last_orders = CompanyOrder::where('sender_id',$id)
+                     ->orWhere('receiver_id', $id)
+        ->Join('orders', function($q) {
+                        $q->on('orders.id', '=', 'company_order.order_id')
+                          ->where('orders.status','completed');
+                    })
+        ->Join('packages','packages.order_id','=','orders.id')
+        ->join('companies','companies.id','=','company_order.sender_id')->get();
+        
+        // >join('companies', function ($join) {
+        //     $join->on('companies.id', '=', 'company_order.sender_id')
+        //          ->orOn('companies.id', '=', 'company_order.receiver_id');
+        //         })->get();
+        return response()->json([
+            'last_orders' => $last_orders ,
+        ], 201); 
 
     }
 }
