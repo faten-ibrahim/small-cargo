@@ -16,6 +16,8 @@ use App\DriverToken;
 use App\CompanyContactList;
 use Hash;
 use App\CompanyToken;
+use DB;
+use App\DriverLocation;
 
 class CompaniesOrdersController extends Controller
 {
@@ -118,21 +120,25 @@ class CompaniesOrdersController extends Controller
         ]);
 
         // Drivers Notifications
-        $orderNotify = array();
-        $orderNotify = array_merge($order->toArray(), $package->toArray());
-        $drivers_tokens = $this->driversNotification();
+        $lat = $request->pickup_latitude;
+        $lng = $request->pickup_longitude;
+        $nearest_drivers = $this->get_nearest_drivers($lat, $lng);
+        $orderContent =[];
+        $orderContent = array_merge($order->toArray(), $package->toArray());
+        $drivers_tokens = $this->driversTokens($nearest_drivers);
         // dd('token driver',$drivers_tokens);
+        $orderDetails=json_encode($orderContent);
+        // dd($orderDetails);
         try {
             fcm()
                 ->to($drivers_tokens) // $recipients must an array
                 ->notification([
                     'title' => 'Test driver FCM',
                     'body' => 'This is a test of driver FCM',
-                    'content'=>$orderNotify,
+                    'content' => $orderDetails,
                 ])
                 ->send();
         } catch (\Exception $e) {
-            dd($e);
             report($e);
             return $e->getMessage();
         }
@@ -149,10 +155,10 @@ class CompaniesOrdersController extends Controller
                 ->notification([
                     'title' => 'Test company FCM',
                     'body' => 'This is a test of company FCM',
-                    'content'=>$order,
+                    'content' => $order,
                 ])
                 ->send();
-                // dd('company tokens',$recipients);
+            // dd('company tokens',$recipients);
         } catch (\Exception $e) {
 
             return $e->getMessage();
@@ -184,15 +190,40 @@ class CompaniesOrdersController extends Controller
         return $tokens;
     }
 
-    public function driversNotification()
+    public function driversTokens($nearest_drivers)
     {
-        $drivers_tokens = array();
-        $drivers = DriverToken::select('token')->get()->toArray();
-        for ($i = 0; $i < sizeof($drivers); $i++) {
-            array_push($drivers_tokens, $drivers[$i]['token']);
+        // dd('near drivers', $nearest_drivers);
+        $drivers=DriverToken::whereIn('driver_id', $nearest_drivers)->select('token')->get()->toArray();
+        // dd('drivers',$drivers);
+        $drivers_tokens = [];
+       foreach($drivers as $driver){
+            array_push($drivers_tokens, $driver['token']);
         }
-
-
+        // dd($drivers_tokens);
         return $drivers_tokens;
+    }
+
+    public function get_nearest_drivers($lat,$lng)
+    {
+        $circle_radius = 3959;
+        $max_distance = 10;
+        $locations = DB::select(
+            'SELECT * FROM
+                    (SELECT driver_id,driver_latitude, driver_longitude, (' . $circle_radius . ' * acos(cos(radians(' . $lat . ')) * cos(radians(driver_latitude)) *
+                    cos(radians(driver_longitude) - radians(' . $lng . ')) +
+                    sin(radians(' . $lat . ')) * sin(radians(driver_latitude))))
+                    AS distance
+                    FROM driver_locations) AS distances
+                WHERE distance < ' . $max_distance . '
+                ORDER BY distance
+                 '
+        );
+
+        $result = [];
+        foreach ($locations as $loc) {
+            array_push($result, $loc->driver_id);
+        }
+        return $result;
+
     }
 }
