@@ -303,44 +303,51 @@ class CompaniesOrdersController extends Controller
         $lat2 = $request->drop_off_latitude;
         $lon2 = $request->drop_off_longitude;
         $Weight = $request->Weight;
-        $type=$request->shipment_type;
+        $type = $request->shipment_type;
         $unit = "K";
         $final_distance;
-        if (($lat1 == $lat2) && ($lon1 == $lon2)) {
-            return 0;
-        } else {
-            $theta = $lon1 - $lon2;
-            $dist = sin(deg2rad($lat1)) * sin(deg2rad($lat2)) +  cos(deg2rad($lat1)) * cos(deg2rad($lat2)) * cos(deg2rad($theta));
-            $dist = acos($dist);
-            $dist = rad2deg($dist);
-            $miles = $dist * 60 * 1.1515;
-            $unit = strtoupper($unit);
+        try {
+            if (($lat1 == $lat2) && ($lon1 == $lon2)) {
+                return 0;
+            } else {
+                $theta = $lon1 - $lon2;
+                $dist = sin(deg2rad($lat1)) * sin(deg2rad($lat2)) +  cos(deg2rad($lat1)) * cos(deg2rad($lat2)) * cos(deg2rad($theta));
+                $dist = acos($dist);
+                $dist = rad2deg($dist);
+                $miles = $dist * 60 * 1.1515;
+                $unit = strtoupper($unit);
 
-            if ($unit == "K") {
-                // dd('dist in kkkk', $miles * 1.609344);
-                $final_distance = $miles * 1.609344;
-            } else if ($unit == "M") {
-                // dd('dist in miles ', $miles);
-                $final_distance = $miles;
+                if ($unit == "K") {
+                    // dd('dist in kkkk', $miles * 1.609344);
+                    $final_distance = $miles * 1.609344;
+                } else if ($unit == "M") {
+                    // dd('dist in miles ', $miles);
+                    $final_distance = $miles;
+                }
             }
+
+            $final_distance_cost = $final_distance * 2;
+            // dd($final_distance_cost);
+
+            $Weight_cost = ($Weight * (0.5));
+            // dd($Weight_cost);
+
+            $total_cost = $final_distance_cost + $Weight_cost;
+            // dd($total_estimated_cost);
+            if ($type == "glass") {
+                $_final_estimated_cost = $total_cost;
+            } else if ($type == "poisonous" || $type == "flammable") {
+                $_final_estimated_cost = $total_cost * 1.5;
+            }
+            return response()->json([
+                'total_cost' => $total_cost,
+                'final_estimated_cost' => $_final_estimated_cost,
+            ], 200);
+        }catch (\Exception $e) {
+
+            return  response()->json([
+                'Please enter all required parameters'=> $e->getMessage(),
+            ],400);
         }
-
-        $final_distance_cost = $final_distance * 2;
-        // dd($final_distance_cost);
-
-        $Weight_cost = ($Weight * (0.5));
-        // dd($Weight_cost);
-
-        $total_cost = $final_distance_cost + $Weight_cost;
-        // dd($total_estimated_cost);
-        if($type=="glass"){
-            $_final_estimated_cost=$total_cost;
-        }else if($type=="poisonous"||$type=="flammable"){
-            $_final_estimated_cost=$total_cost*1.5;
-        }
-        return response()->json([
-            'total_cost' => $total_cost,
-            'final_estimated_cost'=>$_final_estimated_cost,
-        ], 200);
     }
 }
