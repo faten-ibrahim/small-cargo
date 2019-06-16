@@ -16,15 +16,12 @@ Route::group([
     Route::post('company/logout', 'Api\Company\AuthController@logout');
     Route::get('company/me', 'Api\Company\AuthController@getAuthUser');
     Route::post('company/token', 'Api\Company\AuthController@get_fcm_token');
-<<<<<<< HEAD
     Route::post('company/order', 'Api\Company\CompaniesOrdersController@store');
     Route::get('company/currentOrders/{id}', 'Api\Company\CompaniesOrdersController@currentOrders');
-=======
-    // Route::post('company/order', 'Api\Company\CompaniesOrdersController@store');
-    // Route::post('driver/loc', 'Api\Driver\AuthController@get_nearest_drivers');
+    Route::post('company/order', 'Api\Company\CompaniesOrdersController@store');
+    Route::post('driver/loc', 'Api\Driver\AuthController@get_nearest_drivers');
 
 
->>>>>>> 803f7b85c34963ba9aa8481ceacbeebc0bfd8613
 });
 
 Route::group([
