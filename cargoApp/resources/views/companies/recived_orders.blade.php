@@ -2,11 +2,12 @@
 @section('content')
 <div class="container" style="width:100%;">
 @include('flash-message')
-<h2>{{$company->name}} orders</h2>
+<h2>{{$company->comp_name}} received</h2>
 
 <table class="table  table-striped table-bordered ">
   <thead class="thead-dark">
         <tr class="bg-primary">
+                <th>Id</th>
                 <th>Shipment type</th>
                 <th>Pick up date/time</th>
                 <th>Status </th>
@@ -20,26 +21,37 @@
   <tbody>
   @foreach($orders as $order)
     <tr  class="bg-success">
-
+      
+      <td>{{ $order-> id }}</td>
       <td>{{ $order-> shipment_type }}</td>
       <td>{{ $order-> pickup_date }}</td>
       <td>{{ $order-> status }}</td>
+      @if( $order->estimated_cost) 
       <td>{{ $order-> estimated_cost }}</td>
+      @else
+      <td>-</td>
+      @endif  
       @if( $order->status !== 'delivered') 
       <td>{{ $order-> final_cost }}</td>
       @else
       <td>Not delivered yet</td>
       @endif  
 
+      @if($drivers)
       @foreach($drivers as $driver)
       @if( $driver->order_id === $order->id) 
       <td>{{ $driver -> name }}</td>
       <td>{{ $driver -> phone }}</td>
       @else
-      <td>No driver accept order yet</td>
-      <td>No driver accept order yet</td>
-      @endif  
+      <td>Not accepted yet</td>
+      <td>Not accepted yet</td>
+      @endif
       @endforeach
+
+      @else
+      <td>Not accepted yet</td>
+      <td>Not accepted yet</td>
+      @endif
 
       <td><!-- Button trigger modal -->
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#{{ $order-> id }}">

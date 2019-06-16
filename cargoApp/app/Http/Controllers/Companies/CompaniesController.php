@@ -80,7 +80,7 @@ class CompaniesController extends Controller
         $contact_companies=Company::select('*')
         ->where('status','contact')->get();
         foreach ($contact_companies as $contact_company){
-            if( ($contact_company->phone === $request['phone']) || ($contact_company->name === $request['name']) ){
+            if( ($contact_company->phone === $request['phone']) || ($contact_company->comp_name === $request['name']) ){
                  $contact_company->delete();
             }
         }     
@@ -88,7 +88,7 @@ class CompaniesController extends Controller
         //----------------
 
             $company = new Company();
-            $company['name'] = $request['name'];
+            $company['comp_name'] = $request['name'];
             $company['email'] = $request['email'];
             $company['address'] = $request['address'];
             $company['address_latitude'] = $request['address_latitude'];
@@ -147,7 +147,7 @@ class CompaniesController extends Controller
             ]
         );
         //update company
-        $company->name = request('name');
+        $company->comp_name = request('name');
         $company->phone = request('phone');
         $company->email = request('email');
         $company->address = request('address');
@@ -244,12 +244,9 @@ class CompaniesController extends Controller
                 ->where('sender_id',$company->id);
         $orders_details=Package::whereIn('order_id', $company_orders)
                 ->Join('orders','orders.id','=','packages.order_id')->paginate(5);
- 
         $orders_drivers=DriverOrder::whereIn('order_id', $company_orders)
           ->Join('drivers','drivers.id', '=', 'driver_order.driver_id')
           ->select('order_id','name','phone')->get();
-
-       
         return view('companies.send_orders', [
             'orders' => $orders_details,
             'company'=>$company,
@@ -270,7 +267,7 @@ class CompaniesController extends Controller
         ->Join('drivers','drivers.id', '=', 'driver_order.driver_id')
         ->select('order_id','name','phone')->get();
 
-        return view('companies.send_orders', [
+        return view('companies.recived_orders', [
         'orders' => $orders_details,
         'company'=>$company,
         'drivers'=>$orders_drivers,

@@ -22,7 +22,7 @@ class Company extends Authenticatable implements JWTSubject,BannableContract
     public function orders()
     {
         return $this->hasMany('App\Order');
-                    // ->using('App\CompanyOrder');
+                    // ->using('App\CompanyOrder')
                     // ->withPivot([
                     //     'receiver_name',
                     //     'saved',

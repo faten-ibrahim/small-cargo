@@ -42,8 +42,8 @@
             <label>Status</label>
             <select name="status" class="form-control" value="{{$user->status}}">
                 <option> - -  select  - - </option>
-                <option value="Active">Active</option>
-                <option value="Inactive">Inactive</option>
+                <option value="Active" <?php   if($user->status=="Active") echo "selected='selected'";?> >Active</option>
+                <option value="Inactive" <?php   if($user->status=="Inactive") echo "selected='selected'";?> >Inactive</option>
             </select>
         </div>
 

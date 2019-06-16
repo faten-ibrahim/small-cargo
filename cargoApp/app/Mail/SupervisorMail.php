@@ -21,7 +21,6 @@ class SupervisorMail extends Mailable
     {
         $this->name = $data['name'];
         $this->email = $data['email'];
-        $this->token=str_random(32);
 
     }
 
@@ -42,7 +41,8 @@ class SupervisorMail extends Mailable
             ->markdown('emails.New_supervisor')
             ->with([
                 'name' => $this->name,
-                'link' => url('/password/reset',$this->token).'?email='.urlencode($this->email)
+                'email' => $this->email,
+                'link' => url('/password/reset')
             ]);
     }
 

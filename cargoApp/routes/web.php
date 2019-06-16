@@ -57,6 +57,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('get_companies', 'Companies\CompaniesController@get_companies')->name('get.companies');
             Route::get('get_orders/{company}', 'Companies\CompaniesController@get_orders');
             Route::get('orders_list', 'Orders\OrdersController@orders_list');
+
         });
         // admin|supervisor routes
         Route::group(['middleware' => ['role:admin|supervisor']], function () {

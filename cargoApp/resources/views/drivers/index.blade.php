@@ -5,7 +5,7 @@
     <h2>Manage Drivers</h2>
     <a class="btn btn-info" href="{{route('drivers.create')}}"><i class="fa fa-plus"></i><span>Add New Driver</span></a><br><br>
     <a class="btn btn-primary"href="{{route('drivers.excel')}}"><i class="fa fa-download"></i><span>Export Drivers</span></a><br><br>
-    <table id="example" class="table table-striped">
+    <table id="example" class="table table-striped" >
         <thead>
             <th>Name</th>
             <th>Phone number</th>
@@ -21,6 +21,7 @@
             <th>Supervisor name</th>
             @endrole
             <th>Actions</th>
+            <th>Active/InActive</th>
             </tr>
         </thead>
     </table>
@@ -43,8 +44,17 @@
                 data: 'created_at'
             },
             {
-                data: 'status_driver'
-            },
+                    mRender: function(data, type, row) {
+
+                        if (row.status_driver =='active')
+                            return '<span style="color:#0C9D2C; font-weight: bold;">Active<span>'
+                        else if (row.status_driver =='inactive')
+                            return '<span style="color:red;  font-weight: bold;">InActive<span>'
+                        else if (row.status_driver =='new')
+                            return '<span style="color:red;  font-weight: bold;">New<span>'
+
+                    }
+                },
             {
                 data: 'availability'
             },
@@ -81,8 +91,17 @@
                 data: 'created_at'
             },
             {
-                data: 'status_driver'
-            },
+                    mRender: function(data, type, row) {
+
+                        if (row.status_driver =='active')
+                            return '<span style="color:#0C9D2C; font-weight: bold;">Active<span>'
+                        else if (row.status_driver =='inactive')
+                            return '<span style="color:red;  font-weight: bold;">InActive<span>'
+                        else if (row.status_driver =='new')
+                            return '<span style="color:red;  font-weight: bold;">New<span>'
+
+                    }
+                },
             {
                 data: 'availability'
             },
@@ -109,10 +128,17 @@
         c_array.push(
             {
                     mRender: function (data, type, row) {
+                        return '<a href="/drivers/' + row.id + '/edit" class="bttn btn btn-xs btn-success" ><i class="fa fa-edit"></i><span>Edit</span></a>'+
+                        '<form style="display:inline" method="POST" action="drivers/'+row.id+'">@csrf   {{ method_field('DELETE')}}<button type="submit" onclick="return myFunction();" class="btn btn-xs btn-danger"><i class="fa fa-times"></i>Delete</button></form>'
+
+                    }
+                },
+            {
+                    mRender: function (data, type, row) {
                         if (!row.banned_at && row.status_driver=='active')
-                        return '<a href="/drivers/' + row.id + '/ban" class="bttn btn btn-xs btn-warning" data-id="' + row.id + '"><i class="fa fa-ban"></i><span>Deactive</span></a><br><form style="display:inline" method="POST" action="drivers/'+row.id+'">@csrf   {{ method_field('DELETE')}}<button type="submit" onclick="return myFunction();" class="btn btn-xs btn-danger"><i class="fa fa-times"></i>Delete</button></form>'
+                        return '<a href="/drivers/' + row.id + '/ban" class="bttn btn btn-xs btn-warning" data-id="' + row.id + '"><i class="fa fa-ban"></i><span>Deactive</span></a>'
                         else
-                        return '<a href="/drivers/' + row.id + '/unban" class="bttn btn btn-xs btn-success" data-id="' + row.id + '" ><i class="fa fa-check"></i><span>Active</span></a><br><form style="display:inline" method="POST" action="drivers/'+row.id+'">@csrf   {{ method_field('DELETE')}}<button type="submit" onclick="return myFunction();" class="btn btn-xs btn-danger"><i class="fa fa-times"></i>Delete</button></form>'
+                        return '<a href="/drivers/' + row.id + '/unban" class="bttn btn btn-xs btn-success" data-id="' + row.id + '" ><i class="fa fa-check"></i><span>Active</span></a>'
 
                     }
                 },
