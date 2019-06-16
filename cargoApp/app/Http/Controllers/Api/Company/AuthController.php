@@ -3,9 +3,6 @@
 namespace App\Http\Controllers\Api\Company;
 
 use Illuminate\Support\Facades\Auth;
-
-
-
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Validator;
@@ -15,7 +12,6 @@ use JWTAuthException;
 use App\Company;
 use Hash;
 use App\CompanyToken;
-
 
 class AuthController extends Controller
 {
@@ -31,14 +27,14 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required',
+            'comp_name' => 'required',
             'password' => 'required'
         ]);
         if ($validator->fails()) {
             return response()->json($validator->errors());
         }
 
-        $credentials = $request->only('name', 'password');
+        $credentials = $request->only('comp_name', 'password');
         try {
             if (!$token = JWTAuth::attempt($credentials)) {
                 return response()->json(['error' => 'We can`t find an account with this credentials.'], 401);
@@ -62,7 +58,7 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required',
+            'comp_name' => 'required',
             'email' => 'required|unique:companies',
             'address' => 'required',
             'phone' => 'required|unique:companies',
@@ -73,7 +69,7 @@ class AuthController extends Controller
             return response()->json($validator->errors(), 400);
         }
         $company = Company::create([
-            'comp_name' => $request->name,
+            'comp_name' => $request->comp_name,
             'email' => $request->email,
             'address' => $request->address,
             'phone' => $request->phone,
@@ -140,9 +136,9 @@ class AuthController extends Controller
         if ($validator->fails()) {
             return response()->json($validator->errors(), 400);
         }
-        $company_id=$request->company_id;
-        $company_token=$request->token;
-        $company=CompanyToken::where('company_id', '=', $company_id);
+        $company_id = $request->company_id;
+        $company_token = $request->token;
+        $company = CompanyToken::where('company_id', '=', $company_id);
         if ($company->exists()) {
             $company->delete();
         }
@@ -157,5 +153,18 @@ class AuthController extends Controller
                 'company_token' => $company_token
             ]
         ], 201);
+    }
+
+    public function edit_profile(Request $request)
+    {
+        $comp=Company::find(auth('company')->user()->id)->update([
+            'comp_name' => $request->comp_name,
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
+            'address' => $request->address,
+            'phone' => $request->phone,
+        ]);
+        dd($comp);
+        return response()->json(['message' => "your updated successfully"]);
     }
 }

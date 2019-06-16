@@ -17,8 +17,10 @@ Route::group([
     Route::get('company/me', 'Api\Company\AuthController@getAuthUser');
     Route::post('company/token', 'Api\Company\AuthController@get_fcm_token');
     // Route::post('company/order', 'Api\Company\CompaniesOrdersController@store');
-    // Route::post('driver/loc', 'Api\Driver\AuthController@get_nearest_drivers');
+    Route::post('company/edit', 'Api\Company\AuthController@edit_profile');
 
+
+    // Route::post('driver/loc', 'Api\Driver\AuthController@get_nearest_drivers');
 
 });
 
