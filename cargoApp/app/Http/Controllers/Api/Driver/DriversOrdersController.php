@@ -14,11 +14,12 @@ class DriversOrdersController extends Controller
 {
     public function accept_order($id)
     {
-
-        $order = Order::find($id)->update([
-            'status' => "accepted",
-        ]);
-        dd($order);
-        return response()->json(['message' => "your updated successfully"], 200);
+        $order = Order::find($id);
+        $order->status="accepted";
+        $order->save();
+        return response()->json([
+            'message' => "your updated successfully",
+            'order'=>$order
+        ], 200);
     }
 }

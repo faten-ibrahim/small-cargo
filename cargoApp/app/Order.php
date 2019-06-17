@@ -9,7 +9,7 @@ class Order extends Model
     use SoftDeletes;
     protected $dates = ['deleted_at'];
     protected $fillable = [
-        'shipment_type','car_number','truck_type','pickup_date'
+        'shipment_type','car_number','truck_type','pickup_date',
     ];
 
     public function  companies()

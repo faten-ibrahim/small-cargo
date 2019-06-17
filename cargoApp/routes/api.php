@@ -9,7 +9,7 @@ Route::post('driver/register', 'Api\Driver\AuthController@register');
 Route::post('company/order', 'Api\Company\CompaniesOrdersController@store');
 Route::post('company/calc', 'Api\Company\CompaniesOrdersController@calc_total_estimated_cost');
 Route::post('company/loc', 'Api\Company\CompaniesOrdersController@get_nearest_drivers');
-Route::post('driver/accept_order/{id}', 'Api\Driver\DriversOrdersController@accept_order');
+Route::put('driver/accept_order/{id}', 'Api\Driver\DriversOrdersController@accept_order');
 Route::group([
     'middleware' => ['auth:company'],
     'prefix' => 'auth'
