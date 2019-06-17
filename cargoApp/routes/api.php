@@ -23,6 +23,7 @@ Route::group([
     Route::get('company/currentOrders/{id}', 'Api\Company\CompaniesOrdersController@currentOrders');
     Route::get('company/lastOrders/{id}', 'Api\Company\CompaniesOrdersController@lastOrders');
     Route::put('company/confirm/{order_id}/{company_id}', 'Api\Company\CompaniesOrdersController@confirm_order');
+    Route::get('company/notifications/{id}', 'Api\Company\CompaniesOrdersController@notifications');
 
 
 });
@@ -50,4 +51,3 @@ Route::group([
 Route::get('company/get_driver/{id}', 'Api\Company\CompaniesOrdersController@get_driver');
 Route::get('company/lastOrders/{id}', 'Api\Company\CompaniesOrdersController@lastOrders');
 
-Route::get('company/notifications/{id}', 'Api\Company\CompaniesOrdersController@notifications');
