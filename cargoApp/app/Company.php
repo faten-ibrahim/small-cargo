@@ -19,6 +19,12 @@ class Company extends Authenticatable implements JWTSubject,BannableContract
     {
         return $this->hasMany('App\CompanyContactList');
     }
+
+    public function Companynotifications()
+    {
+        return $this->hasMany('App\CompanyNotification');
+    }
+
     public function orders()
     {
         return $this->hasMany('App\Order');
@@ -30,6 +36,8 @@ class Company extends Authenticatable implements JWTSubject,BannableContract
                     //     'updated_by',
                     // ]);
     }
+
+
 
     protected $fillable = [
         'comp_name', 'email', 'password','address','phone',

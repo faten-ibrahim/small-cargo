@@ -20,6 +20,8 @@ use App\CompanyToken;
 use DB;
 use App\DriverLocation;
 use App\Driver;
+use App\CompanyNotification;
+
 
 class CompaniesOrdersController extends Controller
 {
@@ -164,7 +166,34 @@ class CompaniesOrdersController extends Controller
                     'content' => $orderDetails,
                 ])
                 ->send();
-            // dd('company tokens',$recipients);
+    //----------  save notification in database ----------
+    // dd($orderDetails);
+                CompanyNotification::create([
+                    'sender_id'=>$request->sender_id,
+                    'receiver_id'=>$id,
+                    'shipment_type' =>$request->shipment_type,
+                    'car_number' =>$request->car_number,
+                    'truck_type' =>$request->truck_type,
+                    'pickup_date' =>$request->pickup_date,
+                    'order_status' =>'pending',
+                    'length' =>$request->length,
+                    'width' =>$request->width,
+                    'height' =>$request->height,
+                    'Weight' =>$request->Weight,
+                    'pickup_location' =>$request->pickup_location,
+                    'pickup_latitude' =>$request->pickup_latitude,
+                    'pickup_longitude' =>$request->pickup_longitude,
+                    'drop_off_location' =>$request->drop_off_location,
+                    'drop_off_latitude' =>$request->drop_off_latitude,
+                    'drop_off_longitude' =>$request->drop_off_longitude,
+                    'value' =>$request->value,
+                    'quantity' =>$request->quantity,
+                    'order_id' =>$request->order_id,
+
+                ]);
+             
+    //----------------------------------------------------
+            
         } catch (\Exception $e) {
 
             return $e->getMessage();
@@ -369,5 +398,12 @@ class CompaniesOrdersController extends Controller
                 'message' => "Invalid parameters",
             ], 400);
         }
+    }
+
+    public function get_contact_list($id){
+      $contact=CompanyContactList::where('company_id',$id)->get();
+      return response()->json([
+        'contact' => $contact,
+    ], 201);
     }
 }
