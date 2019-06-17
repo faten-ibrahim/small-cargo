@@ -35,12 +35,11 @@ Route::group([
     Route::get('drivers/{driver}', 'Api\Driver\AuthController@get_driver_location');
     Route::put('driver/edit', 'Api\Driver\AuthController@edit_profile');
     Route::put('driver/accept_order', 'Api\Driver\DriversOrdersController@accept_order');
+    Route::get('driver/current_order/{id}', 'Api\Driver\DriversOrdersController@current_order');
+    Route::get('driver/last_order/{id}', 'Api\Driver\DriversOrdersController@last_order');
     
 
 });
 
 Route::get('company/get_driver/{id}', 'Api\Company\CompaniesOrdersController@get_driver');
 Route::get('company/lastOrders/{id}', 'Api\Company\CompaniesOrdersController@lastOrders');
-
-Route::get('driver/current_order/{id}', 'Api\Driver\DriversOrdersController@current_order');
-Route::get('driver/last_order/{id}', 'Api\Driver\DriversOrdersController@last_order');
