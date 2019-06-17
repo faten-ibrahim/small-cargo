@@ -232,28 +232,27 @@ class CompaniesOrdersController extends Controller
         }
         return $result;
     }
-
-    public function currentOrders($id)
-    {
-        $sent_orders = CompanyOrder::where('sender_id', $id)
-            ->Join('orders', function ($q) {
-                $q->on('orders.id', '=', 'company_order.order_id')
-                    ->whereNotIn('orders.status', ['completed']);
-            })
-            ->Join('packages', 'packages.order_id', '=', 'orders.id')
-            ->join('companies', 'companies.id', '=', 'company_order.receiver_id')
-            ->select('company_order.sender_id', 'packages.pickup_location', 'packages.pickup_latitude', 'packages.pickup_longitude', 'packages.drop_off_location', 'packages.drop_off_latitude', 'packages.drop_off_longitude', 'packages.Weight', 'packages.width', 'packages.height', 'packages.length', 'packages.quantity', 'packages.value', 'orders.car_number', 'orders.shipment_type', 'orders.truck_type', 'orders.pickup_date', 'orders.status', 'company_order.receiver_id', 'companies.comp_name as receiver_company_name', 'companies.phone', 'companies.address')->get();
-
-        $recevied_orders = CompanyOrder::where('receiver_id', $id)
-            ->Join('orders', function ($q) {
-                $q->on('orders.id', '=', 'company_order.order_id')
-                    ->whereNotIn('orders.status', ['completed']);
-            })
-            ->Join('packages', 'packages.order_id', '=', 'orders.id')
-            ->join('companies', 'companies.id', '=', 'company_order.sender_id')
-            ->select('company_order.receiver_id', 'packages.pickup_location', 'packages.pickup_latitude', 'packages.pickup_longitude', 'packages.drop_off_location', 'packages.drop_off_latitude', 'packages.drop_off_longitude', 'packages.Weight', 'packages.width', 'packages.height', 'packages.length', 'packages.quantity', 'packages.value', 'orders.car_number', 'orders.shipment_type', 'orders.truck_type', 'orders.pickup_date', 'orders.status', 'company_order.sender_id', 'companies.comp_name as sender_company_name', 'companies.phone', 'companies.address')->get();
-
-
+ 
+    public function currentOrders($id){
+        $sent_orders = CompanyOrder::where('sender_id',$id)
+                ->Join('orders', function($q) {
+                                $q->on('orders.id', '=', 'company_order.order_id')
+                                  ->whereNotIn('orders.status',['completed']);
+                            })
+                ->Join('packages','packages.order_id','=','orders.id')
+                ->join('companies','companies.id','=','company_order.receiver_id')
+                ->select('orders.id as order_id','company_order.sender_id','packages.pickup_location','packages.pickup_latitude','packages.pickup_longitude','packages.drop_off_location','packages.drop_off_latitude','packages.drop_off_longitude','packages.Weight','packages.width','packages.height','packages.length','packages.quantity','packages.value','orders.car_number','orders.shipment_type','orders.truck_type','orders.pickup_date','orders.status','company_order.receiver_id','companies.comp_name as receiver_company_name','companies.phone','companies.address')->get();
+              
+        $recevied_orders = CompanyOrder::where('receiver_id',$id)
+                ->Join('orders', function($q) {
+                                $q->on('orders.id', '=', 'company_order.order_id')
+                                  ->whereNotIn('orders.status',['completed']);
+                            })
+                ->Join('packages','packages.order_id','=','orders.id')
+                ->join('companies','companies.id','=','company_order.sender_id')
+                ->select('orders.id as order_id','company_order.receiver_id','packages.pickup_location','packages.pickup_latitude','packages.pickup_longitude','packages.drop_off_location','packages.drop_off_latitude','packages.drop_off_longitude','packages.Weight','packages.width','packages.height','packages.length','packages.quantity','packages.value','orders.car_number','orders.shipment_type','orders.truck_type','orders.pickup_date','orders.status','company_order.sender_id','companies.comp_name as sender_company_name','companies.phone','companies.address')->get();       
+                  
+                
         return response()->json([
             'sent_orders' => $sent_orders,
             'recevied_orders ' => $recevied_orders,
