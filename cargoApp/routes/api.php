@@ -38,6 +38,7 @@ Route::group([
     Route::get('drivers/{driver}', 'Api\Driver\AuthController@get_driver_location');
     Route::put('driver/edit', 'Api\Driver\AuthController@edit_profile');
     Route::put('driver/accept_order/{id}', 'Api\Driver\DriversOrdersController@accept_order');
+    Route::put('driver/start_trip/{id}', 'Api\Driver\DriversOrdersController@start_trip');
 
 });
 
