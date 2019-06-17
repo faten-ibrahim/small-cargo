@@ -127,6 +127,7 @@ class CompaniesOrdersController extends Controller
         $lat = $request->pickup_latitude;
         $lng = $request->pickup_longitude;
         $nearest_drivers = $this->get_nearest_drivers($lat, $lng);
+        // dd('nearest drivers',$nearest_drivers);
         $orderContent = [];
         $orderContent = array_merge($order->toArray(), $package->toArray());
         $drivers_tokens = $this->driversTokens($nearest_drivers);
@@ -206,11 +207,11 @@ class CompaniesOrdersController extends Controller
         return $drivers_tokens;
     }
 
-    public function get_nearest_drivers()
+    public function get_nearest_drivers($lat,$lng)
     {
 
-        $lat = 31.1926859;
-        $lng = 29.906324700000027;
+        // $lat = 31.1926859;
+        // $lng = 29.906324700000027;
         $circle_radius = 3959;
         $max_distance = 10;
         $locations = DB::select(
@@ -224,17 +225,12 @@ class CompaniesOrdersController extends Controller
                 ORDER BY distance
                  '
         );
-        return response()->json([
-            'message' => ' Successfully',
-            'result' => $locations,
 
-
-        ], 201);
         $result = [];
         foreach ($locations as $loc) {
             array_push($result, $loc->driver_id);
         }
-        // return $result;
+        return $result;
     }
 
     public function currentOrders($id)

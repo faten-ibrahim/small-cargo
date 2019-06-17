@@ -23,7 +23,7 @@ class AuthController extends Controller
         config()->set('auth.defaults.guard', 'driver-api');
         \Config::set('jwt.user', 'App\Driver');
         \Config::set('auth.providers.users.model', \App\Driver::class);
-        $this->middleware('auth:driver-api', ['except' => ['login', 'register']]);
+        // $this->middleware('auth:driver-api', ['except' => ['login', 'register']]);
     }
 
     // ########## Driver Login ##########
@@ -209,15 +209,15 @@ class AuthController extends Controller
     public function edit_profile(Request $request)
     {
         // dd(JWTAuth::user()->id);
-        $comp=Driver::find(JWTAuth::user()->id)->update([
+        $comp = Driver::find(JWTAuth::user()->id)->update([
             'name' => $request->name,
             'car_type' => $request->car_type,
-            'car_number' =>$request->car_number,
+            'car_number' => $request->car_number,
             'address' => $request->address,
             'phone' => $request->phone,
         ]);
         // dd($comp);
-        return response()->json(['message' => "your updated successfully"],200);
+        return response()->json(['message' => "your updated successfully"], 200);
     }
 
 }
