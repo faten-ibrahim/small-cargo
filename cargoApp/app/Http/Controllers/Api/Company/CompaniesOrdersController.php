@@ -58,7 +58,7 @@ class CompaniesOrdersController extends Controller
         if ($validator->fails()) {
             return response()->json($validator->errors(), 400);
         }
-
+        $sender_company=Company::where('id', '=', $request->sender_id)->first();
         $receiver_name = $request->receiver_name;
         $receiver_company = Company::where('comp_name', '=', $receiver_name)->first();
         $id = '';
@@ -130,7 +130,8 @@ class CompaniesOrdersController extends Controller
         $nearest_drivers = $this->get_nearest_drivers($lat, $lng);
         // dd('nearest drivers',$nearest_drivers);
         $orderContent = [];
-        $orderContent = array_merge($order->toArray(), $package->toArray());
+        $orderContent = array_merge($order->toArray(), $package->toArray(),$sender_company->toArray());
+        array_push($orderContent,$receiver_name);
         $drivers_tokens = $this->driversTokens($nearest_drivers);
         // dd('token driver',$drivers_tokens);
         $orderDetails = json_encode($orderContent);
@@ -140,7 +141,7 @@ class CompaniesOrdersController extends Controller
                 ->to($drivers_tokens) // $recipients must an array
                 ->notification([
                     'title' => 'Cargo Order',
-                    'body' => 'There is an order for you' . '$' . $orderDetails,
+                    'body' => 'There is an order for you' . '$' .$orderDetails,
                 ])
                 ->send();
         } catch (\Exception $e) {
@@ -175,6 +176,7 @@ class CompaniesOrdersController extends Controller
             'order' => $order,
             'package' => $package,
             'company_order' => $company_order,
+            'recipients'=>$recipients,
 
         ], 201);
     }
@@ -280,7 +282,7 @@ class CompaniesOrdersController extends Controller
                     ->where('orders.status', 'completed');
             })
             ->Join('packages', 'packages.order_id', '=', 'orders.id')->get();
-  
+
         return response()->json([
             'last_orders' => $last_orders,
         ], 201);
