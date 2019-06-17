@@ -23,8 +23,8 @@ class CreateCompanyNotification extends Migration
             $table->foreign('receiver_id')
             ->references('id')->on('companies');
 
-            $table->string('title')
-            $table->string('body')
+            $table->string('title');
+            $table->string('body');
             $table->string('status')->nullable();
             $table->timestamps();
         });
