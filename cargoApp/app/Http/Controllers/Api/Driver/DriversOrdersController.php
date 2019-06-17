@@ -45,4 +45,17 @@ class DriversOrdersController extends Controller
             'order'=>$order,
         ], 200);
     }
+
+
+    public function delivere_order($id)
+    {
+        $order = Order::find($id);
+        $order->status="delivered";
+        $order->save();
+
+        return response()->json([
+            'message' => "order updated successfully",
+            'order'=>$order,
+        ], 200);
+    }
 }

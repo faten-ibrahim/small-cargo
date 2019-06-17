@@ -19,6 +19,7 @@ use Hash;
 use App\CompanyToken;
 use DB;
 use App\DriverLocation;
+use App\Driver;
 
 class CompaniesOrdersController extends Controller
 {
@@ -324,7 +325,7 @@ class CompaniesOrdersController extends Controller
             $final_distance_cost = $final_distance * 2;
             // dd($final_distance_cost);
 
-            $Weight_cost = ($Weight * (0.5));
+            $Weight_cost = $Weight ;
             // dd($Weight_cost);
 
             $total_cost = $final_distance_cost + $Weight_cost;
@@ -354,9 +355,17 @@ class CompaniesOrdersController extends Controller
             $order = Order::find($order_id);
             $order->status = "completed";
             $order->save();
+
+            $order_driver =DriverOrder::select('driver_id')->where('order_id',$order_id)->get()->toArray();
+
+            $driver=Driver::find($order_driver)->first();
+            $driver->status_driver="available";
+            $driver->save();
             return response()->json([
                 'message' => "Order successfully completed",
-                'order' => $order
+                'order' => $order,
+                'driver'=>$driver
+
             ], 200);
         } else {
             return response()->json([
