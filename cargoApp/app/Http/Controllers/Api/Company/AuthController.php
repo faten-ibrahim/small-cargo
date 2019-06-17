@@ -166,6 +166,9 @@ class AuthController extends Controller
             'phone' => $request->phone,
         ]);
         // dd($comp);
-        return response()->json(['message' => "your updated successfully"],200);
+        return response()->json([
+            'message' => "data updated successfully",
+            'company data'=>$comp
+        ],200);
     }
 }
