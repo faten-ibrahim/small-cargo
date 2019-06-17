@@ -2,7 +2,7 @@
 @section('content')
 <div class="container" style="width:100%;">
     @include('flash-message')
-    <h2>Manage Drivers</h2>
+    <h2 style="font-style: italic;">Manage Drivers</h2>
     <a class="btn btn-info" href="{{route('drivers.create')}}"><i class="fa fa-plus"></i><span>Add New Driver</span></a><br><br>
     <a class="btn btn-primary"href="{{route('drivers.excel')}}"><i class="fa fa-download"></i><span>Export Drivers</span></a><br><br>
     <table id="example" class="table table-striped" >
@@ -94,11 +94,11 @@
                     mRender: function(data, type, row) {
 
                         if (row.status_driver =='active')
-                            return '<span style="color:#0C9D2C; font-weight: bold;">Active<span>'
+                            return '<span style="color:#008d4c; font-weight: bold;">Active<span>'
                         else if (row.status_driver =='inactive')
-                            return '<span style="color:red;  font-weight: bold;">InActive<span>'
+                            return '<span style="color:#d73925;  font-weight: bold;">InActive<span>'
                         else if (row.status_driver =='new')
-                            return '<span style="color:red;  font-weight: bold;">New<span>'
+                            return '<span style="color:#d73925;  font-weight: bold;">New<span>'
 
                     }
                 },

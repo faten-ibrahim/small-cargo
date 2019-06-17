@@ -2,7 +2,7 @@
 @section('content')
 <div class="container" style="width:100%;">
 @include('flash-message')
-<h2>Manage Orders</h2>
+<h2 style="font-style: italic;">Manage Orders</h2>
 
 <table id="example" class="table table-striped" >
         <thead >
@@ -39,13 +39,15 @@
                     mRender: function(data, type, row) {
 
                         if (row.status =='pending')
-                            return '<span style="color:#0C9D2C; font-weight: bold;">pending<span>'
+                            return '<span style="color:#0C9D2C; font-weight: bold;">Pending<span>'
                         else if (row.status =='accepted')
-                            return '<span style="color:red;  font-weight: bold;">accepted<span>'
+                            return '<span style="color:#E88B25;  font-weight: bold;">Accepted<span>'
                         else if (row.status =='ongoing')
-                            return '<span style="color:#F7B017;  font-weight: bold;">ongoing<span>'
+                            return '<span style="color:red;  font-weight: bold;">Ongoing<span>'
                         else if (row.status =='delivered')
-                            return '<span style="color:red;  font-weight: bold;">delivered<span>'    
+                            return '<span style="color:#E825D1;  font-weight: bold;">Delivered<span>'    
+                         else if (row.status =='completed')
+                            return '<span style="color:#2925E8;  font-weight: bold;">Completed<span>'    
 
                     }
                 },

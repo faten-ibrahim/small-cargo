@@ -1,6 +1,6 @@
 <?php $__env->startSection('content'); ?>
 <div class="container" style="width:100%;">
-    <h2>Manage Companies</h2>
+    <h2 style="font-style: italic;">Manage Companies</h2>
     <a class="btn btn-info" href="<?php echo e(route('companies.create')); ?>"><i class="fa fa-plus"></i><span>Add New Company</span></a><br><br>
     <table id="example" class="table table-striped">
         <thead>
@@ -53,13 +53,13 @@
                     mRender: function(data, type, row) {
 
                         if (row.status =='active')
-                            return '<span style="color:#00a65a; font-weight: bold;">Active<span>'
+                            return '<span style="color:#008d4c; font-weight: bold;">Active<span>'
                         else if (row.status =='inactive')
-                            return '<span style="color:#dd4b39;  font-weight: bold;">InActive<span>'
+                            return '<span style="color:#d73925;  font-weight: bold;">InActive<span>'
                         else if (row.status =='new')
-                            return '<span style="color:#dd4b39;  font-weight: bold;">New<span>'
+                            return '<span style="color:#d73925;  font-weight: bold;">New<span>'
                         else if (row.status =='contact')
-                            return '<span style="color:#3c8dbc;  font-weight: bold;">Contact<span>'
+                            return '<span style="color:#367fa9;  font-weight: bold;">Contact<span>'
 
                     }
                 },

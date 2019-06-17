@@ -2,7 +2,7 @@
 @section('content')
 <div class="container" style="width:100%;">
 @include('flash-message')
-<h2>Manage Supervisors</h2>
+<h2 style="font-style: italic;">Manage Supervisors</h2>
 <a class="btn btn-info" href="{{route('users.create')}}"><i class="fa fa-plus"></i><span>Add New Supervisor</span></a><br><br>
 <a class="btn btn-primary"href="{{route('supervisors.excel')}}"><i class="fa fa-download"></i><span>Export Supervisors</span></a><br><br>
 <table id="example" class="table table-striped" >
@@ -41,10 +41,10 @@
                 { data: 'created_at' },
                 {
                     mRender: function(data, type, row) {
-                        if (row.status =='Active')
-                            return '<span style="color:#0C9D2C; font-weight: bold;">Active<span>'
-                        else if (row.status =='Inactive')
-                            return '<span style="color:red;  font-weight: bold;">InActive<span>'
+                        if (row.status ==='active')
+                            return '<span style="color:#008d4c; font-weight: bold;">Active<span>'
+                        else if (row.status ==='inactive')
+                            return '<span style="color:#d73925;  font-weight: bold;">InActive<span>'
                     }
                 },
                 // { data: 'drivers_count' },
