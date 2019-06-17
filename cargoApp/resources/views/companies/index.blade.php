@@ -53,11 +53,13 @@
                     mRender: function(data, type, row) {
 
                         if (row.status =='active')
-                            return '<span style="color:#0C9D2C; font-weight: bold;">Active<span>'
+                            return '<span style="color:#00a65a; font-weight: bold;">Active<span>'
                         else if (row.status =='inactive')
-                            return '<span style="color:red;  font-weight: bold;">InActive<span>'
+                            return '<span style="color:#dd4b39;  font-weight: bold;">InActive<span>'
                         else if (row.status =='new')
-                            return '<span style="color:red;  font-weight: bold;">New<span>'
+                            return '<span style="color:#dd4b39;  font-weight: bold;">New<span>'
+                        else if (row.status =='contact')
+                            return '<span style="color:#3c8dbc;  font-weight: bold;">Contact<span>'
 
                     }
                 },
@@ -83,9 +85,7 @@
 
                         if (!row.banned_at && row.status=='active')
                             return '<a href="/companies/' + row.id + '/ban" class="bttn btn btn-xs btn-warning" data-id="' + row.id + '"><i class="fa fa-ban"></i><span>Deactive</span></a><br>'+
-                                    '<a href="/companies/' + row.id + '/add_list" class="bttn btn btn-xs btn-primary" data-id="' + row.id + '"><i class="fa fa-plus"></i><span>Add Contact</span></a>'
-
-
+                            '<a href="/companies/' + row.id + '/contacts" class="bttn btn btn-xs btn-primary " data-id="' + row.id + '"><span>Contact List</span></a>'
                         else
                             return '<a href="/companies/' + row.id + '/unban" class="bttn btn btn-xs btn-success " data-id="' + row.id + '" ><i class="fa fa-check"></i><span>Active</span></a><br>'+
                                     '<a href="/companies/' + row.id + '/contacts" class="bttn btn btn-xs btn-primary " data-id="' + row.id + '"><span>Contact List</span></a>'

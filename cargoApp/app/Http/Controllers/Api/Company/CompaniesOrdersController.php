@@ -20,6 +20,7 @@ use App\CompanyToken;
 use DB;
 use App\DriverLocation;
 
+
 class CompaniesOrdersController extends Controller
 {
     public function __construct()
@@ -358,5 +359,12 @@ class CompaniesOrdersController extends Controller
                 'message' => "Invalid parameters",
             ], 400);
         }
+    }
+
+    public function get_contact_list($id){
+      $contact=CompanyContactList::where('company_id',$id)->get();
+      return response()->json([
+        'contact' => $contact,
+    ], 201);
     }
 }
