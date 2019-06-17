@@ -41,13 +41,10 @@ Route::group([
     Route::get('driver/last_order/{id}', 'Api\Driver\DriversOrdersController@last_order');
     
     Route::put('driver/accept_order/{id}', 'Api\Driver\DriversOrdersController@accept_order');
-<<<<<<< HEAD
     Route::get('company/contact_list/{id}', 'Api\Company\CompaniesOrdersController@get_contact_list');
-=======
     Route::put('driver/start_trip/{id}', 'Api\Driver\DriversOrdersController@start_trip');
     Route::put('driver/deliver/{id}', 'Api\Driver\DriversOrdersController@delivere_order');
 
->>>>>>> ed7824555be49afbe77d1e52f9d9b4bbf3d42743
 });
 
 Route::get('company/get_driver/{id}', 'Api\Company\CompaniesOrdersController@get_driver');

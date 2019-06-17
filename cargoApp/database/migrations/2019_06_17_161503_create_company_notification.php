@@ -23,8 +23,9 @@ class CreateCompanyNotification extends Migration
             $table->foreign('receiver_id')
             ->references('id')->on('companies');
 
-            $table->string('title');
-            $table->string('body');
+            $table->string('title')->default('Cargo order');
+            $table->string('body')->default('Your order is pending , now');
+            $table->string('content');
             $table->string('status')->nullable();
             $table->timestamps();
         });
