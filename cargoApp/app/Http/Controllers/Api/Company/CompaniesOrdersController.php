@@ -139,8 +139,7 @@ class CompaniesOrdersController extends Controller
                 ->to($drivers_tokens) // $recipients must an array
                 ->notification([
                     'title' => 'Cargo Order',
-                    'body' => 'There is an order for you',
-                    'content' => $orderDetails,
+                    'body' => 'There is an order for you' . '$' . $orderDetails,
                 ])
                 ->send();
         } catch (\Exception $e) {
@@ -207,7 +206,7 @@ class CompaniesOrdersController extends Controller
         return $drivers_tokens;
     }
 
-    public function get_nearest_drivers($lat,$lng)
+    public function get_nearest_drivers($lat, $lng)
     {
 
         // $lat = 31.1926859;
@@ -233,24 +232,25 @@ class CompaniesOrdersController extends Controller
         return $result;
     }
 
-    public function currentOrders($id){
-        $sent_orders = CompanyOrder::where('sender_id',$id)
-                ->Join('orders', function($q) {
-                                $q->on('orders.id', '=', 'company_order.order_id')
-                                  ->whereNotIn('orders.status',['completed']);
-                            })
-                ->Join('packages','packages.order_id','=','orders.id')
-                ->join('companies','companies.id','=','company_order.receiver_id')
-                ->select('orders.id as order_id','company_order.sender_id','packages.pickup_location','packages.pickup_latitude','packages.pickup_longitude','packages.drop_off_location','packages.drop_off_latitude','packages.drop_off_longitude','packages.Weight','packages.width','packages.height','packages.length','packages.quantity','packages.value','orders.car_number','orders.shipment_type','orders.truck_type','orders.pickup_date','orders.status','company_order.receiver_id','companies.comp_name as receiver_company_name','companies.phone','companies.address')->get();
+    public function currentOrders($id)
+    {
+        $sent_orders = CompanyOrder::where('sender_id', $id)
+            ->Join('orders', function ($q) {
+                $q->on('orders.id', '=', 'company_order.order_id')
+                    ->whereNotIn('orders.status', ['completed']);
+            })
+            ->Join('packages', 'packages.order_id', '=', 'orders.id')
+            ->join('companies', 'companies.id', '=', 'company_order.receiver_id')
+            ->select('company_order.sender_id', 'packages.pickup_location', 'packages.pickup_latitude', 'packages.pickup_longitude', 'packages.drop_off_location', 'packages.drop_off_latitude', 'packages.drop_off_longitude', 'packages.Weight', 'packages.width', 'packages.height', 'packages.length', 'packages.quantity', 'packages.value', 'orders.car_number', 'orders.shipment_type', 'orders.truck_type', 'orders.pickup_date', 'orders.status', 'company_order.receiver_id', 'companies.comp_name as receiver_company_name', 'companies.phone', 'companies.address')->get();
 
-        $recevied_orders = CompanyOrder::where('receiver_id',$id)
-                ->Join('orders', function($q) {
-                                $q->on('orders.id', '=', 'company_order.order_id')
-                                  ->whereNotIn('orders.status',['completed']);
-                            })
-                ->Join('packages','packages.order_id','=','orders.id')
-                ->join('companies','companies.id','=','company_order.sender_id')
-                ->select('orders.id as order_id','company_order.receiver_id','packages.pickup_location','packages.pickup_latitude','packages.pickup_longitude','packages.drop_off_location','packages.drop_off_latitude','packages.drop_off_longitude','packages.Weight','packages.width','packages.height','packages.length','packages.quantity','packages.value','orders.car_number','orders.shipment_type','orders.truck_type','orders.pickup_date','orders.status','company_order.sender_id','companies.comp_name as sender_company_name','companies.phone','companies.address')->get();
+        $recevied_orders = CompanyOrder::where('receiver_id', $id)
+            ->Join('orders', function ($q) {
+                $q->on('orders.id', '=', 'company_order.order_id')
+                    ->whereNotIn('orders.status', ['completed']);
+            })
+            ->Join('packages', 'packages.order_id', '=', 'orders.id')
+            ->join('companies', 'companies.id', '=', 'company_order.sender_id')
+            ->select('company_order.receiver_id', 'packages.pickup_location', 'packages.pickup_latitude', 'packages.pickup_longitude', 'packages.drop_off_location', 'packages.drop_off_latitude', 'packages.drop_off_longitude', 'packages.Weight', 'packages.width', 'packages.height', 'packages.length', 'packages.quantity', 'packages.value', 'orders.car_number', 'orders.shipment_type', 'orders.truck_type', 'orders.pickup_date', 'orders.status', 'company_order.sender_id', 'companies.comp_name as sender_company_name', 'companies.phone', 'companies.address')->get();
 
 
         return response()->json([
@@ -338,11 +338,30 @@ class CompaniesOrdersController extends Controller
                 'total_cost' => $total_cost,
                 'final_estimated_cost' => $_final_estimated_cost,
             ], 200);
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
 
             return  response()->json([
-                'Please enter all required parameters'=> $e->getMessage(),
-            ],400);
+                'Please enter all required parameters' => $e->getMessage(),
+            ], 400);
+        }
+    }
+
+    public function confirm_order($order_id, $company_id)
+    {
+        $has_order = CompanyOrder::where('order_id', $order_id)->where('receiver_id', $company_id)->get();
+
+        if ($has_order->count()) {
+            $order = Order::find($order_id);
+            $order->status = "completed";
+            $order->save();
+            return response()->json([
+                'message' => "Order successfully completed",
+                'order' => $order
+            ], 200);
+        } else {
+            return response()->json([
+                'message' => "Invalid parameters",
+            ], 400);
         }
     }
 }

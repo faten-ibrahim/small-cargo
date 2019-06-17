@@ -17,9 +17,13 @@ class DriversOrdersController extends Controller
         $order = Order::find($id);
         $order->status="accepted";
         $order->save();
+        $driver=Driver::find(JWTAuth::user()->id);
+        $driver->status_driver="busy";
+        $driver->save();
         return response()->json([
-            'message' => "your updated successfully",
-            'order'=>$order
+            'message' => "order accepted successfully",
+            'order'=>$order,
+            'driver'=>$driver,
         ], 200);
     }
 }
