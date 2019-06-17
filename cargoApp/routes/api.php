@@ -49,3 +49,5 @@ Route::group([
 
 Route::get('company/get_driver/{id}', 'Api\Company\CompaniesOrdersController@get_driver');
 Route::get('company/lastOrders/{id}', 'Api\Company\CompaniesOrdersController@lastOrders');
+
+Route::get('company/notifications/{id}', 'Api\Company\CompaniesOrdersController@notifications');
