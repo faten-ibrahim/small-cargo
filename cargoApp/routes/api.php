@@ -39,7 +39,7 @@ Route::group([
     Route::put('driver/edit', 'Api\Driver\AuthController@edit_profile');
     Route::get('driver/current_order/{id}', 'Api\Driver\DriversOrdersController@current_order');
     Route::get('driver/last_order/{id}', 'Api\Driver\DriversOrdersController@last_order');
-    
+
     Route::put('driver/accept_order/{id}', 'Api\Driver\DriversOrdersController@accept_order');
     Route::get('company/contact_list/{id}', 'Api\Company\CompaniesOrdersController@get_contact_list');
     Route::put('driver/start_trip/{id}', 'Api\Driver\DriversOrdersController@start_trip');
