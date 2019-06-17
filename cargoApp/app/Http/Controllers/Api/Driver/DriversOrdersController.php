@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Order;
 use App\DriverOrder;
 use TheSeer\Tokenizer\Exception;
-use App\DriverOrder;
+
 
 class DriversOrdersController extends Controller
 {
@@ -74,7 +74,7 @@ class DriversOrdersController extends Controller
         return response()->json([
             'order'=>$order
         ], 201);
-        
+
     }
 
     public function last_order($id)
@@ -91,7 +91,7 @@ class DriversOrdersController extends Controller
         return response()->json([
             'order'=>$order
         ], 201);
-        
+
     }
 
 

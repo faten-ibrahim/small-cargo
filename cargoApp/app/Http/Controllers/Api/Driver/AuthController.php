@@ -48,7 +48,9 @@ class AuthController extends Controller
             return response()->json(['error' => 'could_not_create_token'], 500);
         }
 
-        // return response()->json(compact('token'));
+        // $driver=Driver::find(JWTAuth::user()->id);
+        $driver->status_driver = "available";
+        $driver->save();
 
         return response()->json([
             'status' => 'You have successfully logged in .',
@@ -80,6 +82,9 @@ class AuthController extends Controller
             'car_number' => $request->car_number,
             'car_type' => $request->car_type,
         ]);
+        // $driver=Driver::find(JWTAuth::user()->id);
+        $driver->status_driver = "available";
+        $driver->save();
 
         $token = JWTAuth::fromUser($driver);
         return response()->json([
@@ -95,6 +100,10 @@ class AuthController extends Controller
     public function logout()
     {
         try {
+
+            $driver = Driver::find(JWTAuth::user()->id);
+            $driver->status_driver = "offline";
+            $driver->save();
 
             JWTAuth::invalidate(JWTAuth::getToken());
 
@@ -219,5 +228,4 @@ class AuthController extends Controller
         // dd($comp);
         return response()->json(['message' => "data updated successfully"], 200);
     }
-
 }
