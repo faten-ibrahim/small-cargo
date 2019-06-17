@@ -3,9 +3,6 @@
 namespace App\Http\Controllers\Api\Company;
 
 use Illuminate\Support\Facades\Auth;
-
-
-
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Validator;
@@ -16,7 +13,6 @@ use App\Company;
 use Hash;
 use App\CompanyToken;
 
-
 class AuthController extends Controller
 {
     public function __construct()
@@ -25,7 +21,7 @@ class AuthController extends Controller
         config()->set('auth.defaults.guard', 'company');
         \Config::set('jwt.user', 'App\Campany');
         \Config::set('auth.providers.users.model', \App\Company::class);
-        $this->middleware('auth:company', ['except' => ['login', 'register']]);
+        // $this->middleware('auth:company', ['except' => ['login', 'register']]);
     }
     // ########## Company Login ##########
     public function login(Request $request)
@@ -140,9 +136,9 @@ class AuthController extends Controller
         if ($validator->fails()) {
             return response()->json($validator->errors(), 400);
         }
-        $company_id=$request->company_id;
-        $company_token=$request->token;
-        $company=CompanyToken::where('company_id', '=', $company_id);
+        $company_id = $request->company_id;
+        $company_token = $request->token;
+        $company = CompanyToken::where('company_id', '=', $company_id);
         if ($company->exists()) {
             $company->delete();
         }
@@ -157,5 +153,19 @@ class AuthController extends Controller
                 'company_token' => $company_token
             ]
         ], 201);
+    }
+
+    public function edit_profile(Request $request)
+    {
+        // dd(JWTAuth::user()->id);
+        $comp=Company::find(JWTAuth::user()->id)->update([
+            'comp_name' => $request->comp_name,
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
+            'address' => $request->address,
+            'phone' => $request->phone,
+        ]);
+        // dd($comp);
+        return response()->json(['message' => "your updated successfully"],200);
     }
 }
