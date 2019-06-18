@@ -428,4 +428,20 @@ class CompaniesOrdersController extends Controller
         'contact' => $contact,
     ], 201);
     }
-}
+
+
+   public function notifications($id){
+    $notifications = CompanyNotification::where('sender_id', $id)
+    ->orWhere('receiver_id', $id)
+    ->orderBy('company_notifications.created_at', 'desc')
+    ->select('company_notifications.sender_id','company_notifications.receiver_id','company_notifications.title','company_notifications.body','company_notifications.shipment_type','company_notifications.pickup_date','company_notifications.car_number','company_notifications.truck_type','company_notifications.length','company_notifications.width','company_notifications.height','company_notifications.pickup_location','company_notifications.pickup_latitude','company_notifications.pickup_longitude','company_notifications.drop_off_location','company_notifications.drop_off_latitude','company_notifications.drop_off_longitude','company_notifications.value','company_notifications.Weight','company_notifications.quantity','company_notifications.order_id','company_notifications.status')->get();
+
+
+
+    return response()->json([
+          'notifications' => $notifications,
+    ], 201);
+      
+   }
+
+}   
