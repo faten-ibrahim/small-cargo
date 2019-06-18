@@ -10,7 +10,7 @@ Route::post('driver/register', 'Api\Driver\AuthController@register');
 // Route::post('company/calc', 'Api\Company\CompaniesOrdersController@calc_total_estimated_cost');
 // Route::post('company/loc', 'Api\Company\CompaniesOrdersController@get_nearest_drivers');
 // Route::put('company/confirm/{order_id}/{company_id}', 'Api\Company\CompaniesOrdersController@confirm_order');
-// Route::get('driver/test/{id}', 'Api\Driver\DriversOrdersController@get_order_details');
+Route::get('driver/test/{id}', 'Api\Driver\DriversOrdersController@get_order_details');
 
 Route::group([
     'middleware' => ['auth:company'],

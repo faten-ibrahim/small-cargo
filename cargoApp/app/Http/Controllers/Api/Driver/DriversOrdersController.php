@@ -13,18 +13,18 @@ use TheSeer\Tokenizer\Exception;
 use App\CompanyOrder;
 use App\CompanyToken;
 use App\Package;
+use DB;
 
 class DriversOrdersController extends Controller
 {
     public function accept_order($id)
     {
 
-        $companies =CompanyOrder::select('sender_id','receiver_id')->where('order_id',$id)->get();
-        $companies_id=[];
-        foreach($companies as $company)
-        {
-            array_push($companies_id,$company->sender_id,$company->receiver_id);
-        }
+        $companies = CompanyOrder::select('sender_id', 'receiver_id')->where('order_id', $id)->get();
+        $companies_id = [];
+        foreach ($companies as $company) {
+                array_push($companies_id, $company->sender_id, $company->receiver_id);
+            }
         $comp_tokens = CompanyToken::whereIn('company_id', $companies_id)->select('token')->get()->toArray();
 
         // dd($comp_tokens);
@@ -33,7 +33,7 @@ class DriversOrdersController extends Controller
             array_push($recipients, $company['token']);
         }
         // dd($recipients);
-        $details_obj=$this->get_order_details($id);
+        $details_obj = $this->get_order_details($id);
         try {
 
             fcm()
@@ -84,12 +84,11 @@ class DriversOrdersController extends Controller
 
     public function delivere_order($id)
     {
-        $companies =CompanyOrder::select('sender_id','receiver_id')->where('order_id',$id)->get();
-        $companies_id=[];
-        foreach($companies as $company)
-        {
-            array_push($companies_id,$company->sender_id,$company->receiver_id);
-        }
+        $companies = CompanyOrder::select('sender_id', 'receiver_id')->where('order_id', $id)->get();
+        $companies_id = [];
+        foreach ($companies as $company) {
+                array_push($companies_id, $company->sender_id, $company->receiver_id);
+            }
         $comp_tokens = CompanyToken::whereIn('company_id', $companies_id)->select('token')->get()->toArray();
 
         // dd($comp_tokens);
@@ -98,7 +97,7 @@ class DriversOrdersController extends Controller
             array_push($recipients, $company['token']);
         }
         // dd($recipients);
-        $details_obj=$this->get_order_details($id);
+        $details_obj = $this->get_order_details($id);
         try {
 
             fcm()
@@ -159,15 +158,15 @@ class DriversOrdersController extends Controller
 
     public function get_order_details($id)
     {
-        $order=Order::find($id)->first()->toArray();
-        $package=Package::where('order_id',$id)->first()->toArray();
-        $company_order=CompanyOrder::where('order_id',$id)->first()->toArray();
-        $driver=DriverOrder::where('order_id',$id)->first()->toArray();
-        $orderContent2=[];
-        $orderContent2 = array_merge($order,$package,$company_order,$driver);
-        $orderDetails2 = json_encode($orderContent2);
+        $details = DB::table('orders')
+            ->join('packages', 'packages.order_id', '=', 'orders.id')
+            ->join('company_order', 'company_order.order_id', '=', 'orders.id')
+            ->join('driver_order', 'driver_order.order_id', '=', 'orders.id')
+            ->select('orders.*', 'packages.*', 'driver_order.*')
+            ->where('orders.id', '=', $id)
+            ->get()->toArray();
+        $orderDetails2 = json_encode($details);
 
         return $orderDetails2;
-
     }
 }
