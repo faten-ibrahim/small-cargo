@@ -2,7 +2,7 @@
 @section('content')
 <div class="container" style="width:100%;">
 @include('flash-message')
-<h2>{{$company->comp_name}} received</h2>
+<h2 style="font-style: italic;">{{$company->comp_name}} received</h2>
 
 <div class="card" style="max-width: 15rem; float: right;">
   <div class="card-header" style="background-color: #dff0d8;"><h4 style= " color:black ;font-style: italic;  font-weight: bold;">Total cost: <p>{{ $sum }}</p></h4></div>
