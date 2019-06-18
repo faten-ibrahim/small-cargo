@@ -57,6 +57,7 @@ class CompaniesOrdersController extends Controller
             'pickup_date' => 'required',
             // 'photo'=>'required',
             // 'order_value'=>'required',
+
             'estimated_cost'=>'required',
             'distance'=>'required',
         ]);
@@ -206,8 +207,8 @@ class CompaniesOrdersController extends Controller
                     'drop_off_longitude' =>$request->drop_off_longitude,
                     'value' =>$request->value,
                     'quantity' =>$request->quantity,
-                    'order_id' =>$request->order_id,
-
+                    'order_id' =>$order->id,
+           
                 ]);
 
     //----------------------------------------------------

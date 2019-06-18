@@ -2,38 +2,33 @@
 @section('content')
 <div class="container" style="width:100%;">
 @include('flash-message')
-<h2>{{$company->comp_name}} received</h2>
+<h2>{{$name->name}}'s Orders</h2>
 
-<div class="card" style="max-width: 15rem; float: right;">
-  <div class="card-header" style="background-color: #dff0d8;"><h4 style= " color:black ;font-style: italic;  font-weight: bold;">Total cost: <p>{{ $sum }}</p></h4></div>
-</div>
-
-<div class="card" style="max-width: 15rem; float: left;">
-  <div class="card-header" style="background-color: #dff0d8;"><h4 style= " color:black ;font-style: italic;  font-weight: bold;">Total orders: <p>{{ $total }}<p></h4></div>
-</div>
-
-<table class="table table-striped table-bordered ">
-  <thead class="thead-dark">
-        <tr class="bg-primary">
+<table class="table  table-striped table-bordered ">
+  <thead class="thead-dark" >
+        <tr class="bg-primary" >
                 <th>Id</th>
                 <th>Shipment type</th>
                 <th>Pick up date/time</th>
                 <th>Status </th>
                 <th>Estimated cost</th>
                 <th>Final cost</th>
-                <th>Driver Name</th>
-                <th>Driver Phone</th>
-                <th>Order details</th>
+                <th>Sender Name</th>
+                <th>Sender Phone</th>
+                <th>Receiver Name</th>
+                <th>Receiver Phone</th>
+                <th>Details</th>
+           
         </tr>
   </thead>
   <tbody>
   @foreach($orders as $order)
     <tr  class="bg-success">
-      
+
       <td>{{ $order-> id }}</td>
       <td>{{ $order-> shipment_type }}</td>
       <td>{{ $order-> pickup_date }}</td>
-
+      
       @if ($order-> status =='pending')
          <td><span style="color:#0C9D2C; font-weight: bold;">Pending<span></td>
       @elseif ($order-> status =='accepted')
@@ -44,30 +39,32 @@
       <td><span style="color:#F40104;  font-weight: bold;">Delivered<span></td> 
       @elseif ($order-> status =='completed')
       <td><span style="color:#367fa9;  font-weight: bold;">Completed<span></td>
-      @endif        
-      <td>{{ $order-> status }}</td>
+      @endif     
+
       @if( $order->estimated_cost) 
       <td>{{ $order-> estimated_cost }}</td>
       @else
       <td>-</td>
       @endif  
-      @if( $order->status !== 'delivered') 
+      @if( $order->status === 'delivered') 
       <td>{{ $order-> final_cost }}</td>
       @else
       <td>Not delivered yet</td>
       @endif  
+    @foreach($sender as $send)
+    @if( ($order->sender_id) === ($send->id) )
+      <td>{{ $send -> comp_name }}</td>
+      <td>{{ $send -> phone }}</td>
+    @endif
+    @endforeach
 
-      @if($order->name) 
-      <td>{{ $order -> name }}</td>
-      @else
-      <td>Not accepted yet</td>
-      @endif 
-     
-      @if($order->phone) 
-      <td>{{ $order -> phone }}</td>
-      @else
-      <td>Not accepted yet</td>
-      @endif 
+    @foreach($receiver as $receive)
+    @if( ($order->receiver_id) === ($receive->id) )
+      <td>{{ $receive -> comp_name }}</td>
+      <td>{{ $receive -> phone }}</td>
+      @endif
+    @endforeach
+
 
       <td><!-- Button trigger modal -->
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#{{ $order-> id }}">
@@ -131,6 +128,7 @@
 </table>
 
 {{ $orders->onEachSide(1)->links() }}
+
 
 </div>
 
