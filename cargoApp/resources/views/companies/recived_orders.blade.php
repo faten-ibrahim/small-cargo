@@ -45,7 +45,7 @@
       @elseif ($order-> status =='completed')
       <td><span style="color:#367fa9;  font-weight: bold;">Completed<span></td>
       @endif        
-      <td>{{ $order-> status }}</td>
+
       @if( $order->estimated_cost) 
       <td>{{ $order-> estimated_cost }}</td>
       @else
@@ -70,12 +70,11 @@
       @endif 
 
       <td><!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#{{ $order-> id }}">
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#{{$order->id}}">
   Details
 </button>
-
 <!-- Modal -->
-<div class="modal fade" id="{{ $order-> id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="{{$order->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">

@@ -41,7 +41,7 @@
                         if (row.status =='pending')
                             return '<span style="color:#0C9D2C; font-weight: bold;">Pending<span>'
                         else if (row.status =='accepted')
-                            return '<span style="color:#EFF410;  font-weight: bold;">Accepted<span>'
+                            return '<span style="color:#B7C10E;  font-weight: bold;">Accepted<span>'
                         else if (row.status =='ongoing')
                             return '<span style="color:#FE9C23;  font-weight: bold;">Ongoing<span>'
                         else if (row.status =='delivered')

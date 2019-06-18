@@ -159,14 +159,20 @@ class DriversOrdersController extends Controller
     public function get_order_details($id)
     {
         $details = DB::table('orders')
-            ->join('packages', 'packages.order_id', '=', 'orders.id')
-            ->join('company_order', 'company_order.order_id', '=', 'orders.id')
-            ->join('driver_order', 'driver_order.order_id', '=', 'orders.id')
+            ->leftjoin('packages', 'packages.order_id', '=', 'orders.id')
+            ->leftjoin('company_order', 'company_order.order_id', '=', 'orders.id')
+            ->leftjoin('driver_order', 'driver_order.order_id', '=', 'orders.id')
             ->select('orders.*', 'packages.*', 'driver_order.*')
             ->where('orders.id', '=', $id)
             ->get()->toArray();
+   
+
+        // $details =Order::where ('id',)
         $orderDetails2 = json_encode($details);
 
         return $orderDetails2;
     }
+
+
+
 }
