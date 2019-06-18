@@ -92,6 +92,7 @@ class AuthController extends Controller
     // ########## Company Logout ##########
     public function logout()
     {
+        
         try {
 
             JWTAuth::invalidate(JWTAuth::getToken());
@@ -173,5 +174,5 @@ class AuthController extends Controller
         ],200);
     }
 
- 
+
 }

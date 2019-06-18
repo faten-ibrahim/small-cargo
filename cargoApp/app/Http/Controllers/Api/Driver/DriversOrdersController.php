@@ -51,7 +51,7 @@ class DriversOrdersController extends Controller
         $order->status = "accepted";
         $order->save();
         $driver = Driver::find(JWTAuth::user()->id);
-        $driver->status_driver = "busy";
+        $driver->availability = "busy";
         $driver->save();
         $driver_order = DriverOrder::create([
             'order_id' => $id,
@@ -81,6 +81,34 @@ class DriversOrdersController extends Controller
 
     public function delivere_order($id)
     {
+        $companies =CompanyOrder::select('sender_id','receiver_id')->where('order_id',$id)->get();
+        $companies_id=[];
+        foreach($companies as $company)
+        {
+            array_push($companies_id,$company->sender_id,$company->receiver_id);
+        }
+        $comp_tokens = CompanyToken::whereIn('company_id', $companies_id)->select('token')->get()->toArray();
+
+        // dd($comp_tokens);
+        $recipients = [];
+        foreach ($comp_tokens as $company) {
+            array_push($recipients, $company['token']);
+        }
+        // dd($recipients);
+        try {
+
+            fcm()
+                ->to($recipients) // $recipients must an array
+                ->notification([
+                    'title' => 'Cargo order',
+                    'body' => 'Your order is delivered , now',
+                ])
+                ->send();
+            // dd('company tokens',$recipients);
+        } catch (\Exception $e) {
+
+            return $e->getMessage();
+        }
         $order = Order::find($id);
         $order->status = "delivered";
         $order->save();
