@@ -6,7 +6,7 @@ Route::post('company/register', 'Api\Company\AuthController@register');
 
 Route::post('driver/login', 'Api\Driver\AuthController@login');
 Route::post('driver/register', 'Api\Driver\AuthController@register');
-// Route::post('company/order', 'Api\Company\CompaniesOrdersController@store');
+Route::post('company/order', 'Api\Company\CompaniesOrdersController@store');
 // Route::post('company/calc', 'Api\Company\CompaniesOrdersController@calc_total_estimated_cost');
 // Route::post('company/loc', 'Api\Company\CompaniesOrdersController@get_nearest_drivers');
 // Route::put('company/confirm/{order_id}/{company_id}', 'Api\Company\CompaniesOrdersController@confirm_order');
@@ -26,6 +26,7 @@ Route::group([
     Route::post('company/add_contact', 'Api\Company\CompanyContactListController@store_list');
     Route::get('company/notifications/{id}', 'Api\Company\CompaniesOrdersController@notifications');
     Route::get('company/contact_list/{id}', 'Api\Company\CompaniesOrdersController@get_contact_list');
+    Route::post('company/calc', 'Api\Company\CompaniesOrdersController@calc_total_estimated_cost');
 
 });
 
