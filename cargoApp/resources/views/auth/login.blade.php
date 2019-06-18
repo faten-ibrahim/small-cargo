@@ -2,16 +2,18 @@
 
 @section('content')
 
+
+<body style="background-color: #141414; background-image: url('/bower_components/admin-lte/dist/img/Group 483.png');background-repeat:none; background-size: cover; background-position: center;" >
 <div class="container">
     <div class="login-box">
         <div class="login-logo">
-            <a href=""><b>Car</b>GO</a>
+        <img style="width:100px" src="/bower_components/admin-lte/dist/img/Cargo.png" >          
         </div>
         @if (session('message'))
         <div class="alert alert-danger">{{ session('message') }}</div>
         @endif
         <div class="card">
-            <div class="card-header">{{ __('Login') }}</div>
+            <div class="card-header" >{{ __('Login') }}</div>
 
             <div class="card-body">
                 <!-- /.login-logo -->
@@ -80,4 +82,5 @@
         </div>
     </div>
 </div>
+</body>
 @endsection
