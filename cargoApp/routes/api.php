@@ -11,6 +11,7 @@ Route::post('company/calc', 'Api\Company\CompaniesOrdersController@calc_total_es
 // Route::post('company/loc', 'Api\Company\CompaniesOrdersController@get_nearest_drivers');
 // Route::put('driver/accept_order/{id}', 'Api\Driver\DriversOrdersController@accept_order');
 Route::put('company/confirm/{order_id}/{company_id}', 'Api\Company\CompaniesOrdersController@confirm_order');
+
 Route::group([
     'middleware' => ['auth:company'],
     'prefix' => 'auth'
@@ -23,6 +24,7 @@ Route::group([
     Route::get('company/currentOrders/{id}', 'Api\Company\CompaniesOrdersController@currentOrders');
     Route::get('company/lastOrders/{id}', 'Api\Company\CompaniesOrdersController@lastOrders');
     Route::put('company/confirm/{order_id}/{company_id}', 'Api\Company\CompaniesOrdersController@confirm_order');
+    Route::post('company/add_contact', 'Api\Company\CompanyContactListController@store_list');
     Route::get('company/notifications/{id}', 'Api\Company\CompaniesOrdersController@notifications');
     Route::get('company/contact_list/{id}', 'Api\Company\CompaniesOrdersController@get_contact_list');
 

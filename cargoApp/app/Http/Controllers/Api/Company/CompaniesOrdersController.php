@@ -21,13 +21,13 @@ use DB;
 use App\DriverLocation;
 use App\Driver;
 use App\CompanyNotification;
-
+use phpDocumentor\Reflection\Types\Null_;
 
 class CompaniesOrdersController extends Controller
 {
     public function __construct()
     {
-        // $this->middleware('auth:company');
+        // $this->middleware('auth:company', ['except' => ['login', 'register','calc_distance']]);
     }
 
     public function store(Request $request)
@@ -55,6 +55,10 @@ class CompaniesOrdersController extends Controller
             'contact_phone' => 'required',
             'address' => 'required',
             'pickup_date' => 'required',
+            // 'photo'=>'required',
+            // 'order_value'=>'required',
+            'estimated_cost'=>'required',
+            'distance'=>'required',
         ]);
 
         if ($validator->fails()) {
@@ -99,10 +103,20 @@ class CompaniesOrdersController extends Controller
             'truck_type' => $request->truck_type,
             'pickup_date' => $request->pickup_date,
             'status' => 'pending',
+            'estimated_cost'=>$request->estimated_cost,
         ]);
         $order->status = 'pending';
         $order->save();
         //  dd("hhhhhhhhhhhhhhhhhhhhhh");
+        $value=$request['order_value'];
+        $photo=$request['photo'];
+        if(!$value){
+            $value="medium";
+        }
+
+        if(!$value){
+            $value=Null;
+        }
         $package = Package::create([
             'length' => $request->length,
             'width' => $request->width,
@@ -117,6 +131,9 @@ class CompaniesOrdersController extends Controller
             'value' => $request->value,
             'quantity' => $request->quantity,
             'order_id' => $order->id,
+            'photo'=>$request->photo,
+            'value'=>$value,
+            'distance'=>$request->distance,
         ]);
 
         $company_order = CompanyOrder::create([
@@ -141,9 +158,10 @@ class CompaniesOrdersController extends Controller
         try {
             fcm()
                 ->to($drivers_tokens) // $recipients must an array
-                ->notification([
+                ->data([
                     'title' => 'Cargo Order',
-                    'body' => 'There is an order for you' . '$' .$orderDetails,
+                    'body' => 'There is an order for you'.'$'.$orderDetails,
+
                 ])
                 ->send();
         } catch (\Exception $e) {
@@ -191,9 +209,9 @@ class CompaniesOrdersController extends Controller
                     'order_id' =>$request->order_id,
 
                 ]);
-             
+
     //----------------------------------------------------
-            
+
         } catch (\Exception $e) {
 
             return $e->getMessage();
@@ -216,7 +234,7 @@ class CompaniesOrdersController extends Controller
         $receiver_token = CompanyToken::where('company_id', '=', $receiver_id)->first();
 
         $tokens = [];
-        if (!$receiver_token) {
+        if (!$receiver_token&&$sender_token) {
             array_push($tokens, $sender_token->token);
         } else {
             array_push($tokens, $sender_token->token, $receiver_token->token);
@@ -330,7 +348,11 @@ class CompaniesOrdersController extends Controller
         $final_distance;
         try {
             if (($lat1 == $lat2) && ($lon1 == $lon2)) {
-                return 0;
+                // return 0;
+                return response()->json([
+                    'total_cost' => '0',
+                    'final_estimated_cost' => '0',
+                ], 200);
             } else {
                 $theta = $lon1 - $lon2;
                 $dist = sin(deg2rad($lat1)) * sin(deg2rad($lat2)) +  cos(deg2rad($lat1)) * cos(deg2rad($lat2)) * cos(deg2rad($theta));
@@ -362,7 +384,7 @@ class CompaniesOrdersController extends Controller
                 $_final_estimated_cost = $total_cost * 1.5;
             }
             return response()->json([
-                'total_cost' => $total_cost,
+                'distance' => $final_distance,
                 'final_estimated_cost' => $_final_estimated_cost,
             ], 200);
         } catch (\Exception $e) {

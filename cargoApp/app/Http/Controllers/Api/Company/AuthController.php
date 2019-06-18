@@ -12,6 +12,7 @@ use JWTAuthException;
 use App\Company;
 use Hash;
 use App\CompanyToken;
+use App\CompanyContactList;
 
 class AuthController extends Controller
 {
@@ -171,4 +172,6 @@ class AuthController extends Controller
             'company data'=>$comp
         ],200);
     }
+
+ 
 }
