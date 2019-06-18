@@ -207,7 +207,7 @@ class CompaniesOrdersController extends Controller
                     'value' =>$request->value,
                     'quantity' =>$request->quantity,
                     'order_id' =>$order->id,
-           
+
                 ]);
 
     //----------------------------------------------------

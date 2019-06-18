@@ -12,6 +12,7 @@ use App\DriverOrder;
 use TheSeer\Tokenizer\Exception;
 use App\CompanyOrder;
 use App\CompanyToken;
+use App\Package;
 
 class DriversOrdersController extends Controller
 {
@@ -32,6 +33,7 @@ class DriversOrdersController extends Controller
             array_push($recipients, $company['token']);
         }
         // dd($recipients);
+        $details_obj=$this->get_order_details($id);
         try {
 
             fcm()
@@ -39,6 +41,7 @@ class DriversOrdersController extends Controller
                 ->notification([
                     'title' => 'Cargo order',
                     'body' => 'Your order is accepted from a driver , now',
+                    'content' => $details_obj,
                 ])
                 ->send();
             // dd('company tokens',$recipients);
@@ -95,6 +98,7 @@ class DriversOrdersController extends Controller
             array_push($recipients, $company['token']);
         }
         // dd($recipients);
+        $details_obj=$this->get_order_details($id);
         try {
 
             fcm()
@@ -102,6 +106,7 @@ class DriversOrdersController extends Controller
                 ->notification([
                     'title' => 'Cargo order',
                     'body' => 'Your order is delivered , now',
+                    'content' => $details_obj,
                 ])
                 ->send();
             // dd('company tokens',$recipients);
@@ -149,5 +154,20 @@ class DriversOrdersController extends Controller
         return response()->json([
             'order' => $order
         ], 201);
+    }
+
+
+    public function get_order_details($id)
+    {
+        $order=Order::find($id)->first()->toArray();
+        $package=Package::where('order_id',$id)->first()->toArray();
+        $company_order=CompanyOrder::where('order_id',$id)->first()->toArray();
+        $driver=DriverOrder::where('order_id',$id)->first()->toArray();
+        $orderContent2=[];
+        $orderContent2 = array_merge($order,$package,$company_order,$driver);
+        $orderDetails2 = json_encode($orderContent2);
+
+        return $orderDetails2;
+
     }
 }
