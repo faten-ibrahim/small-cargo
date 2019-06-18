@@ -102,17 +102,19 @@ class CompaniesOrdersController extends Controller
             'car_number' => $request->car_number,
             'truck_type' => $request->truck_type,
             'pickup_date' => $request->pickup_date,
-            'status' => 'pending',
+            'status' => "pending",
             'estimated_cost'=>$request->estimated_cost,
         ]);
-        $order->status = 'pending';
+        // $order->status = 'pending';
+        $order->status = "pending";
         $order->save();
         //  dd("hhhhhhhhhhhhhhhhhhhhhh");
 
-        // $photo=$request['photo'];
-        // if(!$photo){
-        //     $photo= NULL;
-        // }
+        $photo=$request['photo'];
+        if(!$photo){
+            $photo= NULL;
+        }
+        // dd($order);
         $package = Package::create([
             'length' => $request->length,
             'width' => $request->width,
@@ -127,7 +129,7 @@ class CompaniesOrdersController extends Controller
             'value' => $request->value,
             'quantity' => $request->quantity,
             'order_id' => $order->id,
-            'photo'=>$request->photo,
+            'photo'=>$photo,
             'value'=>$request->value,
             'distance'=>$request->distance,
         ]);
@@ -145,10 +147,12 @@ class CompaniesOrdersController extends Controller
         $nearest_drivers = $this->get_nearest_drivers($lat, $lng);
         // dd('nearest drivers',$nearest_drivers);
         $orderContent = [];
-        $orderContent = array_merge($order->toArray(), $package->toArray(),$sender_company->toArray());
-        array_push($orderContent,$receiver_name);
+        $receiver_data = array('receiver_name'=> $receiver_name);
+        $orderContent = array_merge($receiver_data,$sender_company->toArray(),$order->toArray(), $package->toArray(),$company_order->toArray());
+        // array_push($orderContent,$receiver_name);
         $drivers_tokens = $this->driversTokens($nearest_drivers);
         // dd('token driver',$drivers_tokens);
+
         $orderDetails = json_encode($orderContent);
         // dd($orderDetails);
         try {
@@ -177,7 +181,7 @@ class CompaniesOrdersController extends Controller
                 ->notification([
                     'title' => 'Cargo order',
                     'body' => 'Your order is pending , now',
-                    'content' => $orderDetails,
+                    'content' => $orderContent,
                 ])
                 ->send();
     //----------  save notification in database ----------

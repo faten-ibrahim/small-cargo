@@ -9,7 +9,6 @@ Route::post('driver/register', 'Api\Driver\AuthController@register');
 Route::post('company/order', 'Api\Company\CompaniesOrdersController@store');
 Route::post('company/calc', 'Api\Company\CompaniesOrdersController@calc_total_estimated_cost');
 // Route::post('company/loc', 'Api\Company\CompaniesOrdersController@get_nearest_drivers');
-// Route::put('driver/accept_order/{id}', 'Api\Driver\DriversOrdersController@accept_order');
 Route::put('company/confirm/{order_id}/{company_id}', 'Api\Company\CompaniesOrdersController@confirm_order');
 
 Route::group([
@@ -43,8 +42,7 @@ Route::group([
     Route::get('driver/current_order/{id}', 'Api\Driver\DriversOrdersController@current_order');
     Route::get('driver/last_order/{id}', 'Api\Driver\DriversOrdersController@last_order');
 
-    Route::put('driver/accept_order/{id}', 'Api\Driver\DriversOrdersController@accept_order');
-  
+    Route::put('driver/accept/{id}', 'Api\Driver\DriversOrdersController@accept_order');
     Route::put('driver/start_trip/{id}', 'Api\Driver\DriversOrdersController@start_trip');
     Route::put('driver/deliver/{id}', 'Api\Driver\DriversOrdersController@delivere_order');
 
