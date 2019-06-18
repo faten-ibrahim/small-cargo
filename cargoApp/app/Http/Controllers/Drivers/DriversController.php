@@ -10,6 +10,8 @@ use App\User;
 use App\Driver;
 use App\Exports\DriversExport;
 use Maatwebsite\Excel\Facades\Excel;
+use App\DriverOrder;
+use App\Company;
 
 class DriversController extends Controller
 {
@@ -265,5 +267,36 @@ class DriversController extends Controller
         $driver->status_driver = 'active';
         $driver->save();
         return redirect()->route('drivers.index');
+    }
+
+    /* *************************************************** */
+    public function driver_orders(Driver $driver){
+       
+      $name=Driver::find($driver->id)->first();
+      $orders=DriverOrder::where('driver_id',$driver->id)
+             ->leftjoin('drivers','driver_order.driver_id','=','drivers.id')
+             ->leftjoin('orders','orders.id','driver_order.order_id')
+             ->leftjoin('company_order','company_order.order_id','orders.id')
+             ->leftjoin('packages','packages.order_id','orders.id')->paginate(4);
+    //    dd($name); 
+      $sender_ids=array();   
+        foreach($orders as $order){
+            array_push($sender_ids,$order->sender_id);
+            
+        }
+     $sender=Company::whereIn('id',$sender_ids)->get();
+
+     $reciever_ids=array();   
+     foreach($orders as $order){
+         array_push($reciever_ids,$order->receiver_id);
+     }
+    
+     $receiver=Company::whereIn('id',$reciever_ids)->get();
+      return view('drivers.driver_orders',[
+            'name'=>$name,
+            'orders' => $orders,
+            'sender' => $sender,
+            'receiver' =>$receiver
+             ]);   
     }
 }

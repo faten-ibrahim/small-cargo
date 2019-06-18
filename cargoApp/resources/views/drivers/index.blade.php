@@ -47,11 +47,11 @@
                     mRender: function(data, type, row) {
 
                         if (row.status_driver =='active')
-                            return '<span style="color:#0C9D2C; font-weight: bold;">Active<span>'
+                            return '<span style="color:#008d4c; font-weight: bold;">Active<span>'
                         else if (row.status_driver =='inactive')
-                            return '<span style="color:red;  font-weight: bold;">InActive<span>'
+                            return '<span style="color:#d73925;  font-weight: bold;">InActive<span>'
                         else if (row.status_driver =='new')
-                            return '<span style="color:red;  font-weight: bold;">New<span>'
+                            return '<span style="color:#d73925;  font-weight: bold;">New<span>'
 
                     }
                 },
@@ -68,8 +68,11 @@
                 data: 'rating'
             },
             {
-                data: 'count'
+                mRender: function(data, type, row) {
+                    return '<span style="margin-left:5%;">'+row.count+'</>'+'<a href="/drivers/' + row.id + '" class="btn btn-link"><i class="fa fa-eye" data-toggle="tooltip" data-placement="top" title="Show"></i><span>show</span></a>'
+                    }
             },
+
             {
                 data: 'supervisor_name'
             },

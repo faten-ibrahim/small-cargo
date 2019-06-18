@@ -46,6 +46,7 @@ Route::group(['middleware' => 'auth'], function () {
                 ->name('users.unban');
 
             Route::get('orders/excel', 'Orders\OrdersController@export')->name('orders.excel');
+            
             Route::resource('users', 'Users\UsersController');
 
             Route::resource('orders', 'Orders\OrdersController');
@@ -68,6 +69,7 @@ Route::group(['middleware' => 'auth'], function () {
                 ->name('users.ban');
             Route::get('/drivers/{driver}/unban', 'Drivers\DriversController@unban')
                 ->name('users.unban');
+            Route::get('/drivers/{driver}', 'Drivers\DriversController@driver_orders');    
 
             #---------- for datatable ----------------------
             Route::get('get_drivers', 'Drivers\DriversController@get_drivers')->name('get.drivers');

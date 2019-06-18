@@ -206,8 +206,8 @@ class CompaniesOrdersController extends Controller
                     'drop_off_longitude' =>$request->drop_off_longitude,
                     'value' =>$request->value,
                     'quantity' =>$request->quantity,
-                    'order_id' =>$request->order_id,
-
+                    'order_id' =>$order->id,
+           
                 ]);
 
     //----------------------------------------------------

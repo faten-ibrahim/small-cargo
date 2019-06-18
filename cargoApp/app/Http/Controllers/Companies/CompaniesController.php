@@ -242,35 +242,62 @@ class CompaniesController extends Controller
     public function Send_company_orders(Company $company){
         $company_orders = CompanyOrder::select('order_id')
                 ->where('sender_id',$company->id);
-        $orders_details=Package::whereIn('order_id', $company_orders)
-                ->Join('orders','orders.id','=','packages.order_id')->paginate(5);
-        $orders_drivers=DriverOrder::whereIn('order_id', $company_orders)
-          ->Join('drivers','drivers.id', '=', 'driver_order.driver_id')
-          ->select('order_id','name','phone')->get();
+        
+        $orders_details = CompanyOrder::where('sender_id', $company->id)
+                ->Join('orders', function ($q) {
+                    $q->on('orders.id', '=', 'company_order.order_id');
+                })
+                ->Join('packages', 'packages.order_id', '=', 'orders.id')
+                ->leftjoin('driver_order', 'driver_order.order_id', '=', 'orders.id')
+                ->leftjoin('drivers','drivers.id','driver_order.driver_id')->paginate(4);        
+
+             // total estimated cost   and orders
+             $total=0;
+             $sum=0;
+             foreach ($orders_details as $order){;
+                 $sum=$sum+$order->estimated_cost;
+                 $total=$total+1;
+             }  
+             //---------------------
+
         return view('companies.send_orders', [
             'orders' => $orders_details,
             'company'=>$company,
-            'drivers'=>$orders_drivers,
+            'total'=>$total,
+            'sum' => $sum,
         ]);
 
     }
+
+
 
    /* *************************************************** */
    public function Recived_company_orders(Company $company){
         $company_orders = CompanyOrder::select('order_id')
             ->where('receiver_id',$company->id)->get();
 
-        $orders_details=Package::whereIn('order_id', $company_orders)
-            ->Join('orders','orders.id','=','packages.order_id')->paginate(5);
+        $orders_details = CompanyOrder::where('receiver_id', $company->id)
+        ->Join('orders', function ($q) {
+            $q->on('orders.id', '=', 'company_order.order_id');
+        })
+        ->Join('packages', 'packages.order_id', '=', 'orders.id')
+        ->leftjoin('driver_order', 'driver_order.order_id', '=', 'orders.id')
+        ->leftjoin('drivers','drivers.id','driver_order.driver_id')->paginate(4);
 
-        $orders_drivers=DriverOrder::whereIn('order_id', $company_orders)
-        ->Join('drivers','drivers.id', '=', 'driver_order.driver_id')
-        ->select('order_id','name','phone')->get();
+          // total estimated cost   and orders
+          $total=0;
+          $sum=0;
+          foreach ($orders_details as $order){;
+              $sum=$sum+$order->estimated_cost;
+              $total=$total+1;
+          }  
+          //---------------------
 
         return view('companies.recived_orders', [
         'orders' => $orders_details,
         'company'=>$company,
-        'drivers'=>$orders_drivers,
+        'total'=>$total,
+        'sum' => $sum,
         ]);
 
 }

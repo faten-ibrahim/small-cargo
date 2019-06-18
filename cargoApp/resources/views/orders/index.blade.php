@@ -41,13 +41,13 @@
                         if (row.status =='pending')
                             return '<span style="color:#0C9D2C; font-weight: bold;">Pending<span>'
                         else if (row.status =='accepted')
-                            return '<span style="color:#E88B25;  font-weight: bold;">Accepted<span>'
+                            return '<span style="color:#EFF410;  font-weight: bold;">Accepted<span>'
                         else if (row.status =='ongoing')
-                            return '<span style="color:red;  font-weight: bold;">Ongoing<span>'
+                            return '<span style="color:#FE9C23;  font-weight: bold;">Ongoing<span>'
                         else if (row.status =='delivered')
-                            return '<span style="color:#E825D1;  font-weight: bold;">Delivered<span>'    
+                            return '<span style="color:#F40104;  font-weight: bold;">Delivered<span>'    
                          else if (row.status =='completed')
-                            return '<span style="color:#2925E8;  font-weight: bold;">Completed<span>'    
+                            return '<span style="color:#367fa9;  font-weight: bold;">Completed<span>'    
 
                     }
                 },
