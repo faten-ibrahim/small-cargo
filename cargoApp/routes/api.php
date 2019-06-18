@@ -26,7 +26,7 @@ Route::group([
     Route::put('company/confirm/{order_id}/{company_id}', 'Api\Company\CompaniesOrdersController@confirm_order');
     Route::post('company/add_contact', 'Api\Company\CompanyContactListController@store_list');
     Route::get('company/notifications/{id}', 'Api\Company\CompaniesOrdersController@notifications');
-
+    Route::get('company/contact_list/{id}', 'Api\Company\CompaniesOrdersController@get_contact_list');
 
 });
 
@@ -44,12 +44,12 @@ Route::group([
     Route::get('driver/last_order/{id}', 'Api\Driver\DriversOrdersController@last_order');
 
     Route::put('driver/accept_order/{id}', 'Api\Driver\DriversOrdersController@accept_order');
-    Route::get('company/contact_list/{id}', 'Api\Company\CompaniesOrdersController@get_contact_list');
+  
     Route::put('driver/start_trip/{id}', 'Api\Driver\DriversOrdersController@start_trip');
     Route::put('driver/deliver/{id}', 'Api\Driver\DriversOrdersController@delivere_order');
 
 });
 
 Route::get('company/get_driver/{id}', 'Api\Company\CompaniesOrdersController@get_driver');
-Route::get('company/lastOrders/{id}', 'Api\Company\CompaniesOrdersController@lastOrders');
+
 
