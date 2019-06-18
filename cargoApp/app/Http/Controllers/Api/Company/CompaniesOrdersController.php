@@ -56,7 +56,7 @@ class CompaniesOrdersController extends Controller
             'address' => 'required',
             'pickup_date' => 'required',
             // 'photo'=>'required',
-            // 'order_value'=>'required',
+            'order_value'=>'required',
             'estimated_cost'=>'required',
             'distance'=>'required',
         ]);
@@ -110,12 +110,8 @@ class CompaniesOrdersController extends Controller
         //  dd("hhhhhhhhhhhhhhhhhhhhhh");
         $value=$request['order_value'];
         $photo=$request['photo'];
-        if(!$value){
-            $value="medium";
-        }
-
-        if(!$value){
-            $value=Null;
+        if(!$photo){
+            $photo= NULL;
         }
         $package = Package::create([
             'length' => $request->length,
@@ -441,7 +437,7 @@ class CompaniesOrdersController extends Controller
     return response()->json([
           'notifications' => $notifications,
     ], 201);
-      
+
    }
 
-}   
+}
