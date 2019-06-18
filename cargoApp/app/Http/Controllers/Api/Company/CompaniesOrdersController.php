@@ -313,7 +313,9 @@ class CompaniesOrdersController extends Controller
     public function get_driver($id)
     {
         $driver = DriverOrder::where('order_id', $id)
-            ->join('drivers', 'drivers.id', '=', 'driver_order.driver_id')->get();
+            ->join('drivers', 'drivers.id', '=', 'driver_order.driver_id')
+            ->join('driver_locations','driver_locations.driver_id','=','driver_order.driver_id')
+            ->select('name','phone','car_type','car_number','car_no_of_trips','rating','status_driver','availability','address','driver_latitude','driver_longitude')->get();
 
         return response()->json([
             'driver' => $driver,

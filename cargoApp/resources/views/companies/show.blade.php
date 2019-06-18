@@ -3,11 +3,11 @@
 <div class="container" style="width:100%;">
 @include('flash-message')
 <h2> {{ucfirst($company->name)}} Conatct List</h2>
-
-<a href="/companies/{{ $company->id }}/add_list" class="bttn btn btn-primary btn-sm" data-id="' + row.id + '"><i class="fa fa-plus"></i><span>Add Contact</span></a>
-    <table id="example" class="table table-hover" >
-        <thead >
-            <tr>
+<br>
+<a href="/companies/{{ $company->id }}/add_list" class="bttn btn btn-info btn-sm" data-id="' + row.id + '"><i class="fa fa-plus"></i><span>Add Contact</span></a>
+    <table id="example" class="table  table-striped table-bordered " >
+        <thead class="thead-dark" >
+            <tr class="bg-primary">
                 <th>Receiver Name</th>
                 <th>Conatct Name</th>
                 <th>Contact Phone</th>
