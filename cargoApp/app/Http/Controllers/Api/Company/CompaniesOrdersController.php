@@ -56,7 +56,7 @@ class CompaniesOrdersController extends Controller
             'address' => 'required',
             'pickup_date' => 'required',
             // 'photo'=>'required',
-            'order_value'=>'required',
+            'value'=>'required',
             'estimated_cost'=>'required',
             'distance'=>'required',
         ]);
@@ -108,11 +108,11 @@ class CompaniesOrdersController extends Controller
         $order->status = 'pending';
         $order->save();
         //  dd("hhhhhhhhhhhhhhhhhhhhhh");
-        $value=$request['order_value'];
-        $photo=$request['photo'];
-        if(!$photo){
-            $photo= NULL;
-        }
+
+        // $photo=$request['photo'];
+        // if(!$photo){
+        //     $photo= NULL;
+        // }
         $package = Package::create([
             'length' => $request->length,
             'width' => $request->width,
@@ -128,7 +128,7 @@ class CompaniesOrdersController extends Controller
             'quantity' => $request->quantity,
             'order_id' => $order->id,
             'photo'=>$request->photo,
-            'value'=>$value,
+            'value'=>$request->value,
             'distance'=>$request->distance,
         ]);
 
