@@ -207,7 +207,7 @@ class DriversOrdersController extends Controller
                 ->to($recipients) // $recipients must an array
                 ->notification([
                     'title' => 'Cargo order',
-                    'body' => 'Your order is delivered , now',
+                    'body' => 'Your order is arrived , now',
                     'content' => $obj,
                 ])
                 ->send();
