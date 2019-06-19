@@ -76,6 +76,19 @@ class DriversOrdersController extends Controller
 
     public function start_trip($id)
     {
+        $companies = CompanyOrder::select('sender_id', 'receiver_id')->where('order_id', $id)->get();
+        $companies_id = [];
+        foreach ($companies as $company) {
+                array_push($companies_id, $company->sender_id, $company->receiver_id);
+            }
+        $comp_tokens = CompanyToken::whereIn('company_id', $companies_id)->select('token')->get()->toArray();
+
+        // dd($comp_tokens);
+        $recipients = [];
+        foreach ($comp_tokens as $company) {
+            array_push($recipients, $company['token']);
+        }
+        // dd($recipients);
         $order = Order::find($id);
         $order->status = "ongoing";
         $order->save();
