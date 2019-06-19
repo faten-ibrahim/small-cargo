@@ -42,7 +42,14 @@ class AuthController extends Controller
             // verify the credentials and create a token for the user
             if (!$token = JWTAuth::fromUser($driver)) {
                 return response()->json(['error' => 'invalid_credentials'], 401);
-            }
+            }else{
+                $status=Driver::select('status_driver')->where('phone',request('phone'))->first();
+                    if ($status->status_driver ==='inactive'){           
+                        return response()->json(['error' => 'This account inactive can not login.'], 500);
+                      }
+              
+            } 
+    
         } catch (JWTException $e) {
             // something went wrong
             return response()->json(['error' => 'could_not_create_token'], 500);
@@ -106,6 +113,9 @@ class AuthController extends Controller
             $driver->save();
 
             JWTAuth::invalidate(JWTAuth::getToken());
+            $driver = Auth::user();
+            $driver_token=DriverToken::where('driver_id',$driver->id);
+            $driver_token->delete();
 
             return response()->json([
                 'success' => true,
