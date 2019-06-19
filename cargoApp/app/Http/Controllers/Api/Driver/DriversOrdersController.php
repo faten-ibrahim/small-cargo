@@ -33,22 +33,9 @@ class DriversOrdersController extends Controller
             array_push($recipients, $company['token']);
         }
         // dd($recipients);
-        $details_obj = $this->get_order_details($id);
-        try {
+        // $details_obj = $this->get_order_details($id);
+        // dd($details_obj);
 
-            fcm()
-                ->to($recipients) // $recipients must an array
-                ->notification([
-                    'title' => 'Cargo order',
-                    'body' => 'Your order is accepted from a driver , now',
-                    'content' => $details_obj,
-                ])
-                ->send();
-            // dd('company tokens',$recipients);
-        } catch (\Exception $e) {
-
-            return $e->getMessage();
-        }
 
         $order = Order::find($id);
         $order->status = "accepted";
@@ -60,6 +47,26 @@ class DriversOrdersController extends Controller
             'order_id' => $id,
             'driver_id' => JWTAuth::user()->id,
         ]);
+        $package=Package::where('order_id',$id)->first()->toArray();
+        $total=[];
+        $total=array_merge($order->toArray(),$driver->toArray(),$driver_order->toArray(),$package);
+        $obj=json_encode($total);
+        // dd($obj);
+        try {
+
+            fcm()
+                ->to($recipients) // $recipients must an array
+                ->notification([
+                    'title' => 'Cargo order',
+                    'body' => 'Your order is accepted from a driver , now',
+                    'content' => $obj,
+                ])
+                ->send();
+            // dd('company tokens',$recipients);
+        } catch (\Exception $e) {
+
+            return $e->getMessage();
+        }
         return response()->json([
             'message' => "order accepted successfully",
             'order' => $order,
@@ -97,7 +104,19 @@ class DriversOrdersController extends Controller
             array_push($recipients, $company['token']);
         }
         // dd($recipients);
-        $details_obj = $this->get_order_details($id);
+        // $details_obj = $this->get_order_details($id);
+
+        $driver = Driver::find(JWTAuth::user()->id);
+        $order = Order::find($id);
+        $order->status = "delivered";
+        $order->save();
+        $package=Package::where('order_id',$id)->first()->toArray();
+        $total=[];
+        $total=array_merge($order->toArray(),$driver->toArray(),$package);
+        $obj=json_encode($total);
+
+        // dd($obj);
+
         try {
 
             fcm()
@@ -105,7 +124,7 @@ class DriversOrdersController extends Controller
                 ->notification([
                     'title' => 'Cargo order',
                     'body' => 'Your order is delivered , now',
-                    'content' => $details_obj,
+                    'content' => $obj,
                 ])
                 ->send();
             // dd('company tokens',$recipients);
@@ -113,9 +132,6 @@ class DriversOrdersController extends Controller
 
             return $e->getMessage();
         }
-        $order = Order::find($id);
-        $order->status = "delivered";
-        $order->save();
 
         return response()->json([
             'message' => "order updated successfully",

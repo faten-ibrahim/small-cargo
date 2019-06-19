@@ -1,0 +1,42 @@
+.contactus{
+    .field {
+        .title-text{
+            .title{
+                padding-bottom: 60px;
+                position: relative;
+                font-weight: 400;
+                font-size: 40px;
+                &::before{
+                    content: "";
+                    width: 83px;
+                    height: 2px;
+                    position: absolute;
+                    left: 50%;
+                    bottom: 30px;
+                    -webkit-transform: translateX(-50%);
+                    -ms-transform: translateX(-50%);
+                    transform: translateX(-50%);
+                }
+            } 
+            .icons{
+                padding: 40px 0px 0px 0px;
+                height: 253px;
+                background: #f7f7f7;
+                border-radius: 5px;
+                margin-top: 15px;
+
+                &:hover{
+    
+                    margin-top: -15px;
+                }
+                .icon{
+                    margin-bottom: 30px;
+                    width: 70px;
+                }
+                .text{
+                    padding: 20px;
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,92 @@
+.header-section {
+    background: url("../img/header.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    position: relative;
+    height: 700px;
+    @media(max-width: $lg) {
+        height: 600px;
+    }
+    @media(max-width: $md) {
+        height: 700px;
+    }
+    &__mockup {
+        position: relative;
+        @media(max-width: $md) {
+          display: none;
+        }
+        img {
+            position: absolute;
+            top: 120px;
+
+            @media(max-width: $xl) {
+                top: 200px;
+            }
+        }
+    }
+
+    &__title {
+        padding-top: 12rem;
+        color: $white;
+
+        @media(max-width: $lg) {
+            padding-top: 8rem;
+        }
+
+        h1 {
+            margin-bottom: 0;
+            @media(max-width: $xl) {
+                font-size: 24px;
+            }
+        }
+
+        .img {
+            height: 60px;
+            width: 60px;
+            margin: 0 auto;
+        }
+
+        p {
+            color: $white;
+            font-size: 15px;
+        }
+
+        .sub-title {
+            font-size: 22px;
+            @media(max-width: $xl) {
+                font-size: 18px;
+            }
+
+        }
+
+        .app-title {
+            color: $white;
+        }
+
+        h5 {
+            margin-bottom: 1.5rem;
+        }
+
+        .download-links {
+            a {
+                height: 60px;
+
+                @media(max-width: $xl) {
+                    overflow: hidden;
+                    display: block;
+                    position: relative;
+                    margin-bottom: 15px;
+                }
+
+                &:first-child {
+                    margin-right: 15px;
+
+                    @media(max-width: $xl) {
+                        margin-right: 0px;
+                    }
+                }
+            }
+        }
+    }
+}
