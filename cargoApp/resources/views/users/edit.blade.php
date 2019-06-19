@@ -1,8 +1,19 @@
 @extends('layouts.base')
 @section('content')
 
+
 <div class="container con">
     <h2>Add Supervisor</h2>
+    @if ($errors->any())
+        <br>
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+        @endif
 
     <form method="post" action="/users/{{$user->id}}">
     {{ csrf_field() }}
@@ -51,16 +62,7 @@
 
         <br>
         <br>
-        @if ($errors->any())
-        <br>
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-        @endif
+    
     </form>
 </div>
 

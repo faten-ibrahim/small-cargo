@@ -71,7 +71,7 @@ class AuthController extends Controller
             'comp_name' => 'required|unique:companies',
             'email' => 'required|unique:companies',
             'address' => 'required',
-            'phone' => 'required|unique:companies',
+            'phone' => 'required|regex:/(01)[0-9]{9}/|unique:companies',
             'password' => 'required|min:6',
         ]);
 

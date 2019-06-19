@@ -52,7 +52,7 @@ class CompaniesOrdersController extends Controller
             'sender_id' => 'required',
             'receiver_name' => 'required',
             'contact_name' => 'required',
-            'contact_phone' => 'required',
+            'contact_phone' => 'required|regex:/(01)[0-9]{9}/',
             'address' => 'required',
             'pickup_date' => 'required',
             // 'photo'=>'required',

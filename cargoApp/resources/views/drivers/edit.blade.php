@@ -2,6 +2,17 @@
 @section('content')
 <div class="container con">
 
+@if ($errors->any())
+        <br>
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+@endif
+
 <form method="post" action="/drivers/{{$driver->id}}">
     {{ csrf_field() }}
     {{ method_field('patch') }}
@@ -55,16 +66,6 @@
         <button type="submit" class="btn btn-primary">Submit</button>
         <br>
         <br>
-        @if ($errors->any())
-        <br>
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-        @endif
     </form>
 </div>
 

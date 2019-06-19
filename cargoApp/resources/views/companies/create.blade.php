@@ -20,7 +20,7 @@
         @csrf
         <div class="form-group">
             <label>Company Name</label>
-            <input name="name" type="text" class="form-control">
+            <input name="comp_name" type="text" class="form-control">
         </div>
 
         <div class="form-group">

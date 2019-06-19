@@ -61,7 +61,7 @@
                 },
                 {
                     mRender: function(data, type, row) {
-                            if (row.status === 'delivered')
+                            if (row.status === 'completed')
                                 return '<span>' + row.final_cost + '</span>'
                             else
                                 return 'Not Deliverd yet'

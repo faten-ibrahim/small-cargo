@@ -2,10 +2,10 @@
 @section('content')
 <div class="container" style="width:100%;">
 @include('flash-message')
-<h2> {{ucfirst($supervisor_name)}} Drivers List</h2>
-    <table id="example" class="table table-hover" >
-        <thead >
-            <tr>
+<h2 style="font-style: italic;"> {{ucfirst($supervisor_name)}} Drivers List</h2>
+    <table id="example" class="table  table-striped table-bordered " >
+        <thead class="thead-dark" >
+            <tr class="bg-primary">
                 <th>Driver name</th>
                 <th>Phone number</th>
                 <th>Address</th>

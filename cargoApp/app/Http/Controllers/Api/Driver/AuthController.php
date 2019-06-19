@@ -30,7 +30,7 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'phone' => 'required',
+            'phone' => 'required|regex:/(01)[0-9]{9}/',
         ]);
         if ($validator->fails()) {
             return response()->json($validator->errors());
@@ -74,7 +74,7 @@ class AuthController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required',
             'address' => 'required',
-            'phone' => 'required|unique:drivers',
+            'phone' => 'required|regex:/(01)[0-9]{9}/|unique:drivers',
             'car_number' => 'required|unique:drivers',
             'car_type' => 'required',
         ]);
