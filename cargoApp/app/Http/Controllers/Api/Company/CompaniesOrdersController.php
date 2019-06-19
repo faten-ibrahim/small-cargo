@@ -397,9 +397,9 @@ class CompaniesOrdersController extends Controller
         }
     }
 
-    public function confirm_order($order_id, $company_id)
+    public function confirm_order($order_id, $company_id,$rate)
     {
-        $has_order = CompanyOrder::where('order_id', $order_id)->where('receiver_id', $company_id)->get();
+        $has_order = CompanyOrder::where('order_id', $order_id)->where('sender_id', $company_id)->get();
 
         if ($has_order->count()) {
             $order = Order::find($order_id);
@@ -410,7 +410,9 @@ class CompaniesOrdersController extends Controller
 
             $driver=Driver::find($order_driver)->first();
             $driver->status_driver="available";
+            $driver->rating=$rate;
             $driver->save();
+            // dd($driver);
             return response()->json([
                 'message' => "Order successfully completed",
                 'order' => $order,

@@ -14,7 +14,7 @@ class AddAddVerificationCodeColumnToDriversTable extends Migration
     public function up()
     {
         Schema::table('drivers', function (Blueprint $table) {
-            $table->string('verification_code',5);
+            $table->string('verification_code',5)->nullable();
         });
     }
 

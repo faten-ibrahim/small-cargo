@@ -44,12 +44,12 @@ class AuthController extends Controller
                 return response()->json(['error' => 'invalid_credentials'], 401);
             }else{
                 $status=Driver::select('status_driver')->where('phone',request('phone'))->first();
-                    if ($status->status_driver ==='inactive'){           
+                    if ($status->status_driver ==='inactive'){
                         return response()->json(['error' => 'This account inactive can not login.'], 500);
                       }
-              
-            } 
-    
+
+            }
+
         } catch (JWTException $e) {
             // something went wrong
             return response()->json(['error' => 'could_not_create_token'], 500);
