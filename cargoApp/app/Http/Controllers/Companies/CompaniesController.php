@@ -61,7 +61,7 @@ class CompaniesController extends Controller
     {
         $request->validate(
             [
-                'name' => 'required',
+                'name' => 'required|unique:companies,name,NULL,id,deleted_at,NULL',
                 'email' => 'required|unique:companies,email,NULL,id,deleted_at,NULL',
                 'address' => 'required',
                 'phone' => 'required',
@@ -133,7 +133,7 @@ class CompaniesController extends Controller
     {
         $request->validate(
             [
-                'name' => 'required',
+                'name' => 'required|unique:companies,name,'.$company->id.',id,deleted_at,NULL',
                 'email' => 'required|unique:companies,email,'.$company->id.',id,deleted_at,NULL',
                 'address' => 'required',
                 'phone' => 'required',
