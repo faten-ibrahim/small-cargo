@@ -34,6 +34,12 @@
 
     <link rel="stylesheet" href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
     
+<style>
+    /* .btn-xs{
+        min-width: 65px !important;
+    } */
+
+</style>
 </head>
 
 <body class="hold-transition skin-blue sidebar-mini">
@@ -182,7 +188,7 @@
         <!-- Main Footer -->
         <footer class="main-footer">
             <!-- To the right -->
-            
+
             <!-- Default to the left -->
             <strong>Copyright &copy; 2019 .</strong> All rights reserved.
         </footer>

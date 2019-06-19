@@ -1,9 +1,16 @@
-.bttn{
+.bttn,.btn-xs{
 
     /* float: left; */
     margin-bottom: 10px;
+    min-width: 90px;
 }
 
+/* .btn-info,.btn-primary{
+    min-width: 135px;
+}
+.btn .btn-primary .dd{
+    max-width: 90px;
+} */
 /* .dataTables_filter {
     display: none;
     } */

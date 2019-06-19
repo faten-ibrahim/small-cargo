@@ -75,6 +75,7 @@ class DriversOrdersController extends Controller
         ], 200);
     }
 
+    
 
     public function start_trip($id)
     {
@@ -181,7 +182,7 @@ class DriversOrdersController extends Controller
             ->select('orders.*', 'packages.*', 'driver_order.*')
             ->where('orders.id', '=', $id)
             ->get()->toArray();
-   
+
 
         // $details =Order::where ('id',)
         $orderDetails2 = json_encode($details);

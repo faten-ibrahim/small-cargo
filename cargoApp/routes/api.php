@@ -20,7 +20,7 @@ Route::group([
     Route::get('company/me', 'Api\Company\AuthController@getAuthUser');
     Route::post('company/token', 'Api\Company\AuthController@get_fcm_token');
     Route::post('company/order', 'Api\Company\CompaniesOrdersController@store');
-    Route::put('company/edit', 'Api\Company\AuthController@edit_profile');
+    Route::post('company/edit', 'Api\Company\AuthController@edit_profile');
     Route::get('company/currentOrders/{id}', 'Api\Company\CompaniesOrdersController@currentOrders');
     Route::get('company/lastOrders/{id}', 'Api\Company\CompaniesOrdersController@lastOrders');
     Route::put('company/confirm/{order_id}/{company_id}', 'Api\Company\CompaniesOrdersController@confirm_order');
