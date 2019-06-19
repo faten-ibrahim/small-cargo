@@ -40,7 +40,7 @@ Route::group([
     Route::post('driver/token', 'Api\Driver\AuthController@get_fcm_token');
     Route::post('driver/location', 'Api\Driver\AuthController@post_driver_location');
     Route::get('drivers/{driver}', 'Api\Driver\AuthController@get_driver_location');
-    Route::put('driver/edit', 'Api\Driver\AuthController@edit_profile');
+    Route::post('driver/edit', 'Api\Driver\AuthController@edit_profile');
     Route::get('driver/current_order/{id}', 'Api\Driver\DriversOrdersController@current_order');
     Route::get('driver/last_order/{id}', 'Api\Driver\DriversOrdersController@last_order');
 
