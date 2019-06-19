@@ -83,7 +83,8 @@ class AuthController extends Controller
             'car_type' => $request->car_type,
         ]);
         // $driver=Driver::find(JWTAuth::user()->id);
-        $driver->status_driver = "available";
+        $driver->availability  = "available";
+        $driver->verification_code=mt_rand(10000, 99999);
         $driver->save();
 
         $token = JWTAuth::fromUser($driver);
@@ -119,6 +120,22 @@ class AuthController extends Controller
         }
     }
 
+    public function verify_code($code,$driver_id)
+    {
+        $driver=Driver::where('id',$driver_id)->where('verification_code',$code)->get();
+        if($driver->count())
+        {
+            return response()->json([
+                'result' => true,
+                'message' => 'Valid Code'
+            ], 200);
+        }else{
+            return response()->json([
+                'result' => false,
+                'message' => 'Invalid Code'
+            ], 404);
+        }
+    }
 
     protected function respondWithToken($token)
     {
