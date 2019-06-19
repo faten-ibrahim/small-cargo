@@ -110,7 +110,7 @@ class DriversController extends Controller
         $request->validate(
             [
                 'name' => 'required',
-                'phone' => 'required|unique:drivers,phone,NULL,id,deleted_at,NULL',
+                'phone' => 'required|regex:/(01)[0-9]{9}/|unique:drivers,phone,NULL,id,deleted_at,NULL',
                 'address' => 'required',
                 'car_number' => 'required',
                 'car_type' => 'required',
@@ -120,6 +120,7 @@ class DriversController extends Controller
                 'name.required' => 'Please enter the driver name',
                 'phone.required' => 'Please enter the driver phone',
                 'phone.unique' => 'This phone is already exists',
+                'phone.regex' => 'Phone must start with (01) then 9 numbers',
                 'address.required' => 'Please enter the driver address',
                 'car_number.required' => 'Please enter the car number',
                 'car_type.required' => 'Please enter the car type',
@@ -199,7 +200,7 @@ class DriversController extends Controller
         $request->validate(
             [
                 'name' => 'required',
-                'phone' => 'required|unique:drivers,phone,'.$driver->id.',id,deleted_at,NULL',
+                'phone' => 'required|regex:/(01)[0-9]{9}/|unique:drivers,phone,'.$driver->id.',id,deleted_at,NULL',
                 'address' => 'required',
                 'car_number' => 'required',
                 'car_type' => 'required',
@@ -208,6 +209,7 @@ class DriversController extends Controller
                 'name.required' => 'Please enter the driver name',
                 'phone.required' => 'Please enter the driver phone',
                 'phone.unique' => 'This phone is already exists',
+                'phone.regex' => 'Phone must start with (01) then 9 numbers',
                 'address.required' => 'Please enter the driver address',
                 'car_number.required' => 'Please enter the car number',
                 'car_type.required' => 'Please enter the car type',

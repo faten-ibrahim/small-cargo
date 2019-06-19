@@ -3,6 +3,16 @@
 <div class="container con">
     <h2>Add Driver</h2>
 
+ @if ($errors->any())
+        <br>
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+        @endif
     <form action="{{route('drivers.store')}}" method="POST">
         @csrf
         <div class="form-group">
@@ -55,16 +65,6 @@
         <button type="submit" class="btn btn-primary">Submit</button>
         <br>
         <br>
-        @if ($errors->any())
-        <br>
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-        @endif
     </form>
 </div>
 

@@ -22,7 +22,7 @@
         @csrf
         <div class="form-group">
             <label>Company Name</label>
-            <input name="name" type="text" class="form-control"  value="{{$company->comp_name}}">
+            <input name="comp_name" type="text" class="form-control"  value="{{$company->comp_name}}">
         </div>
 
         <div class="form-group">

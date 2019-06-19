@@ -5,7 +5,16 @@
 
 <div class="container con">
     <h2>Add Supervisor</h2>
-
+    @if ($errors->any())
+        <br>
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+        @endif
     <form action="{{route('users.store')}}" method="POST">
         @csrf
         <div class="form-group">
@@ -51,16 +60,6 @@
         <a href="{{route('users.index')}}" class="btn btn-danger">Back</a>
         <br>
         <br>
-        @if ($errors->any())
-        <br>
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-        @endif
     </form>
 </div>
 

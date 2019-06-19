@@ -17,7 +17,7 @@ class CompanyContactListController extends Controller
             'company_id'=>'required',
             'receiver_name' => 'required',
             'conatct_name' => 'required',
-            'contact_phone' => 'required',
+            'contact_phone' => 'required|regex:/(01)[0-9]{9}/',
 
         ]);
 

@@ -61,18 +61,19 @@ class CompaniesController extends Controller
     {
         $request->validate(
             [
-                'name' => 'required|unique:companies,name,NULL,id,deleted_at,NULL',
+                'comp_name' => 'required|unique:companies,comp_name,NULL,id,deleted_at,NULL',
                 'email' => 'required|unique:companies,email,NULL,id,deleted_at,NULL',
                 'address' => 'required',
-                'phone' => 'required',
+                'phone' => 'required|regex:/(01)[0-9]{9}/',
             ],
             [
-                'name.required' => 'Please enter the company name',
+                'comp_name.required' => 'Please enter the company name',
                 'email.required' => 'Please enter the company email',
                 'email.email' => 'Please enter an valid email',
                 'email.unique' => 'This email is already exists',
                 'address.required' => 'Please enter the company address',
                 'phone.required' => 'Please enter the company phone',
+                'phone.regex' => 'Phone must start with (01) then 9 numbers',
             ]
         );
 
@@ -88,7 +89,7 @@ class CompaniesController extends Controller
         //----------------
 
             $company = new Company();
-            $company['comp_name'] = $request['name'];
+            $company['comp_name'] = $request['comp_name'];
             $company['email'] = $request['email'];
             $company['address'] = $request['address'];
             $company['address_latitude'] = $request['address_latitude'];
@@ -133,21 +134,22 @@ class CompaniesController extends Controller
     {
         $request->validate(
             [
-                'name' => 'required|unique:companies,name,'.$company->id.',id,deleted_at,NULL',
+                'comp_name' => 'required|unique:companies,comp_name,'.$company->id.',id,deleted_at,NULL',
                 'email' => 'required|unique:companies,email,'.$company->id.',id,deleted_at,NULL',
                 'address' => 'required',
-                'phone' => 'required',
+                'phone' => 'required|regex:/(01)[0-9]{9}/',
             ],
             [
-                'name.required' => 'Please enter the company name',
+                'comp_name.required' => 'Please enter the company name',
                 'email.required' => 'Please enter the company email',
                 'email.email' => 'Please enter an valid email',
                 'address.required' => 'Please enter the company address',
                 'phone.required' => 'Please enter the company phone',
+                'phone.regex' => 'Phone must start with (01) then 9 numbers',
             ]
         );
         //update company
-        $company->comp_name = request('name');
+        $company->comp_name = request('comp_name');
         $company->phone = request('phone');
         $company->email = request('email');
         $company->address = request('address');
@@ -247,19 +249,21 @@ class CompaniesController extends Controller
                 ->Join('orders', function ($q) {
                     $q->on('orders.id', '=', 'company_order.order_id');
                 })
+
                 ->Join('packages', 'packages.order_id', '=', 'orders.id')
-                ->leftjoin('driver_order', 'driver_order.order_id', '=', 'orders.id')
-                ->leftjoin('drivers','drivers.id','driver_order.driver_id')->paginate(4);        
+                ->leftjoin('driver_order', 'driver_order.order_id', '=', 'packages.order_id')
+                ->leftjoin('drivers','drivers.id','driver_order.driver_id')
+                ->select('packages.*','orders.*','driver_order.driver_id','drivers.name','drivers.phone')->paginate(4);  
 
              // total estimated cost   and orders
              $total=0;
              $sum=0;
-             foreach ($orders_details as $order){;
+             foreach ($orders_details as $order){
                  $sum=$sum+$order->estimated_cost;
                  $total=$total+1;
              }  
              //---------------------
-
+      
         return view('companies.send_orders', [
             'orders' => $orders_details,
             'company'=>$company,
@@ -282,8 +286,8 @@ class CompaniesController extends Controller
         })
         ->Join('packages', 'packages.order_id', '=', 'orders.id')
         ->leftjoin('driver_order', 'driver_order.order_id', '=', 'orders.id')
-        ->leftjoin('drivers','drivers.id','driver_order.driver_id')->paginate(4);
-
+        ->leftjoin('drivers','drivers.id','driver_order.driver_id')
+        ->select('packages.*','orders.*','driver_order.driver_id','drivers.name','drivers.phone')->paginate(4);
           // total estimated cost   and orders
           $total=0;
           $sum=0;

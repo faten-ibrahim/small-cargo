@@ -51,7 +51,7 @@
       @else
       <td>-</td>
       @endif  
-      @if( $order->status !== 'delivered') 
+      @if( $order->status === 'completed') 
       <td>{{ $order-> final_cost }}</td>
       @else
       <td>Not delivered yet</td>

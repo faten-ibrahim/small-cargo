@@ -78,7 +78,7 @@ class UsersController extends Controller
                 'name' => 'required',
                 'email' => 'required|unique:users|email',
                 'address' => 'required',
-                'phone' => 'required',
+                'phone' => 'required|regex:/(01)[0-9]{9}/',
                 'status' => 'required',
             ],
             [
@@ -88,6 +88,7 @@ class UsersController extends Controller
                 'email.unique' => 'This email is already exists',
                 'addre-list-altss.required' => 'Please enter the address',
                 'phone.required' => 'Please enter the phone',
+                'phone.regex' => 'Phone must start with (01) then 9 numbers',
                 'status.required' => 'Please select the status'
             ]
         );
@@ -100,6 +101,7 @@ class UsersController extends Controller
         $supervisor['phone'] = $request['phone'];
         $supervisor['status'] = $request['status'];
         $supervisor['password'] = bcrypt("@passwd");
+
         //dd($supervisor);
         $supervisor->save();
         $supervisor->assignRole('supervisor');
@@ -192,7 +194,7 @@ class UsersController extends Controller
                     'name' => 'required',
                     'email' => 'required',
                     'address' => 'required',
-                    'phone' => 'required',
+                    'phone' => 'required|regex:/(01)[0-9]{9}/',
                     'status' => 'required',
                 ],
                 [
@@ -201,6 +203,7 @@ class UsersController extends Controller
                     'email.email' => 'Please enter an valid email',
                     'address' => 'Please enter the address',
                     'phone.required' => 'Please enter the phone',
+                    'phone.regex' => 'Phone must start with (01) then 9 numbers',
                     'status.required' => 'Please select the status'
                 ]
             );
