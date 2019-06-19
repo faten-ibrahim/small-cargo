@@ -1,0 +1,28 @@
+.footer{
+    background: url("../img/footer.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: top;
+    position: relative;
+    padding: 11rem 0 3rem;
+    @media(max-width: $md){
+        padding: 0rem 0 3rem;
+        background-position: top right;
+    }
+.last{
+    .row{
+        border-top: 2px white solid;
+        padding-bottom: 20px;
+
+    }
+    p{
+        color:$white;
+    }
+    img{
+        width:10%
+    }
+    .follow{
+        border-right: 2px white solid !important; 
+    }
+}
+}

@@ -1,0 +1,91 @@
+// start-common
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+@font-face {
+  src: url("../fonts/SegoeUI.ttf"), url("../fonts/SegoeUI.eot") format("embedded-opentype"), url("../fonts/SegoeUI.woff2") format("woff2"), url("../fonts/SegoeUI.woff") format("woff"), url("../fonts/Poppins-Light.ttf") format("truetype"), url("../fonts/SegoeUI.svg") format("svg");
+  font-family: "font-regular";
+}
+@font-face {
+  src: url("../fonts/SegoeUI-Semibold.ttf"), url("../fonts/SegoeUI-Semibold.eot") format("embedded-opentype"), url("../fonts/SegoeUI-Semibold.woff2") format("woff2"), url("../fonts/SegoeUI-Semibold.woff") format("woff"), url("../fonts/SegoeUI-Semibold.ttf") format("truetype"), url("../fonts/SegoeUI-Semibold.svg") format("svg");
+  font-family: "font-headers";
+}
+
+
+h1,h2,h3,h4 {
+  font-family: "font-headers";
+  font-weight: $fontWeight-6;
+}
+p,h5,h6{
+  font-family: "font-regular";
+}
+
+
+
+.after::after {
+  @extend %after;
+  &::after{
+    padding-bottom: 5%;
+  }
+}
+.section-padding{
+  padding: 7% 0;
+}
+.overlay-all{
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top:0;
+  left: 0;
+}
+.header-p{
+  padding-bottom: 7%;
+}
+p{
+  color: $gray;
+}
+.img-fluid{
+  width: 100%;
+}
+.img-thumbnail{
+  background-color: transparent;
+  border:none;
+  padding: 0;
+  margin: 0;
+}
+.light-blue{
+  color:$primary-color;
+}
+// end-common
+
+// shm///
+#shm {
+  background-color: #dc5c2c;
+  opacity: 0.8;
+  color: #fff;
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  position: fixed;
+  right: 20px;
+  bottom: 68px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: none;
+  z-index: 100;
+  -webkit-transition: .4s;
+  -o-transition: .4s;
+  transition: .4s;
+  &:hover {
+      color: #fff;
+      -webkit-transition: .4s;
+      -o-transition: .4s;
+      transition: .4s;
+  }
+  .fa-arrow-up {
+      font-size: 24px;
+      padding-top: 7px;
+  }
+}
