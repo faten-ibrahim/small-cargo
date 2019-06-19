@@ -1,0 +1,11 @@
+.start-work{
+    h3:after{
+        @extend %after;
+        margin: 0;
+        margin-top: 20px;
+        width: 38%
+        }
+    span{
+        color: $primary-color;
+    }
+  }

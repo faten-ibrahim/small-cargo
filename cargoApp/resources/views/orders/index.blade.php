@@ -45,9 +45,9 @@
                         else if (row.status =='ongoing')
                             return '<span style="color:#FE9C23;  font-weight: bold;">Ongoing<span>'
                         else if (row.status =='delivered')
-                            return '<span style="color:#F40104;  font-weight: bold;">Delivered<span>'    
+                            return '<span style="color:#F40104;  font-weight: bold;">Delivered<span>'
                          else if (row.status =='completed')
-                            return '<span style="color:#367fa9;  font-weight: bold;">Completed<span>'    
+                            return '<span style="color:#367fa9;  font-weight: bold;">Completed<span>'
 
                     }
                 },
@@ -86,7 +86,7 @@
                 {
                     mRender: function(data, type, row) {
                          return `
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#${row.id}">
+                            <button type="button" class="btn btn-primary dd" data-toggle="modal" data-target="#${row.id}">
                             Details
                             </button>
                             <!-- Modal -->
@@ -99,7 +99,7 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                                         
+
                                 <table class="table table-striped">
                                 <tbody>
                                     <tr>
@@ -141,7 +141,7 @@
                             </div>`
                             }
                 },
-  
+
             ],
               'lengthChange': true,
             'searching'   : true,

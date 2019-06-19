@@ -1,0 +1,79 @@
+// start-mixins
+%after {
+  display: block;
+  content: "";
+  background-image: url('../img/line-small.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+  width: 30%;
+  height: 40px;
+  padding-top: 20px;
+  margin: 2% auto;
+  @media(max-width:$lg){
+    height: 10px;
+    width: 50%;
+  }
+}
+@mixin background-gradient{
+  background: linear-gradient(rgba(243,129,129,0.9), rgba(252,227,137,0.9));
+}
+@mixin fontStyle ($fontSize,$fontWeight){
+  font-size: $fontSize;
+  line-height:$fontSize * 1.42857;
+  font-weight:$fontWeight;
+}
+@mixin background($src,$size,$repeat) {
+  background-image: url($src);
+  background-size: $size;
+  background-repeat: $repeat;
+}
+
+
+//transition
+@mixin transition($transition...) {
+  -moz-transition: $transition;
+  -o-transition: $transition;
+  -webkit-transition: $transition;
+  transition: $transition;
+}
+
+@mixin transition-property($property...) {
+  -moz-transition-property: $property;
+  -o-transition-property: $property;
+  -webkit-transition-property: $property;
+  transition-property: $property;
+}
+
+@mixin transition-duration($duration...) {
+  -moz-transition-duration: $duration;
+  -o-transition-duration: $duration;
+  -webkit-transition-duration: $duration;
+  transition-duration: $duration;
+}
+
+@mixin transition-timing-function($timing...) {
+  -moz-transition-timing-function: $timing;
+  -o-transition-timing-function: $timing;
+  -webkit-transition-timing-function: $timing;
+  transition-timing-function: $timing;
+}
+
+@mixin transition-delay($delay...) {
+  -moz-transition-delay: $delay;
+  -o-transition-delay: $delay;
+  -webkit-transition-delay: $delay;
+  transition-delay: $delay;
+}
+
+//transform
+// generic transform
+@mixin transform($transforms) {
+  -moz-transform: $transforms;
+  -o-transform: $transforms;
+  -ms-transform: $transforms;
+  -webkit-transform: $transforms;
+  transform: $transforms;
+}
+
+
+// end-mixins

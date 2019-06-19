@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="176.455" height="44" viewBox="0 0 176.455 44">
+  <defs>
+    <linearGradient id="linear-gradient" x1="0.019" y1="0.959" x2="0.913" y2="0.001" gradientUnits="objectBoundingBox">
+      <stop offset="0.19" stop-color="#1c9191"/>
+      <stop offset="0.882" stop-color="#2edbe3" stop-opacity="0.031"/>
+    </linearGradient>
+  </defs>
+  <g id="Group_3" data-name="Group 3" transform="translate(1598 106.061)">
+    <text id="CARGO" transform="translate(-1551.545 -71.061)" fill="#fff" font-size="37" font-family="Raleway-Bold, Raleway" font-weight="700"><tspan x="0" y="0">CARGO</tspan></text>
+    <g id="Group_2" data-name="Group 2" transform="translate(-1598 -101.129)">
+      <path id="Path_1" data-name="Path 1" d="M1053.587,788.343h-13.362v4.447h6.365a8.083,8.083,0,0,1,.1,1.242,7.622,7.622,0,0,1-6.141,7.591,11.539,11.539,0,0,0,13.041-13.281Z" transform="translate(-1028.954 -773.095)" fill="#15d4de"/>
+      <path id="Path_2" data-name="Path 2" d="M991.107,698.957a11.566,11.566,0,1,1-9.931-9.587v-5.386h0c-.505-.046-1.016-.073-1.533-.073a16.6,16.6,0,1,0,16.6,16.6c0-.526-.027-1.045-.075-1.558Z" transform="translate(-963.038 -683.911)" fill="#15d4de"/>
+      <path id="Path_3" data-name="Path 3" d="M1054.579,852.777a5.792,5.792,0,0,0,2.271.436,10.707,10.707,0,0,0,5.727-3.093l-4.28-1.216A7.538,7.538,0,0,1,1054.579,852.777Z" transform="translate(-1041.213 -824.813)" fill="url(#linear-gradient)"/>
+    </g>
+  </g>
+</svg>

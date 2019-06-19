@@ -100,7 +100,7 @@ class AuthController extends Controller
     // ########## Company Logout ##########
     public function logout()
     {
-        
+
         try {
                 
             JWTAuth::invalidate(JWTAuth::getToken());
@@ -171,17 +171,17 @@ class AuthController extends Controller
     public function edit_profile(Request $request)
     {
         // dd(JWTAuth::user()->id);
-        $comp=Company::find(JWTAuth::user()->id)->update([
+        Company::find(JWTAuth::user()->id)->update([
             'comp_name' => $request->comp_name,
             'email' => $request->email,
             'password' => bcrypt($request->password),
             'address' => $request->address,
             'phone' => $request->phone,
         ]);
-        // dd($comp);
+        $company=Company::where('email',$request->email)->get();
         return response()->json([
-            'message' => "data update+d successfully",
-            'company data'=>$comp
+            'message' => "data updated successfully",
+            'company'=>$company
         ],200);
     }
 
