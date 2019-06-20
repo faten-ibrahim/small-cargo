@@ -24,7 +24,7 @@ Route::group([
     Route::post('company/edit', 'Api\Company\AuthController@edit_profile');
     Route::get('company/currentOrders/{id}', 'Api\Company\CompaniesOrdersController@currentOrders');
     Route::get('company/lastOrders/{id}', 'Api\Company\CompaniesOrdersController@lastOrders');
-    Route::put('company/confirm/{order_id}/{company_id}', 'Api\Company\CompaniesOrdersController@confirm_order');
+    Route::put('company/confirm/{order_id}/{company_id}/{rate}', 'Api\Company\CompaniesOrdersController@confirm_order');
     Route::post('company/add_contact', 'Api\Company\CompanyContactListController@store_list');
     Route::get('company/notifications/{id}', 'Api\Company\CompaniesOrdersController@notifications');
     Route::get('company/contact_list/{id}', 'Api\Company\CompaniesOrdersController@get_contact_list');

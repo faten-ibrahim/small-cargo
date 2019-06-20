@@ -34,20 +34,20 @@ class AuthController extends Controller
         if ($validator->fails()) {
             return response()->json($validator->errors());
         }
-        
+
         $credentials = $request->only('comp_name', 'password');
-        
+
         try {
             if (!$token = JWTAuth::attempt($credentials)) {
                 return response()->json(['error' => 'We can`t find an account with this credentials.'], 401);
             }
             else{
               $status=Company::select('status','password')->where('comp_name',request('comp_name'))->first();
-                  if ($status->status ==='inactive'){           
+                  if ($status->status ==='inactive'){
                     return response()->json(['error' => 'This account inactive can not login.'], 500);
                    }
-        
-            }    
+
+            }
         } catch (JWTException $e) {
             return response()->json(['error' => 'Failed to login, please try again.'], 500);
         }
@@ -102,12 +102,12 @@ class AuthController extends Controller
     {
 
         try {
-                
+
             JWTAuth::invalidate(JWTAuth::getToken());
             $company = Auth::user();
             $company_token=CompanyToken::where('company_id',$company->id);
             $company_token->delete();
-            
+
             return response()->json([
                 'success' => true,
                 'message' => 'User logged out successfully'
