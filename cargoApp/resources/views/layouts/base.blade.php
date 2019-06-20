@@ -180,7 +180,7 @@
         <!-- Main Footer -->
         <footer class="main-footer">
             <!-- To the right -->
-
+            <strong><img style="width:40px; float :left;" src="/bower_components/admin-lte/dist/img/Cargo.png" ></strong> 
             <!-- Default to the left -->
             <strong>Copyright &copy; 2019 .</strong> All rights reserved.
         </footer>
