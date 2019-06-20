@@ -56,15 +56,15 @@ class CompaniesOrdersController extends Controller
             'address' => 'required',
             'pickup_date' => 'required',
             // 'photo'=>'required',
-            'value'=>'required',
-            'estimated_cost'=>'required',
-            'distance'=>'required',
+            'value' => 'required',
+            'estimated_cost' => 'required',
+            'distance' => 'required',
         ]);
 
         if ($validator->fails()) {
             return response()->json($validator->errors(), 400);
         }
-        $sender_company=Company::where('id', '=', $request->sender_id)->first();
+        $sender_company = Company::where('id', '=', $request->sender_id)->first();
         $receiver_name = $request->receiver_name;
         $receiver_company = Company::where('comp_name', '=', $receiver_name)->first();
         $id = '';
@@ -103,16 +103,16 @@ class CompaniesOrdersController extends Controller
             'truck_type' => $request->truck_type,
             'pickup_date' => $request->pickup_date,
             'status' => "pending",
-            'estimated_cost'=>$request->estimated_cost,
+            'estimated_cost' => $request->estimated_cost,
         ]);
         // $order->status = 'pending';
         $order->status = "pending";
         $order->save();
         //  dd("hhhhhhhhhhhhhhhhhhhhhh");
 
-        $photo=$request['photo'];
-        if(!$photo){
-            $photo= NULL;
+        $photo = $request['photo'];
+        if (!$photo) {
+            $photo = NULL;
         }
         // dd($order);
         $package = Package::create([
@@ -129,9 +129,9 @@ class CompaniesOrdersController extends Controller
             'value' => $request->value,
             'quantity' => $request->quantity,
             'order_id' => $order->id,
-            'photo'=>$photo,
-            'value'=>$request->value,
-            'distance'=>$request->distance,
+            'photo' => $photo,
+            'value' => $request->value,
+            'distance' => $request->distance,
         ]);
 
         $company_order = CompanyOrder::create([
@@ -147,8 +147,8 @@ class CompaniesOrdersController extends Controller
         $nearest_drivers = $this->get_nearest_drivers($lat, $lng);
         // dd('nearest drivers',$nearest_drivers);
         $orderContent = [];
-        $receiver_data = array('receiver_name'=> $receiver_name);
-        $orderContent = array_merge($receiver_data,$sender_company->toArray(),$order->toArray(), $package->toArray(),$company_order->toArray());
+        $receiver_data = array('receiver_name' => $receiver_name);
+        $orderContent = array_merge($receiver_data, $sender_company->toArray(), $order->toArray(), $package->toArray(), $company_order->toArray());
         // array_push($orderContent,$receiver_name);
         $drivers_tokens = $this->driversTokens($nearest_drivers);
         // dd('token driver',$drivers_tokens);
@@ -160,7 +160,7 @@ class CompaniesOrdersController extends Controller
                 ->to($drivers_tokens) // $recipients must an array
                 ->data([
                     'title' => 'Cargo Order',
-                    'body' => 'There is an order for you'.'$'.$orderDetails,
+                    'body' => 'There is an order for you' . '$' . $orderDetails,
 
                 ])
                 ->send();
@@ -184,33 +184,33 @@ class CompaniesOrdersController extends Controller
                     'content' => $orderContent,
                 ])
                 ->send();
-    //----------  save notification in database ----------
-    // dd($orderDetails);
-                CompanyNotification::create([
-                    'sender_id'=>$request->sender_id,
-                    'receiver_id'=>$id,
-                    'shipment_type' =>$request->shipment_type,
-                    'car_number' =>$request->car_number,
-                    'truck_type' =>$request->truck_type,
-                    'pickup_date' =>$request->pickup_date,
-                    'order_status' =>'pending',
-                    'length' =>$request->length,
-                    'width' =>$request->width,
-                    'height' =>$request->height,
-                    'Weight' =>$request->Weight,
-                    'pickup_location' =>$request->pickup_location,
-                    'pickup_latitude' =>$request->pickup_latitude,
-                    'pickup_longitude' =>$request->pickup_longitude,
-                    'drop_off_location' =>$request->drop_off_location,
-                    'drop_off_latitude' =>$request->drop_off_latitude,
-                    'drop_off_longitude' =>$request->drop_off_longitude,
-                    'value' =>$request->value,
-                    'quantity' =>$request->quantity,
-                    'order_id' =>$order->id,
+            //----------  save notification in database ----------
+            // dd($orderDetails);
+            CompanyNotification::create([
+                'sender_id' => $request->sender_id,
+                'receiver_id' => $id,
+                'shipment_type' => $request->shipment_type,
+                'car_number' => $request->car_number,
+                'truck_type' => $request->truck_type,
+                'pickup_date' => $request->pickup_date,
+                'order_status' => 'pending',
+                'length' => $request->length,
+                'width' => $request->width,
+                'height' => $request->height,
+                'Weight' => $request->Weight,
+                'pickup_location' => $request->pickup_location,
+                'pickup_latitude' => $request->pickup_latitude,
+                'pickup_longitude' => $request->pickup_longitude,
+                'drop_off_location' => $request->drop_off_location,
+                'drop_off_latitude' => $request->drop_off_latitude,
+                'drop_off_longitude' => $request->drop_off_longitude,
+                'value' => $request->value,
+                'quantity' => $request->quantity,
+                'order_id' => $order->id,
 
-                ]);
+            ]);
 
-    //----------------------------------------------------
+            //----------------------------------------------------
 
         } catch (\Exception $e) {
 
@@ -223,7 +223,7 @@ class CompaniesOrdersController extends Controller
             'order' => $order,
             'package' => $package,
             'company_order' => $company_order,
-            'recipients'=>$recipients,
+            'recipients' => $recipients,
 
         ], 201);
     }
@@ -234,7 +234,7 @@ class CompaniesOrdersController extends Controller
         $receiver_token = CompanyToken::where('company_id', '=', $receiver_id)->first();
 
         $tokens = [];
-        if (!$receiver_token&&$sender_token) {
+        if (!$receiver_token && $sender_token) {
             array_push($tokens, $sender_token->token);
         } else {
             array_push($tokens, $sender_token->token, $receiver_token->token);
@@ -314,8 +314,8 @@ class CompaniesOrdersController extends Controller
     {
         $driver = DriverOrder::where('order_id', $id)
             ->join('drivers', 'drivers.id', '=', 'driver_order.driver_id')
-            ->join('driver_locations','driver_locations.driver_id','=','driver_order.driver_id')
-            ->select('name','phone','car_type','car_number','car_no_of_trips','rating','status_driver','availability','address','driver_latitude','driver_longitude')->get();
+            ->join('driver_locations', 'driver_locations.driver_id', '=', 'driver_order.driver_id')
+            ->select('name', 'phone', 'car_type', 'car_number', 'car_no_of_trips', 'rating', 'status_driver', 'availability', 'address', 'driver_latitude', 'driver_longitude')->get();
 
         return response()->json([
             'driver' => $driver,
@@ -333,6 +333,7 @@ class CompaniesOrdersController extends Controller
             ->Join('packages', 'packages.order_id', '=', 'orders.id')->get();
 
         return response()->json([
+            'message'=>'Last orders returned successfully',
             'last_orders' => $last_orders,
         ], 201);
     }
@@ -375,7 +376,7 @@ class CompaniesOrdersController extends Controller
             $final_distance_cost = $final_distance * 2;
             // dd($final_distance_cost);
 
-            $Weight_cost = $Weight ;
+            $Weight_cost = $Weight;
             // dd($Weight_cost);
 
             $total_cost = $final_distance_cost + $Weight_cost;
@@ -397,7 +398,7 @@ class CompaniesOrdersController extends Controller
         }
     }
 
-    public function confirm_order($order_id, $company_id,$rate)
+    public function confirm_order($order_id, $company_id, $rate)
     {
         $has_order = CompanyOrder::where('order_id', $order_id)->where('sender_id', $company_id)->get();
 
@@ -406,17 +407,17 @@ class CompaniesOrdersController extends Controller
             $order->status = "completed";
             $order->save();
 
-            $order_driver =DriverOrder::select('driver_id')->where('order_id',$order_id)->get()->toArray();
+            $order_driver = DriverOrder::select('driver_id')->where('order_id', $order_id)->get()->toArray();
 
-            $driver=Driver::find($order_driver)->first();
-            $driver->status_driver="available";
-            $driver->rating=$rate;
+            $driver = Driver::find($order_driver)->first();
+            $driver->status_driver = "available";
+            $driver->rating = $rate;
             $driver->save();
             // dd($driver);
             return response()->json([
                 'message' => "Order successfully completed",
                 'order' => $order,
-                'driver'=>$driver
+                'driver' => $driver
 
             ], 200);
         } else {
@@ -426,26 +427,28 @@ class CompaniesOrdersController extends Controller
         }
     }
 
-    public function get_contact_list($id){
-      $contact=CompanyContactList::where('company_id',$id)->get();
-      return response()->json([
-        'contact' => $contact,
-    ], 201);
+    public function get_contact_list($id)
+    {
+        $contact = CompanyContactList::where('company_id', $id)->get();
+        return response()->json([
+            'message'=>'contact list returned successfully',
+            'contact' => $contact,
+        ], 201);
     }
 
 
-   public function notifications($id){
-    $notifications = CompanyNotification::where('sender_id', $id)
-    ->orWhere('receiver_id', $id)
-    ->orderBy('company_notifications.created_at', 'desc')
-    ->select('company_notifications.sender_id','company_notifications.receiver_id','company_notifications.title','company_notifications.body','company_notifications.shipment_type','company_notifications.pickup_date','company_notifications.car_number','company_notifications.truck_type','company_notifications.length','company_notifications.width','company_notifications.height','company_notifications.pickup_location','company_notifications.pickup_latitude','company_notifications.pickup_longitude','company_notifications.drop_off_location','company_notifications.drop_off_latitude','company_notifications.drop_off_longitude','company_notifications.value','company_notifications.Weight','company_notifications.quantity','company_notifications.order_id','company_notifications.status')->get();
+    public function notifications($id)
+    {
+        $notifications = CompanyNotification::where('sender_id', $id)
+            ->orWhere('receiver_id', $id)
+            ->orderBy('company_notifications.created_at', 'desc')
+            ->select('company_notifications.sender_id', 'company_notifications.receiver_id', 'company_notifications.title', 'company_notifications.body', 'company_notifications.shipment_type', 'company_notifications.pickup_date', 'company_notifications.car_number', 'company_notifications.truck_type', 'company_notifications.length', 'company_notifications.width', 'company_notifications.height', 'company_notifications.pickup_location', 'company_notifications.pickup_latitude', 'company_notifications.pickup_longitude', 'company_notifications.drop_off_location', 'company_notifications.drop_off_latitude', 'company_notifications.drop_off_longitude', 'company_notifications.value', 'company_notifications.Weight', 'company_notifications.quantity', 'company_notifications.order_id', 'company_notifications.status')->get();
 
 
 
-    return response()->json([
-          'notifications' => $notifications,
-    ], 201);
-
-   }
-
+        return response()->json([
+            'message' => 'Notifications returned successfully',
+            'notifications' => $notifications,
+        ], 201);
+    }
 }
